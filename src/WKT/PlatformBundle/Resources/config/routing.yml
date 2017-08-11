@@ -1,0 +1,6 @@
+# src/WKT/PlatformBundle/Ressources/config/routing.yml
+
+wkt_platform_index:
+    path: /formation
+    defaults:
+        _controller: WKTPlatformBundle:Training:index
