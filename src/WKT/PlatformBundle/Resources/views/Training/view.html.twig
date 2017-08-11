@@ -1,0 +1,13 @@
+{% extends '::layout.html.twig' %}
+{% block body %}
+	<div class="jumbotron">
+		<h1> {{ training.title }} </h1>
+		<p><a class="btn btn-primary btn-lg" href="">Commencer le cours !</a></p>
+	</div>
+    <h2>Présentation de la formation</h2>
+    <p> {{ training.introduction }} </p>
+    <hr>
+    <h2> Sommaire de la formation </h2>
+    <hr>
+    <p><a class="btn btn-primary btn-lg" href="{{ path('wkt_platform_index') }}">Retour sur la liste des formations</a></p>
+{% endblock %}
