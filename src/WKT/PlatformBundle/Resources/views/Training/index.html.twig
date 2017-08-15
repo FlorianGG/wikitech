@@ -14,10 +14,11 @@
 		        	<hr>
 		        	<p> {{ training.introduction }} </p>
 		        	<hr>
-		        	<p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_view', { 'id': training.id}) }}">Commencer la formation</a></p>
+		        	<p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_view', { 'id': training.id, 'slugTraining': training.slug}) }}">Commencer la formation</a></p>
 		        	<p class="text-center"><small><em>Crée le {{ training.createdAt|date('d/m/Y') }}</em></small></p>
 		        </div>
 		    {% endfor %}
 		{% endif %}
 	</div>
 {% endblock %}
+

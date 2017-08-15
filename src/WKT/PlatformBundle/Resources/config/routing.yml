@@ -6,13 +6,20 @@ wkt_platform_index:
         _controller: WKTPlatformBundle:Training:index
 
 wkt_platform_view:
-    path: /formation/{id}
+    path: /formation/{id}/{slugTraining}
     defaults:
         _controller: WKTPlatformBundle:Training:view
     requirements:
-        id: \d+
+        id: \d+     
 
 wkt_platform_add:
     path: /formation/add
     defaults:
         _controller: WKTPlatformBundle:Training:add
+
+wkt_platform_article_view:
+    path: /formation/{slugTraining}/article/{id}/{slugArticle}
+    defaults:
+        _controller: WKTPlatformBundle:Article:view
+    requirements:
+        id: \d+
