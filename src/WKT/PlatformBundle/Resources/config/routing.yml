@@ -23,3 +23,10 @@ wkt_platform_article_view:
         _controller: WKTPlatformBundle:Article:view
     requirements:
         id: \d+
+
+wkt_platform_article_add:
+    path: /formation/add/{id}
+    defaults:
+        _controller: WKTPlatformBundle:Article:add
+    requirements:
+        id: \d+  

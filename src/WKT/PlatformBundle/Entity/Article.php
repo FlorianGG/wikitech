@@ -60,7 +60,7 @@ class Article
     /**
      * @var bool
      *
-     * @ORM\Column(name="isModifying", type="boolean")
+     * @ORM\Column(name="isModifying", type="boolean", nullable=true)
      */
     private $isModifying;
 
@@ -84,10 +84,16 @@ class Article
     private $video;
 
     /**
-     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Part")
+     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Part", cascade={"persist"}, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      */
     private $part;
+
+    /**
+     * @var bool
+     * @ORM\Column(name="hasNewPart", type="boolean", nullable=true)
+     */
+    private $hasNewPart;
 
     /**
      * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Training")
@@ -106,7 +112,9 @@ class Article
         $this->createdAt = new \DateTime;
         $this->isModifying = false;
         $this->nbrPoints = 0;
+        $this->hasNewPart = false;
     }
+
 
     /**
      * Get id
@@ -311,6 +319,54 @@ class Article
     }
 
     /**
+     * Set hasNewPart
+     *
+     * @param boolean $hasNewPart
+     *
+     * @return Article
+     */
+    public function setHasNewPart($hasNewPart)
+    {
+        $this->hasNewPart = $hasNewPart;
+
+        return $this;
+    }
+
+    /**
+     * Get hasNewPart
+     *
+     * @return boolean
+     */
+    public function getHasNewPart()
+    {
+        return $this->hasNewPart;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Article
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
      * Set video
      *
      * @param \WKT\PlatformBundle\Entity\Video $video
@@ -380,29 +436,5 @@ class Article
     public function getTraining()
     {
         return $this->training;
-    }
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     *
-     * @return Article
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
     }
 }

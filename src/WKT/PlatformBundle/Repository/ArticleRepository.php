@@ -15,15 +15,15 @@ class ArticleRepository extends EntityRepository
 {
 	public function summaryById($id)
 	{
-		$qb = $this->createQueryBuilder('a');
-
-		$qb->where('a.training = :id')
-		     ->setParameter('id', $id)
-		   ->orderBy('a.orderInTraining', 'ASC');
-
+		$qb = $this->createQueryBuilder('a')
+			->where('a.training = :id')
+			->setParameter('id', $id)
+			->orderBy('a.orderInTraining', 'ASC');
 
 		return $qb
 		  ->getQuery()
 		  ->getResult();
 	}
+
+
 }

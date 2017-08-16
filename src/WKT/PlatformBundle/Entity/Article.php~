@@ -60,7 +60,7 @@ class Article
     /**
      * @var bool
      *
-     * @ORM\Column(name="isModifying", type="boolean")
+     * @ORM\Column(name="isModifying", type="boolean", nullable=true)
      */
     private $isModifying;
 
@@ -84,10 +84,16 @@ class Article
     private $video;
 
     /**
-     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Part")
+     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Part", inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      */
     private $part;
+
+    /**
+     * @var bool
+     * @ORM\Column(name="hasNewPart", type="boolean", nullable=true)
+     */
+    private $hasNewPart;
 
     /**
      * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Training")
@@ -106,279 +112,7 @@ class Article
         $this->createdAt = new \DateTime;
         $this->isModifying = false;
         $this->nbrPoints = 0;
+        $this->hasNewPart = false;
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return Article
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set introduction
-     *
-     * @param string $introduction
-     *
-     * @return Article
-     */
-    public function setIntroduction($introduction)
-    {
-        $this->introduction = $introduction;
-
-        return $this;
-    }
-
-    /**
-     * Get introduction
-     *
-     * @return string
-     */
-    public function getIntroduction()
-    {
-        return $this->introduction;
-    }
-
-    /**
-     * Set content
-     *
-     * @param string $content
-     *
-     * @return Article
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    /**
-     * Get content
-     *
-     * @return string
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return Article
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set modifiedAt
-     *
-     * @param \DateTime $modifiedAt
-     *
-     * @return Article
-     */
-    public function setModifiedAt($modifiedAt)
-    {
-        $this->modifiedAt = $modifiedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get modifiedAt
-     *
-     * @return \DateTime
-     */
-    public function getModifiedAt()
-    {
-        return $this->modifiedAt;
-    }
-
-    /**
-     * Set isModifying
-     *
-     * @param boolean $isModifying
-     *
-     * @return Article
-     */
-    public function setIsModifying($isModifying)
-    {
-        $this->isModifying = $isModifying;
-
-        return $this;
-    }
-
-    /**
-     * Get isModifying
-     *
-     * @return boolean
-     */
-    public function getIsModifying()
-    {
-        return $this->isModifying;
-    }
-
-    /**
-     * Set nbrPoints
-     *
-     * @param integer $nbrPoints
-     *
-     * @return Article
-     */
-    public function setNbrPoints($nbrPoints)
-    {
-        $this->nbrPoints = $nbrPoints;
-
-        return $this;
-    }
-
-    /**
-     * Get nbrPoints
-     *
-     * @return integer
-     */
-    public function getNbrPoints()
-    {
-        return $this->nbrPoints;
-    }
-
-    /**
-     * Set orderInTraining
-     *
-     * @param integer $orderInTraining
-     *
-     * @return Article
-     */
-    public function setOrderInTraining($orderInTraining)
-    {
-        $this->orderInTraining = $orderInTraining;
-
-        return $this;
-    }
-
-    /**
-     * Get orderInTraining
-     *
-     * @return integer
-     */
-    public function getOrderInTraining()
-    {
-        return $this->orderInTraining;
-    }
-
-    /**
-     * Set video
-     *
-     * @param \WKT\PlatformBundle\Entity\Video $video
-     *
-     * @return Article
-     */
-    public function setVideo(\WKT\PlatformBundle\Entity\Video $video = null)
-    {
-        $this->video = $video;
-
-        return $this;
-    }
-
-    /**
-     * Get video
-     *
-     * @return \WKT\PlatformBundle\Entity\Video
-     */
-    public function getVideo()
-    {
-        return $this->video;
-    }
-
-    /**
-     * Set part
-     *
-     * @param \WKT\PlatformBundle\Entity\Part $part
-     *
-     * @return Article
-     */
-    public function setPart(\WKT\PlatformBundle\Entity\Part $part)
-    {
-        $this->part = $part;
-
-        return $this;
-    }
-
-    /**
-     * Get part
-     *
-     * @return \WKT\PlatformBundle\Entity\Part
-     */
-    public function getPart()
-    {
-        return $this->part;
-    }
-
-    /**
-     * Set training
-     *
-     * @param \WKT\PlatformBundle\Entity\Training $training
-     *
-     * @return Article
-     */
-    public function setTraining(\WKT\PlatformBundle\Entity\Training $training)
-    {
-        $this->training = $training;
-
-        return $this;
-    }
-
-    /**
-     * Get training
-     *
-     * @return \WKT\PlatformBundle\Entity\Training
-     */
-    public function getTraining()
-    {
-        return $this->training;
-    }
 }

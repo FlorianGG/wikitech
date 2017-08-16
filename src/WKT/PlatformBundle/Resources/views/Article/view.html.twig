@@ -1,6 +1,13 @@
 {% extends '::layout.html.twig' %}
 {% block body %}
     <div class="row">
+        <div class="col-offset-sm-3">
+            <a class="btn btn-success" href="{{ path('wkt_platform_article_add', {'id': article.training.id}) }}">Ajouter un article</a>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row">
         <div class="col-sm-3">
             {{ render(controller("WKTPlatformBundle:Article:summary", {'id': article.training.id } )) }}
         </div>
@@ -16,7 +23,9 @@
             <hr>
             {% if article.video.url is defined %}
                 <h2>En Vidéo</h2>
-                <div style="position:relative;height:0;padding-bottom:56.25%"><iframe src="{{ article.video.url}}" width="640" height="360" frameborder="0" allowfullscreen></iframe></div>
+                <div class="embed-responsive embed-responsive-16by9">
+                  <iframe class="embed-responsive-item" allowfullscreen src="{{ article.video.url}}"></iframe>
+                </div>
                 <hr>
             {% endif %}
 

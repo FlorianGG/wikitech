@@ -1,19 +1,22 @@
 {# src/WKT/PlatformBundle/Resources/views/Article/summary.html.twig #}
 
 {# Ce template n'hérite de personne, tout comme le template inclus avec {{ include() }}. #}
-{% if summary is empty %}
-	<h2>Aucun article n'est enregistré sur cette formation</h2>
-{% endif %}
-<ol class="nav nav-pills nav-stacked">
-  {% for part in summary %}
-  	{% if part.partTitle is defined %}
-		<li role="presentation"> {{ part.partTitle }} 
-			<ul class="nav nav-pills nav-stacked">
-				{% for article in part.articleTitle %}
-				    <li {% if request.attributes.get("_route") == 'wkt_platform_article_view' and  request.attributes.get('_route_params')['id'] == article.id %} class="active" {% endif %} role="presentation"><a href=" {{ path('wkt_platform_article_view', { 'id': article.id , 'slugTraining': article.slugTraining, 'slugArticle': article.slugArticle})}}">{{ article.page }}</a></li>
-				{% endfor %}
-			</ul>
-		</li>
-  	{% endif %}
-  {% endfor %}
-</ol>
+<div class="row">
+	{% if summary is empty %}
+		<h2>Aucun article n'est enregistré sur cette formation</h2>
+	{% endif %}
+	<ol class="nav nav-pills nav-stacked">
+	  {% for part in summary %}
+	  	{% if part.partTitle is defined %}
+			<li role="presentation"> {{ part.partTitle }} 
+				<ul class="nav nav-pills nav-stacked">
+					{% for article in part.articleTitle %}
+					    <li {% if request.attributes.get("_route") == 'wkt_platform_article_view' and  request.attributes.get('_route_params')['id'] == article.id %} class="active" {% endif %} role="presentation"><a href=" {{ path('wkt_platform_article_view', { 'id': article.id , 'slugTraining': article.slugTraining, 'slugArticle': article.slugArticle})}}">{{ article.page }}</a></li>
+					{% endfor %}
+				</ul>
+			</li>
+	  	{% endif %}
+	  {% endfor %}
+	</ol>
+</div>
+
