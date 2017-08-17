@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -26,8 +27,10 @@ class ArticleType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('introduction')
-            ->add('content')
+            ->add('introduction', TextareaType::class, array(
+                'attr' => array('class' => 'tinymce')))
+            ->add('content', TextareaType::class, array(
+                'attr' => array('class' => 'tinymce')))
             ->add('orderInTraining')
             ->add('isModifying', HiddenType::class)
             ->add('video', VideoType::class)
@@ -36,8 +39,8 @@ class ArticleType extends AbstractType
                     'oui' => 'Oui',
                     'non' => 'Non'),
                 'multiple' => false,
-                'label' => 'Souhaitez-vous créer une nouvelle partie ?'));
-            // ->add('save', SubmitType::class);
+                'label' => 'Souhaitez-vous créer une nouvelle partie ?'))
+            ->add('save', SubmitType::class);
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) {
@@ -47,7 +50,6 @@ class ArticleType extends AbstractType
                 $article = $event->getData();
                 $training = $article->getTraining();
                 $hasNewPart = $article->getHasNewPart();
-                var_dump($hasNewPart);
                 if (null === $article) {
                   return; // On sort de la fonction sans rien faire lorsque $article vaut null
                 }

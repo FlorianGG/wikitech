@@ -76,3 +76,20 @@ stof_doctrine_extensions:
         default:
             sluggable: true
     
+stfalcon_tinymce:
+    theme:
+        # Simple theme: same as default theme
+        simple: 
+            height: 500
+            menubar: false
+            plugins:
+                - "advlist autolink lists link image charmap print preview hr anchor pagebreak"
+                - "searchreplace wordcount visualblocks visualchars code fullscreen"
+                - "insertdatetime media nonbreaking save table contextmenu directionality"
+                - "emoticons template paste textcolor"
+            toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify |
+             bullist numlist outdent indent | link image | forecolor emoticons"
+            style_formats: [
+                { title: 'Titre 1', block: 'h2' },
+                { title: 'Titre 2', block: 'h3' },
+                { title: 'Titre 3', block: 'h4' }]

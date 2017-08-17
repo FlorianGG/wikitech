@@ -16,10 +16,18 @@
               <h1>{{ article.title}}</h1>
             </div>
             <h2>En Bref</h2>
-            <p> {{ article.introduction }} </p>
+            <div> 
+                {% autoescape %}
+                    {{ article.introduction|raw }} {# var won't be escaped #}
+                {% endautoescape %}
+            </div>
             <hr>
             <h2>En Détail</h2>
-            <p> {{ article.content }} </p>
+            <div> 
+                {% autoescape %}
+                    {{ article.content|raw }} {# var won't be escaped #}
+                {% endautoescape %} 
+            </div>
             <hr>
             {% if article.video.url is defined %}
                 <h2>En Vidéo</h2>
