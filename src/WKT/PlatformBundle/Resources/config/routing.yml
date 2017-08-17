@@ -1,0 +1,32 @@
+# src/WKT/PlatformBundle/Ressources/config/routing.yml
+
+wkt_platform_index:
+    path: /formation
+    defaults:
+        _controller: WKTPlatformBundle:Training:index
+
+wkt_platform_view:
+    path: /formation/{id}/{slugTraining}
+    defaults:
+        _controller: WKTPlatformBundle:Training:view
+    requirements:
+        id: \d+     
+
+wkt_platform_add:
+    path: /formation/add
+    defaults:
+        _controller: WKTPlatformBundle:Training:add
+
+wkt_platform_article_view:
+    path: /formation/{slugTraining}/article/{id}/{slugArticle}
+    defaults:
+        _controller: WKTPlatformBundle:Article:view
+    requirements:
+        id: \d+
+
+wkt_platform_article_add:
+    path: /formation/add/{id}
+    defaults:
+        _controller: WKTPlatformBundle:Article:add
+    requirements:
+        id: \d+  
