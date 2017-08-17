@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use WKT\PlatformBundle\Entity\Training;
 use WKT\PlatformBundle\Form\VideoType;
 use WKT\PlatformBundle\Repository\PartRepository;
-use WKT\PlatformBundle\Repository\TrainingRepository;
+
 
 class ArticleType extends AbstractType
 {
@@ -36,8 +36,8 @@ class ArticleType extends AbstractType
                     'oui' => 'Oui',
                     'non' => 'Non'),
                 'multiple' => false,
-                'label' => 'Souhaitez-vous créer une nouvelle partie ?'))
-            ->add('save', SubmitType::class);
+                'label' => 'Souhaitez-vous créer une nouvelle partie ?'));
+            // ->add('save', SubmitType::class);
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) {
@@ -47,26 +47,32 @@ class ArticleType extends AbstractType
                 $article = $event->getData();
                 $training = $article->getTraining();
                 $hasNewPart = $article->getHasNewPart();
-
+                var_dump($hasNewPart);
                 if (null === $article) {
                   return; // On sort de la fonction sans rien faire lorsque $article vaut null
                 }
                 // si hasNewPart est vrai, on ajoute un champ texte pour entrer le nom de la nouvelle partie
                 // si hasNewPart est faux, on charge un champ entityType pour obtenir toutes les parties del a formation
-                if (!$hasNewPart) {
-                    $form->add('part', PartType::class
-                        , array( 'data' => $training->getId())
-                        );
-                }else(
+                if ($hasNewPart) {
+                    $form->add('part', PartType::class);
+                }else{
                     $form->add('part', EntityType::class, array(
                         'class' => 'WKTPlatformBundle:Part',
                         'choice_label' => 'title',
                         'multiple' => false,
                         'query_builder' => function(PartRepository $repository) use($training){
-                            return $repository->queryBuilderPartsByTraining($training);
+                            return $repository
+                                ->createQueryBuilder('p')
+                                ->innerJoin('p.articles', 'art')
+                                ->addSelect('art')
+                                ->where('art.training = :training')
+                                ->setParameter('training', $training)
+                                ->orderBy('art.orderInTraining', 'ASC');
                         }
-                    ))
-                );
+
+                    ));
+                }
+                    
                 
             }
         );

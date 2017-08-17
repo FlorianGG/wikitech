@@ -13,12 +13,4 @@ use Doctrine\ORM\QueryBuilder;
  */
 class PartRepository extends EntityRepository
 {
-	public function queryBuilderPartsByTraining($id)
-	{
-	  return $this
-	    ->createQueryBuilder('p')
-	    ->where('p.training = :id')
-	    ->setParameter('id', $id)
-	  ;
-	}
 }

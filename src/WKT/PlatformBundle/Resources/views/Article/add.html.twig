@@ -6,7 +6,44 @@
     <div class="well">
       {{ form(form) }}
     </div>
-    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+
+var $article = $('#wkt_platformbundle_article_hasNewPart');
+// When sport gets selected ...
+$article.change(function() {
+  // ... retrieve the corresponding form.
+  var $form = $(this).closest('form');
+  // Simulate form data, but only include the selected sport value.
+  var data = {};
+  data[$article.attr('name')] = $article.val();
+  // Submit data via AJAX to the form's action path.
+  $.ajax({
+    url : $form.attr('action'),
+    type: $form.attr('method'),
+    data : data,
+    success: function(html) {
+      // Replace current position field ...
+      if ($article.val() === 'Oui') {
+      	// $('#wkt_platformbundle_article_part').display();
+      	$('#wkt_platformbundle_article_part_title').fadeIn();
+      	$('#wkt_platformbundle_article_part').fadeOut();
+      }
+      if ($article.val() === 'Non') {
+      	// $('#wkt_platformbundle_article_part').display();
+      	$('#wkt_platformbundle_article_part').fadeIn();
+      	$('#wkt_platformbundle_article_part_title').fadeOut();
+      }
+
+      // $('#wkt_platformbundle_article_part').replaceWith(
+      //   // ... with the returned one from the AJAX response.
+      //   $(html).find('#wkt_platformbundle_article_part')
+      // );
+      // Position field now displays the appropriate positions.
+    }
+  });
+});
+</script>
 {% endblock %}
 
 

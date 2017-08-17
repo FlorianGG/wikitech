@@ -84,7 +84,7 @@ class Article
     private $video;
 
     /**
-     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Part", inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Part", cascade={"persist"}, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      */
     private $part;

@@ -12,12 +12,5 @@ use Doctrine\ORM\QueryBuilder;
  */
 class TrainingRepository extends EntityRepository
 {
-	public function queryBuilderTraining($id)
-	{
-	  return $this
-	    ->createQueryBuilder('t')
-	    ->where('t.id = :id')
-	    ->setParameter('id', $id)
-	  ;
-	}
+
 }

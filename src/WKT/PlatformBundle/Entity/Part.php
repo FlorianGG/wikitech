@@ -29,15 +29,19 @@ class Part
     private $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Training")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $training;
-
-    /**
-     * @ORM\OneToMany(targetEntity="WKT\PlatformBundle\Entity\Article", mappedBy="Article")
+     * @ORM\OneToMany(targetEntity="WKT\PlatformBundle\Entity\Article", mappedBy="part")
      */
     private $articles;
+
+ 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * Get id
      *
@@ -71,13 +75,6 @@ class Part
     {
         return $this->title;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add article
@@ -103,7 +100,6 @@ class Part
     public function removeArticle(\WKT\PlatformBundle\Entity\Article $article)
     {
         $this->articles->removeElement($article);
-
     }
 
     /**
@@ -114,29 +110,5 @@ class Part
     public function getArticles()
     {
         return $this->articles;
-    }
-
-    /**
-     * Set training
-     *
-     * @param \WKT\PlatformBundle\Entity\Training $training
-     *
-     * @return Part
-     */
-    public function setTraining(\WKT\PlatformBundle\Entity\Training $training)
-    {
-        $this->training = $training;
-
-        return $this;
-    }
-
-    /**
-     * Get training
-     *
-     * @return \WKT\PlatformBundle\Entity\Training
-     */
-    public function getTraining()
-    {
-        return $this->training;
     }
 }

@@ -2,11 +2,10 @@
 
 namespace WKT\PlatformBundle\Form;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use WKT\PlatformBundle\Repository\TrainingRepository;
 
 class PartType extends AbstractType
 {
@@ -15,18 +14,7 @@ class PartType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        var_dump($options['data']);
-        $id = $options['data'];
-        $builder
-            ->add('title')
-            ->add('training', EntityType::class, array(
-                'class' => 'WKTPlatformBundle:Training',
-                'choice_label' => 'title',
-                'multiple' => false,
-                'query_builder' => function(TrainingRepository $repository) use($id){
-                    return $repository->queryBuilderTraining($id);
-                }
-                ));
+        $builder->add('title');
     }
     
     /**
@@ -46,6 +34,5 @@ class PartType extends AbstractType
     {
         return 'wkt_platformbundle_part';
     }
-
 
 }
