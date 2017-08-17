@@ -41,7 +41,7 @@ class ArticleController extends Controller
 
 	    $request->getSession()->getFlashBag()->add('notice', 'Article bien enregistré.');
 
-	    return $this->redirectToRoute('wkt_platform_view', array('id' => $article->getId()));
+	    return $this->redirectToRoute('wkt_platform_article_view', array('id' => $article->getId(), 'slugTraining' => $article->getTraining()->getSlug(), 'slugArticle' => $article->getSlug()));
 	  }
 
 	  return $this->render('WKTPlatformBundle:Article:add.html.twig', array(

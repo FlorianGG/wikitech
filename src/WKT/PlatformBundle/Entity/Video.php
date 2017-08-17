@@ -55,7 +55,15 @@ class Video
      */
     public function setUrl($url)
     {
-        $this->url = $url;
+        if (strpos( $url,"v=") !== false)
+        {
+            $key =  substr($url, strpos($url, "v=") + 2, 11);
+        }
+        elseif(strpos( $url,"embed/") !== false)
+        {
+            $key = substr($url, strpos($url, "embed/") + 6, 11);
+        }
+        $this->url = $key;
 
         return $this;
     }

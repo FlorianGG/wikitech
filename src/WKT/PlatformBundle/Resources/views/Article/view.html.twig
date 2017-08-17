@@ -32,7 +32,7 @@
             {% if article.video.url is defined %}
                 <h2>En Vidéo</h2>
                 <div class="embed-responsive embed-responsive-16by9">
-                  <iframe class="embed-responsive-item" allowfullscreen src="{{ article.video.url}}"></iframe>
+                  <iframe class="embed-responsive-item" allowfullscreen src="https://www.youtube.com/embed/{{ article.video.url}}"></iframe>
                 </div>
                 <hr>
             {% endif %}
