@@ -1,8 +1,0 @@
-wkt_core:
-    resource: "@WKTCoreBundle/Resources/config/routing.yml"
-    prefix:   /
-
-wkt_platform:
-    resource: "@WKTPlatformBundle/Resources/config/routing.yml"
-    prefix:   /
-
