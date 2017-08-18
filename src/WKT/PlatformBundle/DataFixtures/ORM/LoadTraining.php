@@ -19,31 +19,31 @@ class LoadTraining extends AbstractFixture implements OrderedFixtureInterface
     $trainings = array(
       array(
         'title' => 'Word 2016',
-        'introduction' => $introduction),
+        'introduction' => $introduction,
+        'training' => 'training1'),
       array(
         'title' => 'Excel 2016',
-        'introduction' => $introduction),
+        'introduction' => $introduction,
+        'training' => 'training2'),
       array(
         'title' => 'PowertPoint 2016',
-        'introduction' => $introduction),
+        'introduction' => $introduction,
+        'training' => 'training3'),
       array(
         'title' => 'Access 2016',
-        'introduction' => $introduction)
+        'introduction' => $introduction,
+        'training' => 'training4')
     );
-
-    $indice = 1;
 
     foreach ($trainings as $newTraining) {
       // On crée la catégorie
       $training = new Training();
       $training->setTitle($newTraining['title']);
       $training->setIntroduction($newTraining['introduction']);
-      $trainingIndice = 'training' . $indice;
       // On la persiste
       $manager->persist($training);
       $manager->flush();
-      $this->addReference($trainingIndice, $training);
-      $indice ++;
+      $this->addReference($newTraining['training'], $training);
     }
 
   }

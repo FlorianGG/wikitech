@@ -33,4 +33,22 @@ class TrainingController extends Controller
 
 	}
 
+	public function summaryAction($id)
+	{
+		$em = $this->getDoctrine()->getManager();
+		$summary = [];
+
+		$parts = $em->getRepository('WKTPlatformBundle:Part')->getPartsByTraining($id);
+
+		foreach ($parts as $part) {
+			foreach ($part->getArticles() as $article) {
+				$summary[$part->getTitle()]['Part'] = $part;
+				$summary[$part->getTitle()]['Article'][] = $article;
+			}
+
+		}
+		$request = $this->get('request_stack')->getMasterRequest();
+		return $this->render('WKTPlatformBundle:Training:summary.html.twig', array('summary' => $summary, 'request' => $request));
+	}
+
 }

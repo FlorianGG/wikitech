@@ -13,4 +13,13 @@ use Doctrine\ORM\QueryBuilder;
  */
 class PartRepository extends EntityRepository
 {
+	public function getPartsByTraining($id)
+	{
+		$qb = $this->createQueryBuilder('p')
+			->where('p.training = :id')
+			->setParameter('id', $id)
+			->orderBy('p.orderInTraining', 'ASC');
+
+		return $qb->getQuery()->getResult();
+	}
 }

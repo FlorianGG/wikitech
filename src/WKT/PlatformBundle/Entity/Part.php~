@@ -29,9 +29,22 @@ class Part
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="WKT\PlatformBundle\Entity\Article", mappedBy="Article")
+     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Training", inversedBy="parts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $training;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="orderInTraining", type="integer", nullable=false)
+     */
+    private $orderInTraining;
+
+    /**
+     * @ORM\OneToMany(targetEntity="WKT\PlatformBundle\Entity\Article", mappedBy="part")
      */
     private $articles;
 
- 
+
 }

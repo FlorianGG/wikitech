@@ -44,6 +44,11 @@ class Training
     private $createdAt;
 
     /**
+     * @ORM\OneToMany(targetEntity="WKT\PlatformBundle\Entity\Part", mappedBy="training")
+     */
+    private $parts;
+
+    /**
      * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
@@ -54,10 +59,12 @@ class Training
         $this->createdAt = new \DateTime;
     }
 
+  
+
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -158,5 +165,41 @@ class Training
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Add part
+     *
+     * @param \WKT\PlatformBundle\Entity\Part $part
+     *
+     * @return Training
+     */
+    public function addPart(\WKT\PlatformBundle\Entity\Part $part)
+    {
+        $this->parts[] = $part;
+
+        $part->setTraining($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove part
+     *
+     * @param \WKT\PlatformBundle\Entity\Part $part
+     */
+    public function removePart(\WKT\PlatformBundle\Entity\Part $part)
+    {
+        $this->parts->removeElement($part);
+    }
+
+    /**
+     * Get parts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getParts()
+    {
+        return $this->parts;
     }
 }

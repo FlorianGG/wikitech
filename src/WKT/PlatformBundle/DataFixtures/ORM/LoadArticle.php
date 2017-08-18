@@ -23,245 +23,215 @@ class LoadArticle extends AbstractFixture implements OrderedFixtureInterface
       // WORD //
       //////////
       array(
-        'training' => 'training1',
         'part' => 'part1-0',        
         'video' => 'video1-1',
         'title' => 'Présentation de l\'interface',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 1),
+        'orderInPart' => 1),
       array(
-        'training' => 'training1',
         'part' => 'part1-1',        
         'video' => 'video1-2',
         'title' => 'Nouveau document',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 2),
+        'orderInPart' => 1),
       array(
-        'training' => 'training1',
         'part' => 'part1-1',        
         'video' => 'video1-3',
         'title' => 'Vos premiers paragraphes',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 3),
+        'orderInPart' => 2),
       array(
-        'training' => 'training1',
         'part' => 'part1-1',
         'video' => 'video1-7',
         'title' => 'Vos premières pages',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 4),
+        'orderInPart' => 3),
       array(
-        'training' => 'training1',
         'part' => 'part1-3',        
         'video' => 'video1-4',
         'title' => 'Créons notre base de données',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 6),
+        'orderInPart' => 1),
       array(
-        'training' => 'training1',
         'part' => 'part1-3',
         'video' => null,
         'title' => 'On adapte la mise en page',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 7),
+        'orderInPart' => 2),
       array(
-        'training' => 'training1',
         'part' => 'part1-3',
         'video' => 'video1-6',
         'title' => 'On envoi nos premiers courriers',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 8),
+        'orderInPart' => 3),
       array(
-        'training' => 'training1',
         'part' => 'part1-2',        
         'video' => 'video1-5',
         'title' => 'Utilisations des thèmes par défauts',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 5),
+        'orderInPart' => 1),
       array(
-        'training' => 'training1',
         'part' => 'part1-4',        
         'video' => null,
         'title' => 'Pour conclure',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 9),
+        'orderInPart' => 1),
       //////////
       // EXCEL //
       //////////
       array(
-        'training' => 'training2',
         'part' => 'part2-0',        
         'video' => null,
         'title' => 'Présentation de l\'interface',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 1),
+        'orderInPart' => 1),
       array(
-        'training' => 'training2',
         'part' => 'part2-1',
         'video' => 'video2-2',
         'title' => 'Les formules de bases',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 2),
+        'orderInPart' => 1),
       array(
-        'training' => 'training2',
         'part' => 'part2-1',        
         'video' => null,
         'title' => 'Tableau automatique',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 3),
+        'orderInPart' => 2),
       array(
-        'training' => 'training2',
         'part' => 'part2-1',        
         'video' => 'video2-3',
         'title' => 'Les filtres',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 4),
+        'orderInPart' => 3),
       array(
-        'training' => 'training2',
         'part' => 'part2-1',        
         'video' => 'video2-4',
         'title' => 'Les relations entre cellules',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 5),
+        'orderInPart' => 4),
       array(
-        'training' => 'training2',
         'part' => 'part2-3',
         'video' => null,
         'title' => 'On utilise des fonctions dans les filtres',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 10),
+        'orderInPart' => 3),
       array(
-        'training' => 'training2',
         'part' => 'part2-3',        
         'video' => 'video2-5',
         'title' => 'On choisit ses données',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 9),
+        'orderInPart' => 2),
       array(
-        'training' => 'training2',
         'part' => 'part2-3',        
         'video' => 'video2-6',
         'title' => 'On utilise les filtres',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 8),
+        'orderInPart' => 1),
       array(
-        'training' => 'training2',
         'part' => 'part2-2',        
         'video' => null,
         'title' => 'Fonctions RECHERCHE',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 6),
+        'orderInPart' => 1),
       array(
-        'training' => 'training2',
         'part' => 'part2-2',        
         'video' => 'video2-7',
         'title' => 'Fonction INDEX EQUIV',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 7),
+        'orderInPart' => 2),
       array(
-        'training' => 'training2',
         'part' => 'part2-4',
         'video' => 'video2-8',
         'title' => 'On crée le graphique',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 11),
+        'orderInPart' => 1),
       array(
-        'training' => 'training2',
         'part' => 'part2-5',
         'video' => null,
         'title' => 'Pour conclure',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 12),
+        'orderInPart' => 1),
       //////////
       // POWERPOINT //
       //////////
       array(
-        'training' => 'training3',
         'part' => 'part3-0',        
         'video' => 'video3-1',
         'title' => 'Présentation des thèmes',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 1),
+        'orderInPart' => 1),
       array(
-        'training' => 'training3',
         'part' => 'part3-0',        
         'video' => null,
         'title' => 'Présentation de l\'interface',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 2),
+        'orderInPart' => 2),
       array(
-        'training' => 'training3',
         'part' => 'part3-1',        
         'video' => 'video3-2',
         'title' => 'Gérer les diverses formes',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 3),
+        'orderInPart' => 1),
       array(
-        'training' => 'training3',
         'part' => 'part3-1',        
         'video' => 'video3-4',
         'title' => 'Gestion des titres',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 4),
+        'orderInPart' => 2),
       array(
-        'training' => 'training3',
         'part' => 'part3-2',
         'video' => 'video3-5',
         'title' => 'On lance nos animations',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 6),
+        'orderInPart' => 2),
       array(
-        'training' => 'training3',
         'part' => 'part3-2',
         'video' => 'video3-6',
         'title' => 'On définit les évènements',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 5),
+        'orderInPart' => 1),
       array(
-        'training' => 'training3',
         'part' => 'part3-3',        
         'video' => 'video3-7',
         'title' => 'Pour conclure',
         'introduction' => $introduction,
         'content' => $content,
-        'orderInTraining' => 7)
+        'orderInPart' => 1)
     );
 
 
     foreach ($articles as $newArticle) {
       // On crée la catégorie
       $article = new Article();
-      $article->setTraining($this->getReference($newArticle['training']));
-      if (!is_null($newArticle['part'])) {
-        $article->setPart($this->getReference($newArticle['part']));
-      }
+      $article->setPart($this->getReference($newArticle['part']));
+
       if (!is_null($newArticle['video'])) {
         $article->setVideo($this->getReference($newArticle['video']));
       }
@@ -269,7 +239,7 @@ class LoadArticle extends AbstractFixture implements OrderedFixtureInterface
       $article->setTitle($newArticle['title']);
       $article->setIntroduction($newArticle['introduction']);
       $article->setContent($newArticle['content']);
-      $article->setOrderInTraining($newArticle['orderInTraining']);
+      $article->setOrderInPart($newArticle['orderInPart']);
 
       // On la persiste
       $manager->persist($article);

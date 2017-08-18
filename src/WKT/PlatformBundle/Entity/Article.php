@@ -74,9 +74,9 @@ class Article
     /**
      * @var int
      *
-     * @ORM\Column(name="orderInTraining", type="integer", nullable=true)
+     * @ORM\Column(name="orderInPart", type="integer", nullable=false)
      */
-    private $orderInTraining;
+    private $orderInPart;
 
     /**
      * @ORM\OneToOne(targetEntity="WKT\PlatformBundle\Entity\Video", cascade={"persist", "remove"})
@@ -84,22 +84,10 @@ class Article
     private $video;
 
     /**
-     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Part", cascade={"persist"}, inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Part", inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      */
     private $part;
-
-    /**
-     * @var bool
-     * @ORM\Column(name="hasNewPart", type="boolean", nullable=true)
-     */
-    private $hasNewPart;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Training")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $training;
 
     /**
      * @Gedmo\Slug(fields={"title"})
@@ -112,9 +100,7 @@ class Article
         $this->createdAt = new \DateTime;
         $this->isModifying = false;
         $this->nbrPoints = 0;
-        $this->hasNewPart = false;
     }
-
 
     /**
      * Get id
@@ -295,51 +281,27 @@ class Article
     }
 
     /**
-     * Set orderInTraining
+     * Set orderInPart
      *
-     * @param integer $orderInTraining
+     * @param integer $orderInPart
      *
      * @return Article
      */
-    public function setOrderInTraining($orderInTraining)
+    public function setOrderInPart($orderInPart)
     {
-        $this->orderInTraining = $orderInTraining;
+        $this->orderInPart = $orderInPart;
 
         return $this;
     }
 
     /**
-     * Get orderInTraining
+     * Get orderInPart
      *
      * @return integer
      */
-    public function getOrderInTraining()
+    public function getOrderInPart()
     {
-        return $this->orderInTraining;
-    }
-
-    /**
-     * Set hasNewPart
-     *
-     * @param boolean $hasNewPart
-     *
-     * @return Article
-     */
-    public function setHasNewPart($hasNewPart)
-    {
-        $this->hasNewPart = $hasNewPart;
-
-        return $this;
-    }
-
-    /**
-     * Get hasNewPart
-     *
-     * @return boolean
-     */
-    public function getHasNewPart()
-    {
-        return $this->hasNewPart;
+        return $this->orderInPart;
     }
 
     /**
@@ -412,29 +374,5 @@ class Article
     public function getPart()
     {
         return $this->part;
-    }
-
-    /**
-     * Set training
-     *
-     * @param \WKT\PlatformBundle\Entity\Training $training
-     *
-     * @return Article
-     */
-    public function setTraining(\WKT\PlatformBundle\Entity\Training $training)
-    {
-        $this->training = $training;
-
-        return $this;
-    }
-
-    /**
-     * Get training
-     *
-     * @return \WKT\PlatformBundle\Entity\Training
-     */
-    public function getTraining()
-    {
-        return $this->training;
     }
 }

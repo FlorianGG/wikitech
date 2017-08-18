@@ -2,6 +2,7 @@
 
 namespace WKT\PlatformBundle\Repository;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
@@ -13,17 +14,5 @@ use Doctrine\ORM\QueryBuilder;
  */
 class ArticleRepository extends EntityRepository
 {
-	public function summaryById($id)
-	{
-		$qb = $this->createQueryBuilder('a')
-			->where('a.training = :id')
-			->setParameter('id', $id)
-			->orderBy('a.orderInTraining', 'ASC');
-
-		return $qb
-		  ->getQuery()
-		  ->getResult();
-	}
-
 
 }

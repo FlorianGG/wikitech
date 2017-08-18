@@ -61,6 +61,9 @@ class ArticleType extends AbstractType
                     $form->add('part', EntityType::class, array(
                         'class' => 'WKTPlatformBundle:Part',
                         'choice_label' => 'title',
+                        'choices' => array(
+                            'test' => 'test',
+                            ),
                         'multiple' => false,
                         'query_builder' => function(PartRepository $repository) use($training){
                             return $repository

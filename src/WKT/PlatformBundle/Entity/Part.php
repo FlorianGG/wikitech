@@ -29,11 +29,25 @@ class Part
     private $title;
 
     /**
+     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Training", inversedBy="parts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $training;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="orderInTraining", type="integer", nullable=false)
+     */
+    private $orderInTraining;
+
+    /**
      * @ORM\OneToMany(targetEntity="WKT\PlatformBundle\Entity\Article", mappedBy="part")
+     * @ORM\OrderBy({"orderInPart" = "ASC"})
      */
     private $articles;
 
- 
+
     /**
      * Constructor
      */
@@ -77,6 +91,54 @@ class Part
     }
 
     /**
+     * Set orderInTraining
+     *
+     * @param integer $orderInTraining
+     *
+     * @return Part
+     */
+    public function setOrderInTraining($orderInTraining)
+    {
+        $this->orderInTraining = $orderInTraining;
+
+        return $this;
+    }
+
+    /**
+     * Get orderInTraining
+     *
+     * @return integer
+     */
+    public function getOrderInTraining()
+    {
+        return $this->orderInTraining;
+    }
+
+    /**
+     * Set training
+     *
+     * @param \WKT\PlatformBundle\Entity\Training $training
+     *
+     * @return Part
+     */
+    public function setTraining(\WKT\PlatformBundle\Entity\Training $training)
+    {
+        $this->training = $training;
+
+        return $this;
+    }
+
+    /**
+     * Get training
+     *
+     * @return \WKT\PlatformBundle\Entity\Training
+     */
+    public function getTraining()
+    {
+        return $this->training;
+    }
+
+    /**
      * Add article
      *
      * @param \WKT\PlatformBundle\Entity\Article $article
@@ -86,7 +148,6 @@ class Part
     public function addArticle(\WKT\PlatformBundle\Entity\Article $article)
     {
         $this->articles[] = $article;
-
         $article->setPart($this);
 
         return $this;

@@ -1,0 +1,63 @@
+<?php
+
+namespace WKT\PlatformBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
+/**
+ * Training
+ *
+ * @ORM\Table(name="training")
+ * @ORM\Entity(repositoryClass="WKT\PlatformBundle\Repository\TrainingRepository")
+ */
+class Training
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255, unique=true)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="introduction", type="text")
+     */
+    private $introduction;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity="WKT\PlatformBundle\Entity\Part", mappedBy="training")
+     */
+    private $parts;
+
+    /**
+     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
+     */
+    private $slug;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime;
+    }
+
+  
+}

@@ -2,14 +2,14 @@
 {% block body %}
     <div class="row">
         <div class="col-offset-sm-3">
-            <a class="btn btn-success" href="{{ path('wkt_platform_article_add', {'id': article.training.id}) }}">Ajouter un article</a>
+            <a class="btn btn-success" href="{{ path('wkt_platform_article_add', {'id': article.part.training.id}) }}">Ajouter un article</a>
         </div>
     </div>
     <br>
     <br>
     <div class="row">
         <div class="col-sm-3">
-            {{ render(controller("WKTPlatformBundle:Article:summary", {'id': article.training.id } )) }}
+            {{ render(controller("WKTPlatformBundle:Training:summary", {'id': article.part.training.id } )) }}
         </div>
         <div class="col-sm-9">
             <div class="page-header">
@@ -37,7 +37,7 @@
                 <hr>
             {% endif %}
 
-            <p><a class="btn btn-primary btn-lg" href="{{ path('wkt_platform_view', {'id': article.training.id, 'slugTraining': article.training.slug}) }}">Retour à l'accueil de la formation</a></p>
+            <p><a class="btn btn-primary btn-lg" href="{{ path('wkt_platform_view', {'id': article.part.training.id, 'slugTraining': article.part.training.slug}) }}">Retour à l'accueil de la formation</a></p>
         </div>
     </div>
 {% endblock %}

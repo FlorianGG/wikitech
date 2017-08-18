@@ -1,0 +1,20 @@
+{# src/WKT/PlatformBundle/Resources/views/Article/summary.html.twig #}
+
+{# Ce template n'hérite de personne, tout comme le template inclus avec {{ include() }}. #}
+<div class="row">
+	{% if summary is empty %}
+		<h2>Aucun article n'est enregistré sur cette formation</h2>
+	{% else %}
+	    <ol>
+	    	{% for part in summary %}
+	    		<li role="presentation">{{ part.Part.title }}</li>
+	    		{% for article in part.Article %}
+	    		    <ul class="nav nav-pills nav-stacked">
+	    		    	<li {% if request.attributes.get("_route") == 'wkt_platform_article_view' and  request.attributes.get('_route_params')['id'] == article.id %} class="active" {% endif %} role="presentation"><a href=" {{ path('wkt_platform_article_view', { 'id': article.id , 'slugTraining': part.Part.training.slug, 'slugArticle': article.slug})}}">{{ article.title }}</a></li>
+	    		    </ul>
+	    		{% endfor %}
+	    	{% endfor %}
+	    </ol>
+	{% endif %}
+</div>
+

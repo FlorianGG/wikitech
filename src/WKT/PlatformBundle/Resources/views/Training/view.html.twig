@@ -2,13 +2,13 @@
 {% block body %}
 	<div class="jumbotron">
 		<h1> {{ training.title }} </h1>
-		<p><a class="btn btn-primary btn-lg" href="">Commencer le cours !</a></p>
+		<p><a class="btn btn-primary btn-lg" href="">Commencer le cours !</a> <strong>OU</strong> <a class="btn btn-success btn-lg" href="{{ path('wkt_platform_article_add', {'id': training.id}) }}">Ajouter un article</a></p>
 	</div>
     <h2>Présentation de la formation</h2>
     <p> {{ training.introduction }} </p>
     <hr>
     <h2> Sommaire de la formation </h2>
-    {{ render(controller("WKTPlatformBundle:Article:summary", {'id': training.id } )) }}
+    {{ render(controller("WKTPlatformBundle:Training:summary", {'id': training.id } )) }}
     <hr>
     <p><a class="btn btn-primary btn-lg" href="{{ path('wkt_platform_index') }}">Retour sur la liste des formations</a></p>
 {% endblock %}
