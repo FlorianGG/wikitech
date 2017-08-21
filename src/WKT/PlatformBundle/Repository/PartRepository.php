@@ -15,11 +15,29 @@ class PartRepository extends EntityRepository
 {
 	public function getPartsByTraining($id)
 	{
-		$qb = $this->createQueryBuilder('p')
+		return $this->qbPartsByTraining($id)
+			->getQuery()
+			->getResult();
+	}
+
+	public function qbPartsByTraining($id)
+	{
+		return $qb = $this->createQueryBuilder('p')
 			->where('p.training = :id')
 			->setParameter('id', $id)
 			->orderBy('p.orderInTraining', 'ASC');
-
-		return $qb->getQuery()->getResult();
 	}
+
+	public function getPartsByTrainingAsArray($id)
+	{
+		$parts = $this->getPartsByTraining($id);
+		$array['Créer une nouvelle partie'] = null;
+
+		foreach ($parts as $part) {
+			$array[$part->getTitle()] = $part;
+		}
+		
+		return $array;
+	}
+
 }

@@ -80,7 +80,7 @@ stfalcon_tinymce:
     theme:
         # Simple theme: same as default theme
         simple: 
-            height: 500
+            height: 200
             relative_urls: false
 
             plugins:

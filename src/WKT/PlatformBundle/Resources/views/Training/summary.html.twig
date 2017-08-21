@@ -5,14 +5,18 @@
 	{% if summary is empty %}
 		<h2>Aucun article n'est enregistré sur cette formation</h2>
 	{% else %}
+		<p class="text-center"><strong>SOMMAIRE</strong></p>
 	    <ol>
 	    	{% for part in summary %}
-	    		<li role="presentation">{{ part.Part.title }}</li>
-	    		{% for article in part.Article %}
-	    		    <ul class="nav nav-pills nav-stacked">
-	    		    	<li {% if request.attributes.get("_route") == 'wkt_platform_article_view' and  request.attributes.get('_route_params')['id'] == article.id %} class="active" {% endif %} role="presentation"><a href=" {{ path('wkt_platform_article_view', { 'id': article.id , 'slugTraining': part.Part.training.slug, 'slugArticle': article.slug})}}">{{ article.title }}</a></li>
-	    		    </ul>
-	    		{% endfor %}
+	    		<li role="presentation">{{ part.Part.entity.title }}</li>
+	    		{% if part.Article is defined %}
+	    			{% for article in part.Article %}
+	    			    <ul class="nav nav-pills nav-stacked">
+	    			    	<li {% if request.attributes.get("_route") == 'wkt_platform_article_view' and  request.attributes.get('_route_params')['id'] == article.entityArticle.id %} class="active" {% endif %} role="presentation"><a href=" {{ path('wkt_platform_article_view', { 'id': article.entityArticle.id , 'slugTraining': part.Part.entity.training.slug, 'slugArticle': article.entityArticle.slug})}}">{{ article.entityArticle.title }}</a></li>
+	    			    </ul>
+	    			{% endfor %}
+	    		{% endif %}
+	    		
 	    	{% endfor %}
 	    </ol>
 	{% endif %}

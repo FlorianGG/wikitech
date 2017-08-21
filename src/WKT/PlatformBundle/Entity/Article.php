@@ -72,9 +72,8 @@ class Article
     private $nbrPoints;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="orderInPart", type="integer", nullable=false)
+     * @var float
+     * @ORM\Column(name="orderPart", type="decimal", precision=20, scale=18, nullable=false)
      */
     private $orderInPart;
 

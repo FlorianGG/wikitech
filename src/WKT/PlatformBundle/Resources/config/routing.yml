@@ -25,8 +25,15 @@ wkt_platform_article_view:
         id: \d+
 
 wkt_platform_article_add:
-    path: /formation/add/{id}
+    path: /article/add/{id}
     defaults:
         _controller: WKTPlatformBundle:Article:add
+    requirements:
+        id: \d+  
+
+wkt_platform_part_add_ajax:
+    path: /path/add/{id}
+    defaults:
+        _controller: WKTPlatformBundle:Part:addWithAjax
     requirements:
         id: \d+  

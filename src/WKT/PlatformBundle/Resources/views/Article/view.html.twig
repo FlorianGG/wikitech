@@ -1,16 +1,11 @@
-{% extends '::layout.html.twig' %}
-{% block body %}
-    <div class="row">
-        <div class="col-offset-sm-3">
-            <a class="btn btn-success" href="{{ path('wkt_platform_article_add', {'id': article.part.training.id}) }}">Ajouter un article</a>
-        </div>
-    </div>
-    <br>
-    <br>
-    <div class="row">
-        <div class="col-sm-3">
-            {{ render(controller("WKTPlatformBundle:Training:summary", {'id': article.part.training.id } )) }}
-        </div>
+{% extends 'WKTPlatformBundle:Article:articleLayout.html.twig' %}
+{% block addArticle %}
+    <a class="btn btn-success btn-lg" href="{{ path('wkt_platform_article_add', {'id': article.part.training.id}) }}">Ajouter un article</a>
+{% endblock %}
+{% block summaryInTraining %}
+    {{ render(controller("WKTPlatformBundle:Training:summary", {'id': article.part.training.id } )) }}
+{% endblock %}
+{% block articleInTraining %}
         <div class="col-sm-9">
             <div class="page-header">
               <h1>{{ article.title}}</h1>
@@ -39,7 +34,6 @@
 
             <p><a class="btn btn-primary btn-lg" href="{{ path('wkt_platform_view', {'id': article.part.training.id, 'slugTraining': article.part.training.slug}) }}">Retour à l'accueil de la formation</a></p>
         </div>
-    </div>
 {% endblock %}
 
 

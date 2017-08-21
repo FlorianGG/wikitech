@@ -1,4 +1,7 @@
+# src/WKT/PlatformBundle/Resources/config/services.yml
+
 services:
-#    wkt_platform.example:
-#        class: WKT\PlatformBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    wkt_platform.summary:
+        class: WKT\PlatformBundle\Summary\WKTSummary
+        arguments: 
+          - "@doctrine.orm.entity_manager"

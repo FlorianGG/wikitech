@@ -35,16 +35,140 @@ class Part
     private $training;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="orderInTraining", type="integer", nullable=false)
+     * @var float
+     * @ORM\Column(name="orderInTraining", type="decimal", precision=20, scale=18, nullable=false)
      */
     private $orderInTraining;
 
     /**
      * @ORM\OneToMany(targetEntity="WKT\PlatformBundle\Entity\Article", mappedBy="part")
+     * @ORM\OrderBy({"orderInPart" = "ASC"})
      */
     private $articles;
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Part
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set orderInTraining
+     *
+     * @param integer $orderInTraining
+     *
+     * @return Part
+     */
+    public function setOrderInTraining($orderInTraining)
+    {
+        $this->orderInTraining = $orderInTraining;
+
+        return $this;
+    }
+
+    /**
+     * Get orderInTraining
+     *
+     * @return integer
+     */
+    public function getOrderInTraining()
+    {
+        return $this->orderInTraining;
+    }
+
+    /**
+     * Set training
+     *
+     * @param \WKT\PlatformBundle\Entity\Training $training
+     *
+     * @return Part
+     */
+    public function setTraining(\WKT\PlatformBundle\Entity\Training $training)
+    {
+        $this->training = $training;
+
+        return $this;
+    }
+
+    /**
+     * Get training
+     *
+     * @return \WKT\PlatformBundle\Entity\Training
+     */
+    public function getTraining()
+    {
+        return $this->training;
+    }
+
+    /**
+     * Add article
+     *
+     * @param \WKT\PlatformBundle\Entity\Article $article
+     *
+     * @return Part
+     */
+    public function addArticle(\WKT\PlatformBundle\Entity\Article $article)
+    {
+        $this->articles[] = $article;
+        $article->setPart($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove article
+     *
+     * @param \WKT\PlatformBundle\Entity\Article $article
+     */
+    public function removeArticle(\WKT\PlatformBundle\Entity\Article $article)
+    {
+        $this->articles->removeElement($article);
+    }
+
+    /**
+     * Get articles
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getArticles()
+    {
+        return $this->articles;
+    }
 }

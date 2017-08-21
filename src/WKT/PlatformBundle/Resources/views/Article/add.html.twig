@@ -1,50 +1,247 @@
 {# src/WKT/PlatformBundle/Resources/views/Article/add.html.twig #}
-{# {{ form(form) }} #}
-{% extends '::layout.html.twig' %}
-{% block body %}
-    <h3>Formulaire d'annonce</h3>
+{% extends 'WKTPlatformBundle:Article:articleLayout.html.twig' %}
 
-    <div class="well">
-      {{ form(form) }}
+{% block addArticle %}
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"> <span class="badge">1</span> Choisissez où va votre page</h3>
+      </div>
+      <div class="panel-body">
+        <p class="text-center">Par défaut votre page s'ajoute à la fin d'une partie. Pour modifier sa position, cliquez sur la page avant laquelle vous voulez insérer la vôtre. Si vous voulez d'abord créer une nouvelle partie, cliquez sur le bouton "Créer une nouvelle partie"</p>
+      </div>
     </div>
+    <a id="buttonCreatePart" class=" col-xs-12 btn btn-default btn-lg" href="#">Créer une nouvelle partie</a>
+    <form id="formPart" style="display: none" action="{{ path('wkt_platform_part_add_ajax', {'id': training.id})}}" method="post">
+      <div class="form-group">
+        <label for="partTitle"> </label>
+        <input type="text" class="form-control" id="partTitle"  name="title" placeholder="Saisissez le nom de la partie" required>
+      </div>
+      <div class="form-group">
+        <label for="partOrderInTraining">Choisissez avant quelle partie créer la vôtre</label>
+        <select id="partOrderInTraining" class="form-control">
+          {% if summary is empty %}
+              <option value="1" selected>Ajouter une première partie</option>
+          {% else %}
+          <optgroup label="Parties existantes">
+           {% for part in summary %}
+               <option value="{{ part.Part.order }}">{{ part.Part.entity.title }}</option>
+           {% endfor %}
+          </optgroup>
+          <optgroup label="Fin de la formation">
+           <option value="{{summary|last.Part.order + 1}}" selected>Ajouter votre partie à la fin de la formation</option>
+          </optgroup>
+          {% endif %}
+        </select>
+      </div>
+      <button type="submit" class="col-xs-12 btn btn-primary btn-lg">Créer la partie</button>
+    </form>
+
+{% endblock %}
+
+{% block summaryInTraining %}
+  <div class="row" id="addArticleSummary">
+    {% if summary is empty %}
+        <small><h4 class="text-center"><em>Pas encore d'article</em></h4></small>
+        
+      {% else %}
+        <p class="text-center"><strong>SOMMAIRE</strong></p>
+        <div id="articleOrderInPart" class="container">
+          {% for part in summary %}
+              <div>
+                <h4>{{ part.Part.entity.title }}</h4>
+                {% if part.Article is defined %}
+                  {% for article in part.Article %}
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="optionsRadios" value=" {{ article.orderArticle }}">
+                          {{ article.entityArticle.title }}
+                          <input type="hidden" name="partId" value="{{part.Part.entity.id}}">
+                        </label>    
+                      </div>
+                      
+                  {% endfor %}
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="optionsRadios" id="option{{loop.index}}" value="{{ part.Article|last.orderArticle + 1 }}">
+                        <small><em>Ajouter un article à la fin de la partie</em></small>
+                        <input type="hidden" name="partId" value="{{part.Part.entity.id}}">
+                      </label>
+                    </div>
+                {% else %}
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="optionsRadios" value="1">
+                        <small><em>Ajouter une première page à cette partie</em></small>
+                        <input type="hidden" name="partId" value="{{part.Part.entity.id}}">
+                      </label>
+                    </div>
+                {% endif %}
+              </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+  </div>
+{% endblock %}
+
+{% block articleInTraining %}
+  <fieldset id="fieldsetDisabled" disabled>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"> <span class="badge">2</span> Créer votre page</h3>
+      </div>
+    </div>
+    <div class="well">
+      {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+        <div id="formGroupPart" class="form-group">
+          {{ form_label(form.part, "Partie choisie", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+          {{ form_errors(form.part) }}
+          <div class="col-sm-10">
+            {{ form_widget(form.part, {'attr': {'class': 'form-control'}}) }}
+            <input id="inputPartReadOnly" class="form-control" type="text" placeholder="" readonly>
+          </div>
+        </div>
+
+      <div class="form-group">
+        {{ form_label(form.title, "Titre de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+        {{ form_errors(form.title) }}
+        <div class="col-sm-10">
+          {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+        </div>
+      </div>
+      <div class="form-group">
+        {{ form_label(form.introduction, "Introduction de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+        {{ form_errors(form.introduction) }}
+        <div class="col-sm-10">
+          {{ form_widget(form.introduction, {'attr': {'class': 'form-control'}}) }}
+        </div>
+      </div>
+      <div class="form-group">
+        {{ form_label(form.content, "Contenu de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+        {{ form_errors(form.content) }}
+        <div class="col-sm-10">
+          {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+        </div>
+      </div>
+      <div class="form-group">
+        {{ form_label(form.video, "Video de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      </div>
+      <div class="form-group">
+        {{ form_label(form.video.url, "Url de la video", {'label_attr': {'class': 'col-sm-2 col-sm-offset-1 control-label'}}) }}
+        {{ form_errors(form.video.url) }}
+        <div class="col-sm-9">
+          {{ form_errors(form.video.url) }}
+          {{ form_widget(form.video.url, {'attr': {'class': 'form-control'}}) }}
+        </div> 
+      </div>
+      <div class="form-group">
+        {{ form_label(form.video.author, "Auteur de la video", {'label_attr': {'class': 'col-sm-2 col-sm-offset-1 control-label'}}) }}
+        {{ form_errors(form.video.author) }}
+        <div class="col-sm-9">
+          {{ form_errors(form.video.author) }}
+          {{ form_widget(form.video.author, {'attr': {'class': 'form-control'}}) }}
+        </div>
+      </div>
+      {{ form_widget(form.save, { 'label': 'Sauvegarder le nouvel article', 'attr': {'class': 'btn btn-success btn-lg'}}) }}
+
+    </div>
+
+      {# Génération automatique des champs pas encore écrits.
+         Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
+         et tous les champs cachés (type « hidden »). #}
+      {{ form_rest(form) }}
+
+      {# Fermeture de la balise <form> du formulaire HTML #}
+      {{ form_end(form) }}
+    </div>
+  </fieldset>
     {{ tinymce_init() }}
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
-
-var $article = $('#wkt_platformbundle_article_hasNewPart');
-// When sport gets selected ...
-$article.change(function() {
-  // ... retrieve the corresponding form.
-  var $form = $(this).closest('form');
-  // Simulate form data, but only include the selected sport value.
-  var data = {};
-  data[$article.attr('name')] = $article.val();
-  // Submit data via AJAX to the form's action path.
-  $.ajax({
-    url : $form.attr('action'),
-    type: $form.attr('method'),
-    data : data,
-    success: function(html) {
-      // Replace current position field ...
-      if ($article.val() === 'Oui') {
-      	// $('#wkt_platformbundle_article_part').display();
-      	$('#wkt_platformbundle_article_part_title').fadeIn();
-      	$('#wkt_platformbundle_article_part').fadeOut();
-      }
-      if ($article.val() === 'Non') {
-      	// $('#wkt_platformbundle_article_part').display();
-      	$('#wkt_platformbundle_article_part').fadeIn();
-      	$('#wkt_platformbundle_article_part_title').fadeOut();
+$( document ).ready(function() {
+  $('#inputPartReadOnly').hide();
+  $('#formGroupPart').hide();
+  var $buttonCreatePart =  $('#buttonCreatePart');
+  var $formPart = $('#formPart');
+  $buttonCreatePart.click(function(){
+      $formPart.toggle();
+      if ($buttonCreatePart.text() === 'Sélectionner une partie existante') {
+        $buttonCreatePart.text('Créer une nouvelle partie');
+      }else{
+        $buttonCreatePart.text('Sélectionner une partie existante');
       }
 
-      // $('#wkt_platformbundle_article_part').replaceWith(
-      //   // ... with the returned one from the AJAX response.
-      //   $(html).find('#wkt_platformbundle_article_part')
-      // );
-      // Position field now displays the appropriate positions.
-    }
+      });
+
+  $('#formPart').submit(function(event) {
+      event.preventDefault();
+      var formData = {
+          'title' : $('#partTitle').val(),
+          'orderInTraining' : $('#partOrderInTraining').val()
+      };
+      // appel Ajax
+      $.ajax({
+          url: $(this).attr('action'), // le nom du controlleur indiqué dans le formulaire
+          type: $(this).attr('method'), // la méthode indiquée dans le formulaire (get ou post)
+          data: formData,
+          success: function(data) { // je récupère la réponse du fichier PHP
+             document.location.reload(true);
+          }       
+          //return false; //
+      });
+  });
+  //Event qui gère de remplir l'attribut value de OrderInPart
+  $('#articleOrderInPart div div label input').click(function(event) {
+     var $orderInPart = $(this).attr('value');
+     var $partValue = $(this).nextAll('input:first').attr('value');
+     $('#form_part option[value=' + $partValue + ']').prop('selected', true);
+     $('#formGroupPart').show();
+     $('#form_part').hide();
+     console.log($partValue);
+     $placeholder = $('#form_part option[value=' + $partValue + ']').text();
+     $('#inputPartReadOnly').attr('placeholder', $placeholder);
+     $('#inputPartReadOnly').show();
+     $('#fieldsetDisabled').prop('disabled', false);
+     $('#form_orderInPart').attr('value', $orderInPart);
   });
 });
+
+// var $article = $('#form_part');
+// // When sport gets selected ...
+// $article.change(function() {
+
+//   if ($article.val() == 0) {
+
+//     alert('salut flo');
+//   }
+//   // ... retrieve the corresponding form.
+//   var $form = $(this).closest('form');
+//   // Simulate form data, but only include the selected sport value.
+//   var data = {};
+//   data[$article.attr('name')] = $article.val();
+//   // Submit data via AJAX to the form's action path.
+//   $.ajax({
+//     url : $form.attr('action'),
+//     type: $form.attr('method'),
+//     data : data,
+//     success: function(html) {
+//       // Replace current position field ...
+//       if ($article.val() === 'Oui') {
+//       	// $('#wkt_platformbundle_article_part').display();
+//       	$('#wkt_platformbundle_article_part_title').fadeIn();
+//       	$('#wkt_platformbundle_article_part').fadeOut();
+//       }
+//       if ($article.val() === 'Non') {
+//       	// $('#wkt_platformbundle_article_part').display();
+//       	$('#wkt_platformbundle_article_part').fadeIn();
+//       	$('#wkt_platformbundle_article_part_title').fadeOut();
+//       }
+
+//       // Position field now displays the appropriate positions.
+//     }
+//   });
+
 </script>
 {% endblock %}
 

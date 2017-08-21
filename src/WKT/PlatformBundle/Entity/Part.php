@@ -35,9 +35,8 @@ class Part
     private $training;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="orderInTraining", type="integer", nullable=false)
+     * @var float
+     * @ORM\Column(name="orderInTraining", type="decimal", precision=20, scale=18, nullable=false)
      */
     private $orderInTraining;
 

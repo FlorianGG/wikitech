@@ -1,87 +1,45 @@
 <?php
-// src/WKT/PlatformBundle/Form/ArticleType.php
 
 namespace WKT\PlatformBundle\Form;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use WKT\PlatformBundle\Entity\Training;
-use WKT\PlatformBundle\Form\VideoType;
 use WKT\PlatformBundle\Repository\PartRepository;
-
 
 class ArticleType extends AbstractType
 {
+    public function __construct(array $param)
+    {
+        
+    }
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        var_dump($this->request->attributes->get('id'));
         $builder
             ->add('title')
             ->add('introduction', TextareaType::class, array(
                 'attr' => array('class' => 'tinymce')))
             ->add('content', TextareaType::class, array(
                 'attr' => array('class' => 'tinymce')))
-            ->add('orderInTraining')
-            ->add('isModifying', HiddenType::class)
-            ->add('video', VideoType::class)
-            ->add('hasNewPart', ChoiceType::class , array(
-                'choices' => array(
-                    'oui' => 'Oui',
-                    'non' => 'Non'),
+            ->add('orderInPart')
+            ->add('part', EntityType::class, array(
+                'class' => 'WKTPlatformBundle:Part',
+                'choice_label' => 'title',
                 'multiple' => false,
-                'label' => 'Souhaitez-vous créer une nouvelle partie ?'))
-            ->add('save', SubmitType::class);
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) {
-                $form = $event->getForm();
-
-                // this would be your entity, i.e. SportMeetup
-                $article = $event->getData();
-                $training = $article->getTraining();
-                $hasNewPart = $article->getHasNewPart();
-                if (null === $article) {
-                  return; // On sort de la fonction sans rien faire lorsque $article vaut null
+                'query_builder' => function(PartRepository $repository){
+                    return $repository->qbPartsByTraining(1);
                 }
-                // si hasNewPart est vrai, on ajoute un champ texte pour entrer le nom de la nouvelle partie
-                // si hasNewPart est faux, on charge un champ entityType pour obtenir toutes les parties del a formation
-                if ($hasNewPart) {
-                    $form->add('part', PartType::class);
-                }else{
-                    $form->add('part', EntityType::class, array(
-                        'class' => 'WKTPlatformBundle:Part',
-                        'choice_label' => 'title',
-                        'choices' => array(
-                            'test' => 'test',
-                            ),
-                        'multiple' => false,
-                        'query_builder' => function(PartRepository $repository) use($training){
-                            return $repository
-                                ->createQueryBuilder('p')
-                                ->innerJoin('p.articles', 'art')
-                                ->addSelect('art')
-                                ->where('art.training = :training')
-                                ->setParameter('training', $training)
-                                ->orderBy('art.orderInTraining', 'ASC');
-                        }
-
-                    ));
-                }
-                    
-                
-            }
-        );
+                ))
+            ->add('video', VideoType::class);
     }
+    
     /**
      * {@inheritdoc}
      */
