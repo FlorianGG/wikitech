@@ -1,0 +1,105 @@
+<?php
+
+namespace WKT\PlatformBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+/**
+ * ArticleModified
+ *
+ * @ORM\Table(name="article_modified")
+ * @ORM\Entity(repositoryClass="WKT\PlatformBundle\Repository\ArticleModifiedRepository")
+ */
+class ArticleModified
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="introduction", type="text")
+     */
+    private $introduction;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content", type="text")
+     */
+    private $content;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="commit", type="text", nullable=true)
+     */
+    private $commit;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="modifiedAt", type="datetime", nullable=true)
+     */
+    private $modifiedAt;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="isRejected", type="boolean", nullable=true)
+     */
+    private $isRejected;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Video", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $video;
+
+    /**
+     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
+     */
+    private $slug;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\TypeOfModification")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $TypeOfModification;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Article")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $article;
+
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime;
+        $this->isRejected = false;
+    }
+
+
+}

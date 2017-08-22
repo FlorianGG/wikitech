@@ -4,14 +4,13 @@ namespace WKT\PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-
 /**
- * Article
+ * ArticleModified
  *
- * @ORM\Table(name="article")
- * @ORM\Entity(repositoryClass="WKT\PlatformBundle\Repository\ArticleRepository")
+ * @ORM\Table(name="article_modified")
+ * @ORM\Entity(repositoryClass="WKT\PlatformBundle\Repository\ArticleModifiedRepository")
  */
-class Article
+class ArticleModified
 {
     /**
      * @var int
@@ -44,6 +43,13 @@ class Article
     private $content;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="commit", type="text", nullable=true)
+     */
+    private $commit;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime")
@@ -60,34 +66,15 @@ class Article
     /**
      * @var bool
      *
-     * @ORM\Column(name="isModifying", type="boolean", nullable=true, options={"default":false})
+     * @ORM\Column(name="isRejected", type="boolean", nullable=true)
      */
-    private $isModifying;
+    private $isRejected;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="nbrPoints", type="integer", options={"default":0}, nullable=true)
-     */
-    private $nbrPoints;
-
-    /**
-     * @var float
-     * @ORM\Column(name="orderPart", type="decimal", precision=20, scale=18, nullable=false)
-     */
-    private $orderInPart;
-
-    /**
-     * @ORM\OneToOne(targetEntity="WKT\PlatformBundle\Entity\Video", cascade={"persist", "remove"})
-     * * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Video", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $video;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Part", inversedBy="articles")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $part;
 
     /**
      * @Gedmo\Slug(fields={"title"})
@@ -95,9 +82,23 @@ class Article
      */
     private $slug;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\TypeOfModification")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $TypeOfModification;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Article")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $article;
+
+
     public function __construct()
     {
         $this->createdAt = new \DateTime;
+        $this->isRejected = false;
     }
 
 
@@ -117,7 +118,7 @@ class Article
      *
      * @param string $title
      *
-     * @return Article
+     * @return ArticleModified
      */
     public function setTitle($title)
     {
@@ -141,7 +142,7 @@ class Article
      *
      * @param string $introduction
      *
-     * @return Article
+     * @return ArticleModified
      */
     public function setIntroduction($introduction)
     {
@@ -165,7 +166,7 @@ class Article
      *
      * @param string $content
      *
-     * @return Article
+     * @return ArticleModified
      */
     public function setContent($content)
     {
@@ -185,11 +186,35 @@ class Article
     }
 
     /**
+     * Set commit
+     *
+     * @param string $commit
+     *
+     * @return ArticleModified
+     */
+    public function setCommit($commit)
+    {
+        $this->commit = $commit;
+
+        return $this;
+    }
+
+    /**
+     * Get commit
+     *
+     * @return string
+     */
+    public function getCommit()
+    {
+        return $this->commit;
+    }
+
+    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
      *
-     * @return Article
+     * @return ArticleModified
      */
     public function setCreatedAt($createdAt)
     {
@@ -213,7 +238,7 @@ class Article
      *
      * @param \DateTime $modifiedAt
      *
-     * @return Article
+     * @return ArticleModified
      */
     public function setModifiedAt($modifiedAt)
     {
@@ -233,75 +258,27 @@ class Article
     }
 
     /**
-     * Set isModifying
+     * Set isRejected
      *
-     * @param boolean $isModifying
+     * @param boolean $isRejected
      *
-     * @return Article
+     * @return ArticleModified
      */
-    public function setIsModifying($isModifying)
+    public function setIsRejected($isRejected)
     {
-        $this->isModifying = $isModifying;
+        $this->isRejected = $isRejected;
 
         return $this;
     }
 
     /**
-     * Get isModifying
+     * Get isRejected
      *
      * @return boolean
      */
-    public function getIsModifying()
+    public function getIsRejected()
     {
-        return $this->isModifying;
-    }
-
-    /**
-     * Set nbrPoints
-     *
-     * @param integer $nbrPoints
-     *
-     * @return Article
-     */
-    public function setNbrPoints($nbrPoints)
-    {
-        $this->nbrPoints = $nbrPoints;
-
-        return $this;
-    }
-
-    /**
-     * Get nbrPoints
-     *
-     * @return integer
-     */
-    public function getNbrPoints()
-    {
-        return $this->nbrPoints;
-    }
-
-    /**
-     * Set orderInPart
-     *
-     * @param string $orderInPart
-     *
-     * @return Article
-     */
-    public function setOrderInPart($orderInPart)
-    {
-        $this->orderInPart = $orderInPart;
-
-        return $this;
-    }
-
-    /**
-     * Get orderInPart
-     *
-     * @return string
-     */
-    public function getOrderInPart()
-    {
-        return $this->orderInPart;
+        return $this->isRejected;
     }
 
     /**
@@ -309,7 +286,7 @@ class Article
      *
      * @param string $slug
      *
-     * @return Article
+     * @return ArticleModified
      */
     public function setSlug($slug)
     {
@@ -333,7 +310,7 @@ class Article
      *
      * @param \WKT\PlatformBundle\Entity\Video $video
      *
-     * @return Article
+     * @return ArticleModified
      */
     public function setVideo(\WKT\PlatformBundle\Entity\Video $video = null)
     {
@@ -353,26 +330,50 @@ class Article
     }
 
     /**
-     * Set part
+     * Set typeOfModification
      *
-     * @param \WKT\PlatformBundle\Entity\Part $part
+     * @param \WKT\PlatformBundle\Entity\TypeOfModification $typeOfModification
      *
-     * @return Article
+     * @return ArticleModified
      */
-    public function setPart(\WKT\PlatformBundle\Entity\Part $part)
+    public function setTypeOfModification(\WKT\PlatformBundle\Entity\TypeOfModification $typeOfModification)
     {
-        $this->part = $part;
+        $this->TypeOfModification = $typeOfModification;
 
         return $this;
     }
 
     /**
-     * Get part
+     * Get typeOfModification
      *
-     * @return \WKT\PlatformBundle\Entity\Part
+     * @return \WKT\PlatformBundle\Entity\TypeOfModification
      */
-    public function getPart()
+    public function getTypeOfModification()
     {
-        return $this->part;
+        return $this->TypeOfModification;
+    }
+
+    /**
+     * Set article
+     *
+     * @param \WKT\PlatformBundle\Entity\Article $article
+     *
+     * @return ArticleModified
+     */
+    public function setArticle(\WKT\PlatformBundle\Entity\Article $article)
+    {
+        $this->article = $article;
+
+        return $this;
+    }
+
+    /**
+     * Get article
+     *
+     * @return \WKT\PlatformBundle\Entity\Article
+     */
+    public function getArticle()
+    {
+        return $this->article;
     }
 }

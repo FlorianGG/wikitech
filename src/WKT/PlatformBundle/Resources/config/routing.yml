@@ -37,3 +37,60 @@ wkt_platform_part_add_ajax:
         _controller: WKTPlatformBundle:Part:addWithAjax
     requirements:
         id: \d+  
+
+# Article Modified
+wkt_platform_article_modified_add:
+    path: /labo/add/{id}
+    defaults:
+        _controller: WKTPlatformBundle:ArticleModified:add
+    requirements:
+        id: \d+  
+
+wkt_platform_article_modified_index_by_article:
+    path: /labo/index_by_article/{id}
+    defaults:
+        _controller: WKTPlatformBundle:ArticleModified:indexByArticle
+    requirements:
+        id: \d+ 
+
+wkt_platform_article_modified_index:
+    path: /labo
+    defaults:
+        _controller: WKTPlatformBundle:ArticleModified:index
+
+wkt_platform_article_modified_view:
+    path: /labo/article_modified/{id}
+    defaults:
+        _controller: WKTPlatformBundle:ArticleModified:view
+    requirements:
+        id: \d+ 
+
+wkt_platform_article_modified_edit:
+    path: /labo/edit/{id}
+    defaults:
+        _controller: WKTPlatformBundle:ArticleModified:edit
+    requirements:
+        id: \d+ 
+
+wkt_platform_article_modified_delete:
+    path: /labo/delete/{id}
+    defaults:
+        _controller: WKTPlatformBundle:ArticleModified:delete
+    requirements:
+        id: \d+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

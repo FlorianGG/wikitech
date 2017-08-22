@@ -1,0 +1,72 @@
+{# src/WKT/PlatformBundle/Resources/views/ArticleModified/view.html.twig #}
+
+{% extends 'WKTPlatformBundle:ArticleModified:articleModifiedLayout.html.twig' %}
+
+{% block urlArticleModified %}
+    {{ path('wkt_platform_article_modified_view', {'id': articleModified.id}) }}
+{% endblock %}
+{% block articleModified %}
+        <div class="col-sm-10">
+            <div class="row">
+                <div class="col-xs-10">
+                    <div class="page-header">
+                      <h1>{{ articleModified.title}}</h1>
+                    </div>
+                </div>
+                <div class="col-xs-2" style="margin-top: 40px; margin-bottom: 10px;">
+                    <a class="btn btn-warning" href="{{ path('wkt_platform_article_modified_edit', {'id': articleModified.id}) }}#wkt_platformbundle_articlemodified_title">Modifier</a>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-xs-10">
+                    <h2>En Bref</h2>
+                </div>
+                <div class="col-xs-2" style="margin-top: 20px; margin-bottom: 10px;">
+                    <a class="btn btn-warning" href="{{ path('wkt_platform_article_modified_edit', {'id': articleModified.id}) }}#wkt_platformbundle_articlemodified_introduction">Modifier</a>
+                </div>
+            </div>
+            <div> 
+                {% autoescape %}
+                    {{ articleModified.introduction|raw }} {# var won't be escaped #}
+                {% endautoescape %}
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-xs-10">
+                    <h2>En Détail</h2>
+                </div>
+                <div class="col-xs-2" style="margin-top: 20px; margin-bottom: 10px;">
+                    <a class="btn btn-warning" href="{{ path('wkt_platform_article_modified_edit', {'id': articleModified.id}) }}#wkt_platformbundle_articlemodified_content">Modifier</a>
+                </div>
+            </div>
+            <div> 
+                {% autoescape %}
+                    {{ articleModified.content|raw }} {# var won't be escaped #}
+                {% endautoescape %} 
+            </div>
+            <hr>
+            {% if articleModified.video.url is defined %}
+                <div class="row">
+                    <div class="col-xs-10">
+                        <h2>En Vidéo</h2>
+                    </div>
+                    <div class="col-xs-2" style="margin-top: 20px; margin-bottom: 10px;">
+                        <a class="btn btn-warning" href="{{ path('wkt_platform_article_modified_edit', {'id': articleModified.id}) }}#wkt_platformbundle_articlemodified_video">Modifier</a>
+                    </div>
+                </div>
+                <div class="">
+                    <p><strong>Crée par : </strong>{{articleModified.video.author}}</p>
+                </div>
+                <div class="embed-responsive embed-responsive-16by9">
+                  <iframe class="embed-responsive-item" allowfullscreen src="https://www.youtube.com/embed/{{ articleModified.video.url}}"></iframe>
+                </div>
+                <hr>
+            {% endif %}
+
+            <p><a class="btn btn-primary btn-lg" href="{{ path('wkt_platform_article_view', {'id': articleModified.article.id, 'slugTraining': articleModified.article.part.training.slug, 'slugArticle': articleModified.article.slug}) }}">Retour sur l'article principal</a></p>
+        </div>
+{% endblock %}
+
+
+

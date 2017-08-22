@@ -21,23 +21,23 @@ class ArticleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        var_dump($this->request->attributes->get('id'));
-        $builder
-            ->add('title')
-            ->add('introduction', TextareaType::class, array(
-                'attr' => array('class' => 'tinymce')))
-            ->add('content', TextareaType::class, array(
-                'attr' => array('class' => 'tinymce')))
-            ->add('orderInPart')
-            ->add('part', EntityType::class, array(
-                'class' => 'WKTPlatformBundle:Part',
-                'choice_label' => 'title',
-                'multiple' => false,
-                'query_builder' => function(PartRepository $repository){
-                    return $repository->qbPartsByTraining(1);
-                }
-                ))
-            ->add('video', VideoType::class);
+        // var_dump($this->request->attributes->get('id'));
+        // $builder
+        //     ->add('title')
+        //     ->add('introduction', TextareaType::class, array(
+        //         'attr' => array('class' => 'tinymce')))
+        //     ->add('content', TextareaType::class, array(
+        //         'attr' => array('class' => 'tinymce')))
+        //     ->add('orderInPart')
+        //     ->add('part', EntityType::class, array(
+        //         'class' => 'WKTPlatformBundle:Part',
+        //         'choice_label' => 'title',
+        //         'multiple' => false,
+        //         'query_builder' => function(PartRepository $repository){
+        //             return $repository->qbPartsByTraining(1);
+        //         }
+        //         ))
+        //     ->add('video', VideoType::class);
     }
     
     /**

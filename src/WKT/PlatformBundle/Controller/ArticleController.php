@@ -28,12 +28,21 @@ class ArticleController extends Controller
 
 	public function viewAction(Article $id)
 	{
+		$em = $this->getDoctrine()->getManager();
+		$articleRepository = $em->getRepository('WKTPlatformBundle:Article');
 
-		$articleRepository = $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:Article');
 
 		$article = $articleRepository->find($id);
+		$idArticleModified = $em->getRepository('WKTPlatformBundle:ArticleModified')->findOneBy(array(
+			'article' => $article));
+		if (!is_null($idArticleModified)) {
+			$idArticleModified = $idArticleModified->getId();
+		}
 
-		return $this->render('WKTPlatformBundle:Article:view.html.twig', array('article' => $article));
+		return $this->render('WKTPlatformBundle:Article:view.html.twig', array(
+			'article' => $article,
+			'idArticleModified' => $idArticleModified,
+			));
 	}
 
 	public function addAction(Request $request, Training $id)
@@ -83,7 +92,8 @@ class ArticleController extends Controller
 			        return $repository->qbPartsByTraining($id);
 			    }
 			    ))
-			->add('video', VideoType::class)
+			->add('video', VideoType::class, array(
+				'required' => false))
 			->add('save', SubmitType::class)
 			->getForm();
 	}

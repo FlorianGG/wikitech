@@ -60,14 +60,14 @@ class Article
     /**
      * @var bool
      *
-     * @ORM\Column(name="isModifying", type="boolean", nullable=true)
+     * @ORM\Column(name="isModifying", type="boolean", nullable=true, options={"default":false})
      */
     private $isModifying;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="nbrPoints", type="integer")
+     * @ORM\Column(name="nbrPoints", type="integer", options={"default":0}, nullable=true)
      */
     private $nbrPoints;
 
@@ -79,6 +79,7 @@ class Article
 
     /**
      * @ORM\OneToOne(targetEntity="WKT\PlatformBundle\Entity\Video", cascade={"persist", "remove"})
+     * * @ORM\JoinColumn(nullable=true)
      */
     private $video;
 
@@ -97,9 +98,9 @@ class Article
     public function __construct()
     {
         $this->createdAt = new \DateTime;
-        $this->isModifying = false;
-        $this->nbrPoints = 0;
     }
+
+
 
     /**
      * Get id
@@ -282,7 +283,7 @@ class Article
     /**
      * Set orderInPart
      *
-     * @param integer $orderInPart
+     * @param string $orderInPart
      *
      * @return Article
      */
@@ -296,7 +297,7 @@ class Article
     /**
      * Get orderInPart
      *
-     * @return integer
+     * @return string
      */
     public function getOrderInPart()
     {

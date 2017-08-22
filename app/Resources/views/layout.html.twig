@@ -43,6 +43,13 @@
             </nav>
         </header>
         <div class="container-fluid">
+          {% for message in app.session.flashbag.get('alert') %}
+            <div class="alert alert-danger">Message flash : {{ message }}</div>
+          {% endfor %}
+          {% for message in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">Message flash : {{ message }}</div>
+          {% endfor %}
+
           {% block body %}{% endblock %}
         </div>
         <footer class="">
