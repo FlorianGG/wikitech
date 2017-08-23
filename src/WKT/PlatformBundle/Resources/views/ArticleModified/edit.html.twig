@@ -49,6 +49,9 @@
 	        </div>
 	        {% endif %}
 	    </div>
+	    <div style="display: none;" id="alertVideo" class="alert alert-danger">
+	    	<p class="text-center">Merci d'ajouter une url valide et un nom d'auteur pour chaque vidéo</p>
+	    </div>
 	    <div class="form-group">
 	        {{ form_label(form.video.url, "Url de la video", {'label_attr': {'class': 'col-sm-2 col-sm-offset-1 control-label'}}) }}
 	        {{ form_errors(form.video.url) }}
@@ -104,9 +107,10 @@
 	    	</div>
 	    </div>
 	    <div class="row">
-			<a id="buttonForModal" type="button" class="col-xs-3 col-xs-offset-2 btn btn-success" data-toggle="modal" data-target="#myModal">
+			<a id="buttonForModal" type="button" class="col-xs-2 col-xs-offset-1 btn btn-success" data-toggle="modal" data-target="#myModal">
 			  Valider</a>
-	    	<a class="col-xs-3 col-xs-offset-2 btn btn-danger" href="{{ path('wkt_platform_article_modified_view', {'id': articleModified.id}) }}">Retourner sur la version modifiée</a>
+	    	<a class="col-xs-2 col-xs-offset-2 btn btn-danger" href="{{ path('wkt_platform_article_modified_view', {'id': articleModified.id}) }}">Voir modification</a>
+	    	<a class="col-xs-2 col-xs-offset-2 btn btn-primary" href="{{ path('wkt_platform_article_view', {'id': articleModified.article.id, 'slugTraining': articleModified.article.part.training.slug, 'slugArticle': articleModified.article.slug }) }}">Article principal</a>
 	    </div>
     	
 
@@ -122,6 +126,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script>
 		$( document ).ready(function() {
+			$alertVideo = $('#alertVideo');
 			$url = $('#wkt_platformbundle_articlemodified_video_url');
 			$author = $('#wkt_platformbundle_articlemodified_video_author');
 			$buttonForModal = $('#buttonForModal');
@@ -130,11 +135,14 @@
 			//si le champ video a été ignoré ou rempli correctement
 			//sinon on empêche lo'uverture de la modale et on affiche une erreur
 			$('#myModal').on('show.bs.modal', function (e) {
+				$alertVideo.hide();
 		  		if ($author.val() == '' && $url.val() == '') {
 		  			return;
 		  		}else if (!($author.val() == '') && $url.val() == '') {
+		  			$alertVideo.show();
 		  			return e.preventDefault(); // stops modal from being shown
 		  		}else if ($author.val() == '' && !($url.val() == '')) {
+		  			$alertVideo.show();
 		  			return e.preventDefault(); // stops modal from being shown
 		  		}  
 			})

@@ -30,13 +30,18 @@ class ArticleController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 		$articleRepository = $em->getRepository('WKTPlatformBundle:Article');
-
-
 		$article = $articleRepository->find($id);
+
+
 		$idArticleModified = $em->getRepository('WKTPlatformBundle:ArticleModified')->findOneBy(array(
 			'article' => $article));
 		if (!is_null($idArticleModified)) {
 			$idArticleModified = $idArticleModified->getId();
+		}else{
+			$idArticleModified = 0;
+			//on change la valeur de l'attribut à false
+			// Pour couvrir le cas ou il y a eu une modification et qu'elle a été supprimé par l'admin
+			$article->setIsModifying(false);
 		}
 
 		return $this->render('WKTPlatformBundle:Article:view.html.twig', array(

@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WKT\PlatformBundle\Entity\Article;
 use WKT\PlatformBundle\Entity\ArticleModified;
+use WKT\PlatformBundle\Entity\Video;
 use WKT\PlatformBundle\Form\ArticleModifiedType;
 
 
@@ -29,11 +30,16 @@ class ArticleModifiedController extends Controller
 		$em = $this->getDoctrine()->getManager();
 
 		$articleModified = $em->getRepository('WKTPlatformBundle:ArticleModified')->find($id);
+
+		//on explode le commit de l'articleModified pour en tirer un tableau
+		$commits = $this->returnCommitsInArray($articleModified->getCommit());
+
 		$articlesModified = $em->getRepository('WKTPlatformBundle:ArticleModified')->findBy(array('article' => $articleModified->getArticle()), array('id' => 'DESC'));
 
 		return $this->render('WKTPlatformBundle:ArticleModified:view.html.twig', array(
 			'articleModified' => $articleModified,
 			'articlesModified' => $articlesModified,
+			'commits' => $commits,
 			));
 	}
 
@@ -44,9 +50,12 @@ class ArticleModifiedController extends Controller
 		$articleModified = new ArticleModified();
 		
 		$article = $em->getRepository('WKTPlatformBundle:Article')->find($id);
+
 		$articleModified->setArticle($id)->setTitle($article->getTitle())->setIntroduction($article->getIntroduction())->setContent($article->getContent());
 		if (!is_null($article->getVideo())) {
-			$articleModified->setVideo($article->getVideo());
+			$video = new Video;
+			$video->setUrl('https://www.youtube.com/watch?v=' . $article->getVideo()->getUrl())->setAuthor($article->getVideo()->getAuthor());
+			$articleModified->setVideo($video);
 		}
 
 		//on capture les données originales pour les comparer avec celles qui seront postées
@@ -57,6 +66,9 @@ class ArticleModifiedController extends Controller
 		$form   = $this->get('form.factory')->create(ArticleModifiedType::class, $articleModified);
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+			if (is_null($articleModified->getCommit())) {
+				$articleModified->setCommit('L\'utilisateur n\'a pas donné d\'explication');
+			}
 			//On récupère les nouvelles valeurs d'articleModified
 			$new = $this->getValues($articleModified);
 
@@ -90,10 +102,15 @@ class ArticleModifiedController extends Controller
 	public function editAction(Request $request, ArticleModified $id)
 	{
 		$em = $this->getDoctrine()->getManager();
-		$lastCommit = '';
-		$lastCommits = '';
 
 		$articleModified = $em->getRepository('WKTPlatformBundle:ArticleModified')->find($id);
+
+		//on stock le commit  qui est en bd avant le post
+		$commit = $articleModified->getCommit();
+
+		//on explode le commit pour en tirer un tableau
+		$commits = $this->returnCommitsInArray($commit);
+
 		//on capture les données originales pour les comparer avec celles qui seront postées
 		$origin = $this->getValues($articleModified);
 
@@ -104,15 +121,12 @@ class ArticleModifiedController extends Controller
 		$form   = $this->get('form.factory')->create(ArticleModifiedType::class, $articleModified);
 
 		//Possibilité de garder l'ancien commit et d'ajouter un nouveau lors de la modification de l'articleModified
-		if (!is_null($articleModified->getCommit())) {
-			$lastCommit = $articleModified->getCommit();
-			$lastCommits = explode('/n Edit :', $lastCommit);
-		}
+
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
 			// On ajout le nouveau commit à l'ancien avec une chaine permettant d'explode le commit
-			$articleModified->setCommit($lastCommit . '/n Edit :' . $articleModified->getCommit());
+			$articleModified->setCommit($commit . '/n Edit :' . $articleModified->getCommit());
 
 			//On récupère les nouvelles valeurs d'articleModified
 			$new = $this->getValues($articleModified);
@@ -137,7 +151,7 @@ class ArticleModifiedController extends Controller
 			'form' => $form->createView(),
 			'articleModified' => $articleModified,
 			'articlesModified' => $articlesModified,
-			'commits' => $lastCommits,
+			'commits' => $commits,
 		));
 
 
@@ -187,6 +201,16 @@ class ArticleModifiedController extends Controller
 	{
 		//On récupère la liste des articlesModified pour cet article
 		return $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:ArticleModified')->findBy(array('article' => $aM->getArticle()), array('id' => 'DESC'));
+	}
+
+	//factorisation de la fonction qui génére un tableau de commits avec explode du commit en bd
+	private function returnCommitsInArray($commit)
+	{
+		if (!is_null($commit)) {
+			return explode('/n Edit :', $commit);
+		}else{
+			return null;
+		}
 	}
 
 
