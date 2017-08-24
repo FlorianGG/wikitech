@@ -85,46 +85,9 @@ class User extends BaseUser
     protected $nbPoint;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="url", type="string", length=255, nullable=true, unique=false)
-     * @Assert\Length(
-     *     min=2,
-     *     max=255,
-     *     minMessage="L'url est trop courte.",
-     *     maxMessage="L'url est trop longue.",
-     *     groups={"Profile"}
-     * )
+     * @ORM\ManyToMany(targetEntity="WKT\UserBundle\Entity\Social", cascade={"persist"})
      */
-    protected $url;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="twitter", type="string", length=255, nullable=true, unique=false)
-     * @Assert\Length(
-     *     min=2,
-     *     max=255,
-     *     minMessage="L'url est trop courte.",
-     *     maxMessage="L'url est trop longue.",
-     *     groups={"Profile"}
-     * )
-     */
-    protected $twitter;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="github", type="string", length=255, nullable=true, unique=false)
-     * @Assert\Length(
-     *     min=2,
-     *     max=255,
-     *     minMessage="L'url est trop courte.",
-     *     maxMessage="L'url est trop longue.",
-     *     groups={"Profile"}
-     * )
-     */
-    protected $github;
+    protected $socials;
 
     /**
      * @var string
@@ -145,8 +108,7 @@ class User extends BaseUser
         parent::__construct();
         // your own logic
     }
-
-
+    
     /**
      * Set firstname
      *
@@ -268,78 +230,6 @@ class User extends BaseUser
     }
 
     /**
-     * Set url
-     *
-     * @param string $url
-     *
-     * @return User
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
-    /**
-     * Get url
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    /**
-     * Set twitter
-     *
-     * @param string $twitter
-     *
-     * @return User
-     */
-    public function setTwitter($twitter)
-    {
-        $this->twitter = $twitter;
-
-        return $this;
-    }
-
-    /**
-     * Get twitter
-     *
-     * @return string
-     */
-    public function getTwitter()
-    {
-        return $this->twitter;
-    }
-
-    /**
-     * Set github
-     *
-     * @param string $github
-     *
-     * @return User
-     */
-    public function setGithub($github)
-    {
-        $this->github = $github;
-
-        return $this;
-    }
-
-    /**
-     * Get github
-     *
-     * @return string
-     */
-    public function getGithub()
-    {
-        return $this->github;
-    }
-
-    /**
      * Set company
      *
      * @param string $company
@@ -361,5 +251,39 @@ class User extends BaseUser
     public function getCompany()
     {
         return $this->company;
+    }
+
+    /**
+     * Add social
+     *
+     * @param \WKT\UserBundle\Entity\Social $social
+     *
+     * @return User
+     */
+    public function addSocial(\WKT\UserBundle\Entity\Social $social)
+    {
+        $this->socials[] = $social;
+
+        return $this;
+    }
+
+    /**
+     * Remove social
+     *
+     * @param \WKT\UserBundle\Entity\Social $social
+     */
+    public function removeSocial(\WKT\UserBundle\Entity\Social $social)
+    {
+        $this->socials->removeElement($social);
+    }
+
+    /**
+     * Get socials
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSocials()
+    {
+        return $this->socials;
     }
 }

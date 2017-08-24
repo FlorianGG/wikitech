@@ -20,7 +20,7 @@ class RegistrationType extends AbstractType
             ->add('lastname', TextType::class, array(
             'label' => 'Nom'))
             ->add('username', HiddenType::class, array(
-                'attr' => array('value' => 'nothing')));
+                'attr' => array('value' => '')));
     }
 
     public function getParent()
