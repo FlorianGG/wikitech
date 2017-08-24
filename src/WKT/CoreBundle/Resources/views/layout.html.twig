@@ -1,0 +1,43 @@
+{# src/WKT/CoreBundle/Resources/views/layout.html.twig #}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}WikiTech{% endblock %}</title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" type="text/css" href="/web/css/style.css">
+        {% block stylesheets %}
+          {# On charge le CSS de bootstrap depuis le site directement #}
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        {% endblock %}
+    </head>
+    <body>
+      {% block header %}
+        {{ include("WKTCoreBundle::header.html.twig") }}
+      {% endblock %}
+      <div class="container-fluid">
+        {% for message in app.session.flashbag.get('alert') %}
+          <div class="alert alert-danger">Message flash : {{ message }}</div>
+        {% endfor %}
+        {% for message in app.session.flashbag.get('notice') %}
+          <div class="alert alert-success">Message flash : {{ message }}</div>
+        {% endfor %}
+        {% for key, messages in app.session.flashbag.all() %}
+          {% for message in messages %}
+            <div class="alert alert-{{ key }}">{{ message|trans({}, 'FOSUserBundle') }}</div>
+          {% endfor %}
+        {% endfor %}
+
+
+        {% block body %}{% endblock %}
+        {% block footer %}
+           {{ include("WKTCoreBundle::footer.html.twig") }}
+        {% endblock %}
+      </div>
+      {% block javascripts %}
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+          <!-- Latest compiled and minified JavaScript -->
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+      {% endblock %}
+    </body>
+</html>

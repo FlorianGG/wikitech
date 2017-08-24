@@ -19,6 +19,8 @@ class AppKernel extends Kernel
             new WKT\CoreBundle\WKTCoreBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+            new WKT\UserBundle\WKTUserBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

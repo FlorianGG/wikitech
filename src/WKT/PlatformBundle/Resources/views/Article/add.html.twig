@@ -1,5 +1,5 @@
 {# src/WKT/PlatformBundle/Resources/views/Article/add.html.twig #}
-{% extends 'WKTPlatformBundle:Article:articleLayout.html.twig' %}
+{% extends 'WKTPlatformBundle:Article:layout.html.twig' %}
 
 {% block addArticle %}
 
@@ -157,91 +157,57 @@
   </fieldset>
     {{ tinymce_init() }}
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script>
-$( document ).ready(function() {
-  $('#inputPartReadOnly').hide();
-  $('#formGroupPart').hide();
-  var $buttonCreatePart =  $('#buttonCreatePart');
-  var $formPart = $('#formPart');
-  $buttonCreatePart.click(function(){
-      $formPart.toggle();
-      if ($buttonCreatePart.text() === 'Sélectionner une partie existante') {
-        $buttonCreatePart.text('Créer une nouvelle partie');
-      }else{
-        $buttonCreatePart.text('Sélectionner une partie existante');
-      }
-
-      });
-
-  $('#formPart').submit(function(event) {
-      event.preventDefault();
-      var formData = {
-          'title' : $('#partTitle').val(),
-          'orderInTraining' : $('#partOrderInTraining').val()
-      };
-      // appel Ajax
-      $.ajax({
-          url: $(this).attr('action'), // le nom du controlleur indiqué dans le formulaire
-          type: $(this).attr('method'), // la méthode indiquée dans le formulaire (get ou post)
-          data: formData,
-          success: function(data) { // je récupère la réponse du fichier PHP
-             document.location.reload(true);
-          }       
-          //return false; //
-      });
-  });
-  //Event qui gère de remplir l'attribut value de OrderInPart
-  $('#articleOrderInPart div div label input').click(function(event) {
-     var $orderInPart = $(this).attr('value');
-     var $partValue = $(this).nextAll('input:first').attr('value');
-     $('#form_part option[value=' + $partValue + ']').prop('selected', true);
-     $('#formGroupPart').show();
-     $('#form_part').hide();
-     $placeholder = $('#form_part option[value=' + $partValue + ']').text();
-     $('#inputPartReadOnly').attr('placeholder', $placeholder);
-     $('#inputPartReadOnly').show();
-     $('#fieldsetDisabled').prop('disabled', false);
-     $('#form_orderInPart').attr('value', $orderInPart);
-  });
-});
-
-// var $article = $('#form_part');
-// // When sport gets selected ...
-// $article.change(function() {
-
-//   if ($article.val() == 0) {
-
-//     alert('salut flo');
-//   }
-//   // ... retrieve the corresponding form.
-//   var $form = $(this).closest('form');
-//   // Simulate form data, but only include the selected sport value.
-//   var data = {};
-//   data[$article.attr('name')] = $article.val();
-//   // Submit data via AJAX to the form's action path.
-//   $.ajax({
-//     url : $form.attr('action'),
-//     type: $form.attr('method'),
-//     data : data,
-//     success: function(html) {
-//       // Replace current position field ...
-//       if ($article.val() === 'Oui') {
-//       	// $('#wkt_platformbundle_article_part').display();
-//       	$('#wkt_platformbundle_article_part_title').fadeIn();
-//       	$('#wkt_platformbundle_article_part').fadeOut();
-//       }
-//       if ($article.val() === 'Non') {
-//       	// $('#wkt_platformbundle_article_part').display();
-//       	$('#wkt_platformbundle_article_part').fadeIn();
-//       	$('#wkt_platformbundle_article_part_title').fadeOut();
-//       }
-
-//       // Position field now displays the appropriate positions.
-//     }
-//   });
-
-</script>
 {% endblock %}
+{% block javascripts %}
+  {{ parent()}}
+  <script>
+    $( document ).ready(function() {
+      $('#inputPartReadOnly').hide();
+      $('#formGroupPart').hide();
+      var $buttonCreatePart =  $('#buttonCreatePart');
+      var $formPart = $('#formPart');
+      $buttonCreatePart.click(function(){
+          $formPart.toggle();
+          if ($buttonCreatePart.text() === 'Sélectionner une partie existante') {
+            $buttonCreatePart.text('Créer une nouvelle partie');
+          }else{
+            $buttonCreatePart.text('Sélectionner une partie existante');
+          }
 
+          });
+
+      $('#formPart').submit(function(event) {
+          event.preventDefault();
+          var formData = {
+              'title' : $('#partTitle').val(),
+              'orderInTraining' : $('#partOrderInTraining').val()
+          };
+          // appel Ajax
+          $.ajax({
+              url: $(this).attr('action'), // le nom du controlleur indiqué dans le formulaire
+              type: $(this).attr('method'), // la méthode indiquée dans le formulaire (get ou post)
+              data: formData,
+              success: function(data) { // je récupère la réponse du fichier PHP
+                 document.location.reload(true);
+              }       
+              //return false; //
+          });
+      });
+      //Event qui gère de remplir l'attribut value de OrderInPart
+      $('#articleOrderInPart div div label input').click(function(event) {
+         var $orderInPart = $(this).attr('value');
+         var $partValue = $(this).nextAll('input:first').attr('value');
+         $('#form_part option[value=' + $partValue + ']').prop('selected', true);
+         $('#formGroupPart').show();
+         $('#form_part').hide();
+         $placeholder = $('#form_part option[value=' + $partValue + ']').text();
+         $('#inputPartReadOnly').attr('placeholder', $placeholder);
+         $('#inputPartReadOnly').show();
+         $('#fieldsetDisabled').prop('disabled', false);
+         $('#form_orderInPart').attr('value', $orderInPart);
+      });
+    });
+
+  </script>
+{% endblock %}
 

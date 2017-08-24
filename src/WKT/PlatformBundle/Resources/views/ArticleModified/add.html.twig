@@ -1,13 +1,13 @@
 {# src/WKT/PlatformBundle/Resources/views/ArticleModified/add.html.twig #}
 
-{% extends 'WKTPlatformBundle:ArticleModified:articleModifiedLayout.html.twig' %}
+{% extends 'WKTPlatformBundle:ArticleModified:layout.html.twig' %}
+
 {% block introListArticleModified %}
 	{% if articlesModified is empty %}
 		Aucune modification
 	{% else %}
 	    Choisissez la version sur laquelle vous préferez travailler :
 	{% endif %}
-    
 {% endblock %}
 {% block urlArticleModified %}
     {{ path('wkt_platform_article_modified_edit', {'id': articleModified.id}) }}
@@ -126,8 +126,10 @@
 		{# Fermeture de la balise <form> du formulaire HTML #}
 		{{ form_end(form) }}
 	</div>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script>
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+    <script>
 		$( document ).ready(function() {
 			$alertVideo = $('#alertVideo');
 			$url = $('#wkt_platformbundle_articlemodified_video_url');
@@ -152,5 +154,7 @@
 		})
 	</script>
 {% endblock %}
+
+
 
 

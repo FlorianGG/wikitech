@@ -1,0 +1,10 @@
+{# src/WKT/CoreBundle/Resources/views/Core/layout.html.twig #}
+{% extends 'WKTCoreBundle::layout.html.twig' %}
+{% block body %}
+    <div class="col-sm-3">
+		{% block bodyLeft %}{% endblock %}
+    </div>
+	<div class="col-sm-9">
+		{% block bodyRight %}{% endblock %}
+	</div>
+{% endblock %}

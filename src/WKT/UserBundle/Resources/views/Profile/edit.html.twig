@@ -1,0 +1,49 @@
+{% extends "@FOSUser/Profile/layout.html.twig" %}
+
+{% block fos_user_content %}
+		{% trans_default_domain 'FOSUserBundle' %}
+		{{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+	    <div class="col-sm-3">
+	    	<div class=>
+				<div class="form-group">
+				  {{ form_label(form.firstname, "Prénom", {'label_attr': {'class': 'text-left col-xs-12 control-label'}}) }}
+				  {{ form_errors(form.firstname) }}
+				  <div class="col-xs-12">
+				    {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+				  </div>
+				</div>
+				<div class="form-group">
+				  {{ form_label(form.lastname, "Nom", {'label_attr': {'class': 'text-left col-xs-12 control-label'}}) }}
+				  {{ form_errors(form.lastname) }}
+				  <div class="col-xs-12">
+				    {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+				  </div>
+				</div>
+				<div class="form-group">
+				  {{ form_label(form.additionalName, "Nom complémentaire", {'label_attr': {'class': 'text-left col-xs-12 control-label'}}) }}
+				  {{ form_errors(form.additionalName) }}
+				  <div class="col-xs-12">
+				    {{ form_widget(form.additionalName, {'attr': {'class': 'form-control'}}) }}
+				  </div>
+				</div>
+				<i class="fa fa-facebook-square"></i>
+				<div class="form-group">
+				  {{ form_label(form.biography, "Votre biographie.", {'label_attr': {'class': 'text-left col-xs-12 control-label'}}) }}
+				  {{ form_errors(form.biography) }}
+				  <div class="col-xs-12">
+				    {{ form_widget(form.biography, {'attr': {'class': 'form-control'}}) }}
+				  </div>
+				</div>
+	    	</div>
+		</div>
+		<div class="col-sm-9">
+			<div class="well">
+				{{ form_end(form) }}
+				<div>
+				    <input class="btn btn-success" type="submit" value="{{ 'profile.edit.submit'|trans }}" />
+				</div>
+			</div>
+
+		</div>
+
+{% endblock fos_user_content %}

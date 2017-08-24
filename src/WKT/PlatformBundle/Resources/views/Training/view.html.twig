@@ -1,5 +1,7 @@
-{% extends '::layout.html.twig' %}
-{% block body %}
+{# src/WKT/PlatformBundle/Resources/views/Training/view.html.twig #}
+
+{% extends 'WKTCoreBundle:Core:layout.html.twig' %}
+{% block bodyRight %}
 	<div class="jumbotron">
 		<h1> {{ training.title }} </h1>
 		<p><a class="btn btn-primary btn-lg" href="">Commencer le cours !</a> <strong>OU</strong> <a class="btn btn-success btn-lg" href="{{ path('wkt_platform_article_add', {'id': training.id}) }}">Ajouter un article</a></p>

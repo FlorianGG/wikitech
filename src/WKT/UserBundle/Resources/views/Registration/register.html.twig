@@ -1,0 +1,29 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+	{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+	    {{ form_row(form.firstname) }}
+	    {{ form_row(form.lastname) }}
+	    {{ form_row(form.email) }}
+	    {{ form_rest(form) }}
+
+	    <button type="submit" class="btn btn-success" id="_submit">{{ 'registration.submit'|trans }}</button>
+	{{ form_end(form) }}
+{% endblock fos_user_content %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    	$( document ).ready(function() {
+    		$form = $('#fos_user_registration_form').closest('form');
+    		$pseudo = $('#fos_user_registration_form_username');
+    		$firstname = $('#fos_user_registration_form_firstname');
+    		$lastname = $('#fos_user_registration_form_lastname');
+    		$form.submit(function(e) {
+    			$key = Math.floor(Math.random() * (1000 - 0 +1)) + 0;
+    			$pseudo.val($firstname.val().toLowerCase()+$lastname.val().toLowerCase()+$key)
+    		});
+    	})
+    </script>
+{% endblock %}

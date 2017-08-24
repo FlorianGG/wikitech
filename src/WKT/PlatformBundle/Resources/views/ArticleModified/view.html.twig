@@ -1,10 +1,11 @@
 {# src/WKT/PlatformBundle/Resources/views/ArticleModified/view.html.twig #}
 
-{% extends 'WKTPlatformBundle:ArticleModified:articleModifiedLayout.html.twig' %}
+{% extends 'WKTPlatformBundle:ArticleModified:layout.html.twig' %}
 
 {% block urlArticleModified %}
     {{ path('wkt_platform_article_modified_view', {'id': articleModified.id}) }}
 {% endblock %}
+
 {% block articleModified %}
         {{ parent() }}
 

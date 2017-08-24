@@ -1,12 +1,15 @@
 {# src/WKT/PlatformBundle/Resources/views/ArticleModified/edit.html.twig #}
 
-{% extends 'WKTPlatformBundle:ArticleModified:articleModifiedLayout.html.twig' %}
+{% extends 'WKTPlatformBundle:ArticleModified:layout.html.twig' %}
+
 {% block introListArticleModified %}
     Choisissez la version sur laquelle vous préferez travailler :
 {% endblock %}
+
 {% block urlArticleModified %}
 	{{ path('wkt_platform_article_modified_edit', {'id': articleModified.id}) }}
 {% endblock %}
+
 {% block articleModified %}
 	<div class="panel panel-default">
 	  <div class="panel-heading">
@@ -123,7 +126,9 @@
 		{# Fermeture de la balise <form> du formulaire HTML #}
 		{{ form_end(form) }}
 	</div>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
 	<script>
 		$( document ).ready(function() {
 			$alertVideo = $('#alertVideo');
@@ -148,9 +153,5 @@
 			})
 		})
 	</script>
-{% endblock %}
-{% block submitButton %}
-	<!-- Button trigger modal -->
-	
 {% endblock %}
 

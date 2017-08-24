@@ -1,11 +1,10 @@
-{# src/WKT/PlatformBundle/Resources/views/Article/summary.html.twig #}
+{# src/WKT/PlatformBundle/Resources/views/Training/summary.html.twig #}
 
 {# Ce template n'hérite de personne, tout comme le template inclus avec {{ include() }}. #}
 <div class="row">
 	{% if summary is empty %}
 		<h2>Aucun article n'est enregistré sur cette formation</h2>
 	{% else %}
-		<p class="text-center"><strong>SOMMAIRE</strong></p>
 	    <ol>
 	    	{% for part in summary %}
 	    		<li role="presentation">{{ part.Part.entity.title }}</li>
