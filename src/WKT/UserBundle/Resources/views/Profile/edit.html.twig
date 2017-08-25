@@ -36,7 +36,7 @@
 	    	</div>
 		</div>
 		<div class="col-sm-9">
-			<div class="panel panel-default">
+			<div id="editInfo" class="panel panel-default">
 			  <div class="panel-heading">
 			    <h3 class="panel-title">Mes informations</h3>
 			  </div>
@@ -53,23 +53,23 @@
 			      </li>
 			      <li class="list-group-item">
 			      	<div class="form-group">
-			      	  {{ form_label(form.locality, "Ville de résidence", {'label_attr': {'class': 'control-label'}}) }}
-			      	  {{ form_errors(form.locality) }}
-			      	  {{ form_widget(form.locality, {'id':'locality', 'attr': {'class': 'form-control'}}) }}
+			      		<label class="control-label control-label" for="fos_user_profile_form_locality">Ville de résidence</label> <span style="background-color: #D9534F;" class="butonResetField badge btn"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+			      		{{ form_errors(form.locality) }}
+			      		{{ form_widget(form.locality, {'id':'locality', 'attr': {'class': 'form-control'}}) }}
 			      	</div>
 			      </li>
 			      <li class="list-group-item">
 			      	<div class="form-group">
-			      	  {{ form_label(form.country, "Pays de résidence", {'label_attr': {'class': 'control-label'}}) }}
-			      	  {{ form_errors(form.country) }}
-			      	  {{ form_widget(form.country, {'id':'country', 'attr': {'class': 'form-control'}}) }}
+			      		<label class="control-label control-label" for="fos_user_profile_form_COUNTRY">Pays de résidence</label> <span style="background-color: #D9534F;" class="butonResetField badge btn"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+			      		{{ form_errors(form.country) }}
+			      		{{ form_widget(form.country, {'id':'country', 'attr': {'class': 'form-control'}}) }}
 			      	</div>
 			      </li>
 			    </ul>
 			  </div>
 			</div>
 			{{ form_end(form) }}
-			<div class="panel panel-default">
+			<div id="editLien" class="panel panel-default">
 			  <div class="panel-heading">
 			    <h3 class="panel-title">Mes Liens</h3>
 			  </div>
@@ -161,6 +161,10 @@
 
 	<script type="text/javascript">
 		$( document ).ready(function() {
+			var butonResetField = $('.butonResetField');
+			butonResetField.click(function(event) {
+				$(this).next().val('');
+			});
 			var addLink = $('#addLink');
 			var linkForm = $('#linkForm');
 
@@ -169,11 +173,12 @@
 			});
 
 			var trashlink = $('.trash-link');
+			trashlink.show();
 			trashlink.click(function(event) {
 				var url = $(this).attr('data-href');
 				var id = $(this).attr('id')
 				var targetLi = '#liWithId'+id;
-					
+
 				$.ajax({
 					url: url,
 					method: "post",
