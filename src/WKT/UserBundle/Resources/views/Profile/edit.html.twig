@@ -88,8 +88,6 @@
 			</div>
 
 		</div>
-		   
-
 {% endblock fos_user_content %}
 {% block javascripts %}
 	{{ parent() }}
@@ -170,8 +168,27 @@
 				linkForm.toggle();
 			});
 
+			var trashlink = $('.trash-link');
+			trashlink.click(function(event) {
+				var url = $(this).attr('data-href');
+				var id = $(this).attr('id')
+				var targetLi = '#liWithId'+id;
+					
+				$.ajax({
+					url: url,
+					method: "post",
+					data: { id: $(this).attr('id')},
+					success: function(data){
+						$(targetLi).remove();
+					}
+				});
+
+			});
+
+
 		})
 
 	</script>
+
 {% endblock %}
 

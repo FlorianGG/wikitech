@@ -17,3 +17,12 @@ wk_user_link_index_by_user:
         _controller: WKTUserBundle:Link:indexByUser
 
 
+wk_user_link_delete:
+    path: /profile/link/delete/{id}
+    methods: [post]
+    defaults:
+        _controller: WKTUserBundle:Link:delete
+    requirements:
+        id: \d+  
+
+

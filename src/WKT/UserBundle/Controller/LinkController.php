@@ -44,24 +44,15 @@ class LinkController extends Controller
 		));
 	}
 
-	public function indexByUserWithAjaxAction(Request $request)
+	public function deleteAction(Request $request, Link $id)
 	{
 		$em = $this->getDoctrine()->getManager();
-		
-		//on récupère le user courant
-		$user = $this->getUser();
 
 		if ($request->isXMLHttpRequest()) {
-			$links = $em->getRepository('WKTUserBundle:Link')->getLinksByUser($user);
-			$cleanLinks = [];
-			foreach ($links as $link) {
-				$cleanLinks[]= array(
-					'id' => $link[0]['id'],
-					'title' => $link[0]['title'],
-					'url' => $link[0]['url'],
-					'logo' => $link['logo']);
-			}
-			return new JsonResponse(array('data' => json_encode($cleanLinks)));
+			$link = $em->getRepository('WKTUserBundle:Link')->find($id);
+			$em->remove($link);
+			$em->flush();
+			return new JsonResponse('Lien supprimé');
 		}
 
 		return new Response('Erreur : Ce n\'est pas une requête AJAX', 400);

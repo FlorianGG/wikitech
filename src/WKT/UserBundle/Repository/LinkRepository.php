@@ -10,14 +10,4 @@ namespace WKT\UserBundle\Repository;
  */
 class LinkRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function getLinksByUser($user)
-	{
-		$qb = $this->createQueryBuilder('l');
-		return $qb->where('l.user = :user')
-		        ->setParameter('user', $user)
-		        ->innerJoin('l.social', 's')
-		        ->addSelect('s.logo')
-		        ->getQuery()
-		        ->getArrayResult();
-	}
 }
