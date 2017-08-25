@@ -84,10 +84,6 @@ class User extends BaseUser
      */
     protected $nbPoint;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="WKT\UserBundle\Entity\Social", cascade={"persist"})
-     */
-    protected $socials;
 
     /**
      * @var string
@@ -103,12 +99,46 @@ class User extends BaseUser
      */
     protected $company;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="locality", type="string", length=255, nullable=true, unique=false)
+     * @Assert\Length(
+     *     min=2,
+     *     max=255,
+     *     minMessage="Le texte est trop court.",
+     *     maxMessage="Le texte est trop long.",
+     *     groups={"Profile"}
+     * )
+     */
+    protected $locality;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="country", type="string", length=255, nullable=true, unique=false)
+     * @Assert\Length(
+     *     min=2,
+     *     max=255,
+     *     minMessage="Le texte est trop court.",
+     *     maxMessage="Le texte est trop long.",
+     *     groups={"Profile"}
+     * )
+     */
+    protected $country;
+
+    /**
+     * @ORM\OneToMany(targetEntity="WKT\UserBundle\Entity\Link", mappedBy="user")
+     */
+    protected $links;
+
     public function __construct()
     {
         parent::__construct();
-        // your own logic
+        $this->links = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
+
     /**
      * Set firstname
      *
@@ -254,36 +284,86 @@ class User extends BaseUser
     }
 
     /**
-     * Add social
+     * Add link
      *
-     * @param \WKT\UserBundle\Entity\Social $social
+     * @param \WKT\UserBundle\Entity\Link $link
      *
      * @return User
      */
-    public function addSocial(\WKT\UserBundle\Entity\Social $social)
+    public function addLink(\WKT\UserBundle\Entity\Link $link)
     {
-        $this->socials[] = $social;
+        $this->links[] = $link;
+
+        $link->setUser($this);
 
         return $this;
     }
 
     /**
-     * Remove social
+     * Remove link
      *
-     * @param \WKT\UserBundle\Entity\Social $social
+     * @param \WKT\UserBundle\Entity\Link $link
      */
-    public function removeSocial(\WKT\UserBundle\Entity\Social $social)
+    public function removeLink(\WKT\UserBundle\Entity\Link $link)
     {
-        $this->socials->removeElement($social);
+        $this->links->removeElement($link);
     }
 
     /**
-     * Get socials
+     * Get links
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getSocials()
+    public function getLinks()
     {
-        return $this->socials;
+        return $this->links;
+    }
+
+    /**
+     * Set locality
+     *
+     * @param string $locality
+     *
+     * @return User
+     */
+    public function setLocality($locality)
+    {
+        $this->locality = $locality;
+
+        return $this;
+    }
+
+    /**
+     * Get locality
+     *
+     * @return string
+     */
+    public function getLocality()
+    {
+        return $this->locality;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     *
+     * @return User
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
     }
 }

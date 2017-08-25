@@ -1,0 +1,9 @@
+<div class="panel-body">
+  <!-- List group -->
+  <ul id="links" class="list-group">
+  	{% for link in links %}
+  	    <a href="{{link.url}}"><li class="list-group-item"><i class="{{link.social.logo}}"></i> {{link.title}}</li></a>
+  	{% endfor %}
+
+  </ul>
+</div>

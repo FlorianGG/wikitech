@@ -9,9 +9,9 @@
 	    {{ form_row(form.lastname) }}
 	    {{ form_row(form.email) }}
 	    {{ form_rest(form) }}
-
-	    <button type="submit" class="btn btn-success" id="_submit">{{ 'registration.submit'|trans }}</button>
+        <button id="buttonRegister" class="btn btn-success" type="submit">Enregistrer</button>
 	{{ form_end(form) }}
+    
 {% endblock fos_user_content %}
 {% block javascripts %}
     {{ parent() }}
@@ -21,7 +21,8 @@
     		$pseudo = $('#fos_user_registration_form_username');
     		$firstname = $('#fos_user_registration_form_firstname');
     		$lastname = $('#fos_user_registration_form_lastname');
-    		$form.submit(function(e) {
+            $button = $('#buttonRegister');
+    		$button.click(function(e) {
     			$key = Math.floor(Math.random() * (1000 - 0 +1)) + 0;
     			$pseudo.val($firstname.val().toLowerCase()+$lastname.val().toLowerCase()+$key)
     		});

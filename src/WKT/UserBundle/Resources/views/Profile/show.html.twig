@@ -46,12 +46,52 @@
 			    <ul class="list-group">
 			      <li class="list-group-item"><p><strong>Adresse email : </strong> {{ user.email }}</p></li>
 			      <li class="list-group-item"><p><strong>Votre entreprise actuelle : </strong> {{ user.company }}</p></li>
-			      <li class="list-group-item"><p><strong>L'url de votre site : </strong><a href="http://{{ user.url }}">{{ user.url }}</a></p></li>
-			      <li class="list-group-item"><p><strong>Votre compte Twitter : </strong><a href="{{user.twitter}}">{{ user.twitter }}</a></p></li>
-			      <li class="list-group-item"><p><strong>Votre compte Github : </strong><a href="{{user.github}}">{{ user.github }}</a></p></li>
+			      <li class="list-group-item"><p><strong>Ville de résidence : </strong> {{ user.locality }}</p></li>
+			      <li class="list-group-item"><p><strong>Pays de résidence : </strong> {{ user.country }}</p></li>
+			    </ul>
+			  </div>
+			</div>
+			<div class="panel panel-default">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Mes Liens</h3>
+			  </div>
+			  <div class="panel-body">
+			    <!-- List group -->
+			    <ul id="links" class="list-group">
+			    {{ render(controller("WKTUserBundle:Link:indexByUser")) }}
 			    </ul>
 			  </div>
 			</div>
 		</div>
 
+
 {% endblock fos_user_content %}
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript">
+		// $( document ).ready(function() {
+		// 	var links = $('#links');
+		// 	$.ajax({
+		// 		url : "{{path('wk_user_link_get_ajax')}}",
+		// 		method : "post",
+		// 		success : function(data){
+		// 			$.each(data, function(i, item){
+		// 				item = $.parseJSON(item);
+		// 				item.forEach( function(element, index) {
+		// 					links.append('<a href="'+element.url+'"><li class="list-group-item"><i class="' + element.logo + '"></i> '+ element.title + '</li></a>')
+		// 				});
+		// 			})
+		// 		}
+		// 	})
+		// })
+
+
+    </script>
+{% endblock %}
+
+
+
+
+
+
+

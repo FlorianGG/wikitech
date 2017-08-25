@@ -3,6 +3,7 @@
 namespace WKT\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,23 +17,30 @@ class ProfileFormType extends AbstractType
     {
         $builder
             ->add('firstname', TextType::class, array(
-            'label' => 'Prénom'))
+            'label' => 'Prénom',
+            'required' => true))
             ->remove('username')
             ->remove('current_password')
             ->add('lastname', TextType::class, array(
-            'label' => 'Nom'))
+            'label' => 'Nom',
+            'required' => true))
             ->add('additionalName', TextType::class, array(
-            'label' => 'Nom complémentaire'))
+            'label' => 'Nom complémentaire',
+            'required' => false))
             ->add('biography', TextareaType::class, array(
-            'label' => 'Biographie'))
+            'label' => 'Biographie',
+            'required' => false))
             ->add('company', TextType::class, array(
-            'label' => 'Nom de votre entreprise'))
-            ->add('url', TextType::class, array(
-            'label' => 'Url de votre site'))
-            ->add('twitter', TextType::class, array(
-            'attr' => array('placeholder' => 'Url de votre compte Twitter')))
-            ->add('github', TextType::class, array(
-            'attr' => array('placeholder' => 'Url de votre compte Github')));
+            'label' => 'Nom de votre entreprise',
+            'required' => false))
+            ->add('locality', TextType::class, array(
+            'label' => 'Ville de résidence',
+            'attr' => array('readonly' => true),
+            'required' => false))
+            ->add('country', TextType::class, array(
+            'label' => 'Pays de résidence',
+            'attr' => array('readonly' => true),
+            'required' => false));
     }
 
     public function getParent()

@@ -39,7 +39,7 @@ class Social
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {

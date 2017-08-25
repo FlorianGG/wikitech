@@ -84,10 +84,6 @@ class User extends BaseUser
      */
     protected $nbPoint;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="WKT\UserBundle\Entity\Social", cascade={"persist"})
-     */
-    protected $socials;
 
     /**
      * @var string
@@ -103,10 +99,223 @@ class User extends BaseUser
      */
     protected $company;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="locality", type="string", length=255, nullable=true, unique=false)
+     * @Assert\Length(
+     *     min=2,
+     *     max=255,
+     *     minMessage="Le texte est trop court.",
+     *     maxMessage="Le texte est trop long.",
+     *     groups={"Profile"}
+     * )
+     */
+    protected $locality;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="country", type="string", length=255, nullable=true, unique=false)
+     * @Assert\Length(
+     *     min=2,
+     *     max=255,
+     *     minMessage="Le texte est trop court.",
+     *     maxMessage="Le texte est trop long.",
+     *     groups={"Profile"}
+     * )
+     */
+    protected $country;
+
+    /**
+     * @ORM\OneToMany(targetEntity="WKT\UserBundle\Entity\Link", mappedBy="user")
+     */
+    protected $links;
+
     public function __construct()
     {
         parent::__construct();
-        // your own logic
+        $this->links = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+
+    /**
+     * Set firstname
+     *
+     * @param string $firstname
+     *
+     * @return User
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    /**
+     * Get firstname
+     *
+     * @return string
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Set lastname
+     *
+     * @param string $lastname
+     *
+     * @return User
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * Get lastname
+     *
+     * @return string
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * Set additionalName
+     *
+     * @param string $additionalName
+     *
+     * @return User
+     */
+    public function setAdditionalName($additionalName)
+    {
+        $this->additionalName = $additionalName;
+
+        return $this;
+    }
+
+    /**
+     * Get additionalName
+     *
+     * @return string
+     */
+    public function getAdditionalName()
+    {
+        return $this->additionalName;
+    }
+
+    /**
+     * Set biography
+     *
+     * @param string $biography
+     *
+     * @return User
+     */
+    public function setBiography($biography)
+    {
+        $this->biography = $biography;
+
+        return $this;
+    }
+
+    /**
+     * Get biography
+     *
+     * @return string
+     */
+    public function getBiography()
+    {
+        return $this->biography;
+    }
+
+    /**
+     * Set nbPoint
+     *
+     * @param integer $nbPoint
+     *
+     * @return User
+     */
+    public function setNbPoint($nbPoint)
+    {
+        $this->nbPoint = $nbPoint;
+
+        return $this;
+    }
+
+    /**
+     * Get nbPoint
+     *
+     * @return integer
+     */
+    public function getNbPoint()
+    {
+        return $this->nbPoint;
+    }
+
+    /**
+     * Set company
+     *
+     * @param string $company
+     *
+     * @return User
+     */
+    public function setCompany($company)
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * Get company
+     *
+     * @return string
+     */
+    public function getCompany()
+    {
+        return $this->company;
+    }
+
+    /**
+     * Add link
+     *
+     * @param \WKT\UserBundle\Entity\Link $link
+     *
+     * @return User
+     */
+    public function addLink(\WKT\UserBundle\Entity\Link $link)
+    {
+        $this->links[] = $link;
+
+        $link->setUser($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove link
+     *
+     * @param \WKT\UserBundle\Entity\Link $link
+     */
+    public function removeLink(\WKT\UserBundle\Entity\Link $link)
+    {
+        $this->links->removeElement($link);
+    }
+
+    /**
+     * Get links
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLinks()
+    {
+        return $this->links;
+    }
 }
