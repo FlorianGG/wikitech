@@ -2,6 +2,12 @@
 
 {% extends 'WKTCoreBundle:Core:layout.html.twig' %}
 {% block bodyLeft %}
+    {% if is_granted('ROLE_USER') %}
+    <div class="row">
+        <a class="btn btn-success btn-lg col-xs-12" href="{% block addArticle %}{% endblock %}">Ajouter un article</a>
+    </div>
+    <br>
+    {% endif %}
     {% set currentArticleModified = app.request.attributes.get('_route_params')['id'] %}
     {% block listArticlesModified %}
         <div class="row">

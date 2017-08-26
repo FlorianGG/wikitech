@@ -46,6 +46,12 @@ class Part
      */
     private $articles;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="isEnabled", type="boolean", nullable=true)
+     */
+    private $isEnabled;
 
     /**
      * Constructor
@@ -170,5 +176,29 @@ class Part
     public function getArticles()
     {
         return $this->articles;
+    }
+
+    /**
+     * Set isEnabled
+     *
+     * @param boolean $isEnabled
+     *
+     * @return Part
+     */
+    public function setIsEnabled($isEnabled)
+    {
+        $this->isEnabled = $isEnabled;
+
+        return $this;
+    }
+
+    /**
+     * Get isEnabled
+     *
+     * @return boolean
+     */
+    public function getIsEnabled()
+    {
+        return $this->isEnabled;
     }
 }

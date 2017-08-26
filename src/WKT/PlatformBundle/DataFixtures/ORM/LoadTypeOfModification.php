@@ -25,7 +25,10 @@ class LoadTypeOfModification extends AbstractFixture implements OrderedFixtureIn
         'value' => 10),
       array(
         'type' => 'Modification complète',
-        'value' => 30)
+        'value' => 30),
+      array(
+        'type' => 'Création page',
+        'value' => 0)
     );
 
     foreach ($typeOfModifications as $newTypeOfModification) {
@@ -46,6 +49,6 @@ class LoadTypeOfModification extends AbstractFixture implements OrderedFixtureIn
   */
   public function getOrder()
   {
-    return 5;
+    return 6;
   }
 }

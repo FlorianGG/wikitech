@@ -1,9 +1,13 @@
 {% extends 'WKTPlatformBundle:Article:layout.html.twig' %}
+
 {% block addArticle %}
-    <a class="btn btn-success btn-lg" href="{{ path('wkt_platform_article_add', {'id': article.part.training.id}) }}">Ajouter un article</a>
+    {% if is_granted('ROLE_USER') %}
+        <a class="btn btn-success btn-lg col-xs-12" href="{{ path('wkt_platform_article_modified_add_new_article', {'id': article.part.training.id}) }}">Ajouter un article</a>
+    {% endif %}
 {% endblock %}
+
 {% block summaryInTraining %}
-    {{ render(controller("WKTPlatformBundle:Training:summary", {'id': article.part.training.id } )) }}
+   {{ include("WKTPlatformBundle:Summary:viewSummary.html.twig") }}
 {% endblock %}
 {% block articleInTraining %}
         <div class="col-xs-12">

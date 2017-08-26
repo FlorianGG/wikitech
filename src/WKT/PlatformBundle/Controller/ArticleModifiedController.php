@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WKT\PlatformBundle\Entity\Article;
 use WKT\PlatformBundle\Entity\ArticleModified;
+use WKT\PlatformBundle\Entity\Training;
 use WKT\PlatformBundle\Entity\Video;
 use WKT\PlatformBundle\Form\ArticleModifiedType;
 
@@ -48,10 +49,11 @@ class ArticleModifiedController extends Controller
 		$em = $this->getDoctrine()->getManager();
 
 		$articleModified = new ArticleModified();
+
 		
 		$article = $em->getRepository('WKTPlatformBundle:Article')->find($id);
 
-		$articleModified->setArticle($id)->setTitle($article->getTitle())->setIntroduction($article->getIntroduction())->setContent($article->getContent());
+		$articleModified->setArticle($id)->setTitle($article->getTitle())->setIntroduction($article->getIntroduction())->setContent($article->getContent())->setUser($this->getUser());
 		if (!is_null($article->getVideo())) {
 			$video = new Video;
 			$video->setUrl('https://www.youtube.com/watch?v=' . $article->getVideo()->getUrl())->setAuthor($article->getVideo()->getAuthor());
@@ -155,6 +157,40 @@ class ArticleModifiedController extends Controller
 		));
 
 
+	}
+
+	//function qui permet à l'utilisateur de créer une nouvelle page
+	public function addNewArticleAction(Request $request, Training $id)
+	{
+		if (!$this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+		  // Sinon on déclenche une exception « Accès interdit »
+		  throw new AccessDeniedException('Accès limité aux utilisateurs connectés.');
+		}
+
+		$em = $this->getDoctrine()->getManager();
+		$articleModified = new ArticleModified();
+		$summary = $this->container->get('wkt_platform.summary')->returnSummaryInArray($id);
+		$training = $em->getRepository('WKTPlatformBundle:Training')->find($id);
+		$typeOfModification = $em->getRepository('WKTPlatformBundle:TypeOfModification')->findOneBy(array('type' => 'Création page'));
+
+		$articleModified->setTypeOfModification($typeOfModification)->setUser($this->getUser());
+		
+		$form = $this->container->get('wkt_platform.generate_form')->generateFormArticleModified($articleModified, $id);
+
+		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+			$em->persist($articleModified);
+			$em->flush();
+
+			$request->getSession()->getFlashBag()->add('notice', 'Merci pour votre contribution 🤗 . Votre proposition de page a bien été enregistrée. Elle sera visible après validation par WikiTech');
+
+			return $this->redirectToRoute('wkt_platform_view', array('id' => $training->getId(), 'slugTraining' => $training->getSlug()));
+		}
+
+	  return $this->render('WKTPlatformBundle:ArticleModified:addNewArticle.html.twig', array(
+	    'form' => $form->createView(),
+	    'training' => $id,
+	    'summary' => $summary,
+	  ));
 	}
 
 	private function returnAlertInEdit(Request $request, $id)

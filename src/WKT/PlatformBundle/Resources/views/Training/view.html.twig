@@ -4,7 +4,12 @@
 {% block bodyRight %}
 	<div class="jumbotron">
 		<h1> {{ training.title }} </h1>
-		<p><a class="btn btn-primary btn-lg" href="">Commencer le cours !</a> <strong>OU</strong> <a class="btn btn-success btn-lg" href="{{ path('wkt_platform_article_add', {'id': training.id}) }}">Ajouter un article</a></p>
+		<p><a class="btn btn-primary btn-lg" href="">Commencer le cours !</a> 
+        {% if is_granted('ROLE_USER') %}
+            <strong>OU</strong> <a class="btn btn-success btn-lg" href="{{ path('wkt_platform_article_modified_add_new_article', {'id': training.id}) }}">Ajouter un article</a></p>
+        {% else %}
+        </p>
+        {% endif %}   
 	</div>
     <h2>Présentation de la formation</h2>
     <p> {{ training.introduction }} </p>

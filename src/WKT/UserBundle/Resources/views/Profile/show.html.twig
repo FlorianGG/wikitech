@@ -5,7 +5,7 @@
 			<div class="panel panel-default">
 			  <!-- Default panel contents -->
 			  <div class="panel-heading">
-			  	<h4 class="text-center">{{ user.firstname }} {{ user.lastname }}</h4>
+			  	<h4 class="text-center">{{ user.firstname }} {{ user.lastname }} </h4>
 			  	{% if user.additionalName is empty %}
 			  	{% else %}
 			  	    <h4 class="text-center">{{ user.additionalName }}</h4>
@@ -39,7 +39,7 @@
 			</div>
 			<div class="panel panel-default">
 			  <div class="panel-heading">
-			    <h3 class="panel-title">Mes informations</h3>
+			    <h3 class="panel-title">Mes informations <a style="background-color: #F0AD4E;" class="badge btn" href="{{path('fos_user_profile_edit')}}#editInfo">Modifier</a></h3>
 			  </div>
 			  <div class="panel-body">
 			    <!-- List group -->
@@ -53,7 +53,7 @@
 			</div>
 			<div class="panel panel-default">
 			  <div class="panel-heading">
-			    <h3 class="panel-title">Mes Liens</h3>
+			    <h3 class="panel-title">Mes Liens <a style="background-color: #F0AD4E;" class="badge btn" href="{{path('fos_user_profile_edit')}}#editLien">Modifier</a></h3>
 			  </div>
 			  <div class="panel-body">
 			    <!-- List group -->
@@ -69,23 +69,10 @@
 {% block javascripts %}
     {{parent()}}
     <script type="text/javascript">
-		// $( document ).ready(function() {
-		// 	var links = $('#links');
-		// 	$.ajax({
-		// 		url : "{{path('wk_user_link_get_ajax')}}",
-		// 		method : "post",
-		// 		success : function(data){
-		// 			$.each(data, function(i, item){
-		// 				item = $.parseJSON(item);
-		// 				item.forEach( function(element, index) {
-		// 					links.append('<a href="'+element.url+'"><li class="list-group-item"><i class="' + element.logo + '"></i> '+ element.title + '</li></a>')
-		// 				});
-		// 			})
-		// 		}
-		// 	})
-		// })
-
-
+		$( document ).ready(function() {
+			var trashlink = $('.trash-link');
+			trashlink.remove();
+		})
     </script>
 {% endblock %}
 

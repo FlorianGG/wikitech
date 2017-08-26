@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use WKT\PlatformBundle\Repository\TypeOfModificationRepository;
 
 class ArticleModifiedType extends AbstractType
 {
@@ -29,7 +30,10 @@ class ArticleModifiedType extends AbstractType
                 'class' => 'WKTPlatformBundle:TypeOfModification',
                 'choice_label' => 'type',
                 'multiple' => false,
-                'expanded' => true))
+                'expanded' => true,
+                'query_builder' => function(TypeOfModificationRepository $repository){
+                    return $repository->qbTypeOfModificationWithoutCreatePage();
+                }))
             ->add('save', SubmitType::class);
     }
     

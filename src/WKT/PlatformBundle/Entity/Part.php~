@@ -46,6 +46,12 @@ class Part
      */
     private $articles;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="isEnabled", type="boolean", nullable=true)
+     */
+    private $isEnabled;
 
     /**
      * Constructor

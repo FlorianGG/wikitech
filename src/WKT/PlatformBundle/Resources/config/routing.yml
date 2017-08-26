@@ -79,6 +79,12 @@ wkt_platform_article_modified_delete:
     requirements:
         id: \d+ 
 
+wkt_platform_article_modified_add_new_article:
+    path: /labo/add_article/{id}
+    defaults:
+        _controller: WKTPlatformBundle:ArticleModified:addNewArticle
+    requirements:
+        id: \d+ 
 
 
 

@@ -5,3 +5,8 @@ services:
         class: WKT\PlatformBundle\Summary\WKTSummary
         arguments: 
           - "@doctrine.orm.entity_manager"
+    wkt_platform.generate_form:
+        class: WKT\PlatformBundle\GenerateForm\WKTGenerateForm
+        arguments: 
+          - "@doctrine.orm.entity_manager"
+          - "@form.factory"

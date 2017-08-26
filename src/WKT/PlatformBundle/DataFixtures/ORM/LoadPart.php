@@ -19,76 +19,91 @@ class LoadPart extends AbstractFixture implements OrderedFixtureInterface
         'part' => 'part1-0',
         'title' => 'Introduction',
         'orderInTraining' => 1,
+        'isEnabled' => true,
         'training' => 'training1'),
       array(
         'part' => 'part1-1',
         'title' => 'Créer un nouveau document',
         'orderInTraining' => 2,
+        'isEnabled' => true,
         'training' => 'training1'),
       array(
         'part' => 'part1-3',
         'title' => 'C\'est parti pour le publipostage',
         'orderInTraining' => 4,
+        'isEnabled' => true,
         'training' => 'training1'),
       array(
         'part' => 'part1-4',
         'title' => 'Pour conclure',
         'orderInTraining' => 5,
+        'isEnabled' => true,
         'training' => 'training1'),
       array(
         'part' => 'part1-2',
         'title' => 'Créer votre mise en page',
         'orderInTraining' => 3,
+        'isEnabled' => true,
         'training' => 'training1'),
       array(
         'part' => 'part2-1',
         'title' => 'Créer votre premier tableau',
         'orderInTraining' => 2,
+        'isEnabled' => true,
         'training' => 'training2'),
       array(
         'part' => 'part2-2',
         'title' => 'Les fonctions recherches',
         'orderInTraining' => 3,
+        'isEnabled' => true,
         'training' => 'training2'),
       array(
         'part' => 'part2-3',
         'title' => 'Les tableaux croisé-dynamiques',
         'orderInTraining' => 4,
+        'isEnabled' => true,
         'training' => 'training2'),
       array(
         'part' => 'part2-4',
         'title' => 'Les graphiques croisé-dynamiques',
         'orderInTraining' => 5,
+        'isEnabled' => true,
         'training' => 'training2'),
       array(
         'part' => 'part3-1',
         'title' => 'Créer un nouveau slide',
         'orderInTraining' => 2,
+        'isEnabled' => true,
         'training' => 'training3'),
       array(
         'part' => 'part3-2',
         'title' => 'Créer vos animations',
         'orderInTraining' => 3,
+        'isEnabled' => true,
         'training' => 'training3'),
       array(
         'part' => 'part2-0',
         'title' => 'Introduction',
         'orderInTraining' => 1,
+        'isEnabled' => true,
         'training' => 'training2'),
       array(
         'part' => 'part2-5',
         'title' => 'Pour conclure',
         'orderInTraining' => 6,
+        'isEnabled' => true,
         'training' => 'training2'),
       array(
         'part' => 'part3-0',
         'title' => 'Introduction',
         'orderInTraining' => 1,
+        'isEnabled' => true,
         'training' => 'training3'),
       array(
         'part' => 'part3-3',
         'title' => 'Pour conclure',
         'orderInTraining' => 4,
+        'isEnabled' => true,
         'training' => 'training3')
 
     );
@@ -98,6 +113,7 @@ class LoadPart extends AbstractFixture implements OrderedFixtureInterface
       // On crée la catégorie
       $part = new Part();
       $part->setTitle($newPart['title']);
+      $part->setIsEnabled($newPart['isEnabled']);
       $part->setTraining($this->getReference($newPart['training']));
       $part->setOrderInTraining($newPart['orderInTraining']);
       // On la persiste
@@ -116,6 +132,6 @@ class LoadPart extends AbstractFixture implements OrderedFixtureInterface
   */
   public function getOrder()
   {
-    return 2;
+    return 3;
   }
 }

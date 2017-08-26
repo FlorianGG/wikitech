@@ -1,162 +1,16 @@
 {# src/WKT/PlatformBundle/Resources/views/Article/add.html.twig #}
 {% extends 'WKTPlatformBundle:Article:layout.html.twig' %}
 
-{% block addArticle %}
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title"> <span class="badge">1</span> Choisissez où va votre page</h3>
-      </div>
-      <div class="panel-body">
-        <p class="text-center">Par défaut votre page s'ajoute à la fin d'une partie. Pour modifier sa position, cliquez sur la page avant laquelle vous voulez insérer la vôtre. Si vous voulez d'abord créer une nouvelle partie, cliquez sur le bouton "Créer une nouvelle partie"</p>
-      </div>
-    </div>
-    <a id="buttonCreatePart" class=" col-xs-12 btn btn-default btn-lg" href="#">Créer une nouvelle partie</a>
-    <form id="formPart" style="display: none" action="{{ path('wkt_platform_part_add_ajax', {'id': training.id})}}" method="post">
-      <div class="form-group">
-        <label for="partTitle"> </label>
-        <input type="text" class="form-control" id="partTitle"  name="title" placeholder="Saisissez le nom de la partie" required>
-      </div>
-      <div class="form-group">
-        <label for="partOrderInTraining">Choisissez avant quelle partie créer la vôtre</label>
-        <select id="partOrderInTraining" class="form-control">
-          {% if summary is empty %}
-              <option value="1" selected>Ajouter une première partie</option>
-          {% else %}
-          <optgroup label="Parties existantes">
-           {% for part in summary %}
-               <option value="{{ part.Part.order }}">{{ part.Part.entity.title }}</option>
-           {% endfor %}
-          </optgroup>
-          <optgroup label="Fin de la formation">
-           <option value="{{summary|last.Part.order + 1}}" selected>Ajouter votre partie à la fin de la formation</option>
-          </optgroup>
-          {% endif %}
-        </select>
-      </div>
-      <button type="submit" class="col-xs-12 btn btn-primary btn-lg">Créer la partie</button>
-    </form>
-
+{% block addPart %}
+  {{ include("WKTPlatformBundle:Part:addAjax.html.twig") }}
 {% endblock %}
 
 {% block summaryInTraining %}
-  <div class="row" id="addArticleSummary">
-    {% if summary is empty %}
-        <small><h4 class="text-center"><em>Pas encore d'article</em></h4></small>
-        
-      {% else %}
-        <p class="text-center"><strong>SOMMAIRE</strong></p>
-        <div id="articleOrderInPart" class="container">
-          {% for part in summary %}
-              <div>
-                <h4>{{ part.Part.entity.title }}</h4>
-                {% if part.Article is defined %}
-                  {% for article in part.Article %}
-                      <div class="radio">
-                        <label>
-                          <input type="radio" name="optionsRadios" value=" {{ article.orderArticle }}">
-                          {{ article.entityArticle.title }}
-                          <input type="hidden" name="partId" value="{{part.Part.entity.id}}">
-                        </label>    
-                      </div>
-                      
-                  {% endfor %}
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="optionsRadios" id="option{{loop.index}}" value="{{ part.Article|last.orderArticle + 1 }}">
-                        <small><em>Ajouter un article à la fin de la partie</em></small>
-                        <input type="hidden" name="partId" value="{{part.Part.entity.id}}">
-                      </label>
-                    </div>
-                {% else %}
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="optionsRadios" value="1">
-                        <small><em>Ajouter une première page à cette partie</em></small>
-                        <input type="hidden" name="partId" value="{{part.Part.entity.id}}">
-                      </label>
-                    </div>
-                {% endif %}
-              </div>
-          {% endfor %}
-        </div>
-      {% endif %}
-  </div>
+  {{ include("WKTPlatformBundle:Summary:editSummary.html.twig") }}
 {% endblock %}
 
 {% block articleInTraining %}
-  <fieldset id="fieldsetDisabled" disabled>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title"> <span class="badge">2</span> Créer votre page</h3>
-      </div>
-    </div>
-    <div class="well">
-      {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
-        <div id="formGroupPart" class="form-group">
-          {{ form_label(form.part, "Partie choisie", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-          {{ form_errors(form.part) }}
-          <div class="col-sm-10">
-            {{ form_widget(form.part, {'attr': {'class': 'form-control'}}) }}
-            <input id="inputPartReadOnly" class="form-control" type="text" placeholder="" readonly>
-          </div>
-        </div>
-
-      <div class="form-group">
-        {{ form_label(form.title, "Titre de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-        {{ form_errors(form.title) }}
-        <div class="col-sm-10">
-          {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
-        </div>
-      </div>
-      <div class="form-group">
-        {{ form_label(form.introduction, "Introduction de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-        {{ form_errors(form.introduction) }}
-        <div class="col-sm-10">
-          {{ form_widget(form.introduction, {'attr': {'class': 'form-control'}}) }}
-        </div>
-      </div>
-      <div class="form-group">
-        {{ form_label(form.content, "Contenu de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-        {{ form_errors(form.content) }}
-        <div class="col-sm-10">
-          {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
-        </div>
-      </div>
-      <div class="form-group">
-        {{ form_label(form.video, "Video de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-      </div>
-      <div class="form-group">
-        {{ form_label(form.video.url, "Url de la video", {'label_attr': {'class': 'col-sm-2 col-sm-offset-1 control-label'}}) }}
-        {{ form_errors(form.video.url) }}
-        <div class="col-sm-9">
-          {{ form_errors(form.video.url) }}
-          {{ form_widget(form.video.url, {'attr': {'class': 'form-control'}}) }}
-        </div> 
-      </div>
-      <div class="form-group">
-        {{ form_label(form.video.author, "Auteur de la video", {'label_attr': {'class': 'col-sm-2 col-sm-offset-1 control-label'}}) }}
-        {{ form_errors(form.video.author) }}
-        <div class="col-sm-9">
-          {{ form_errors(form.video.author) }}
-          {{ form_widget(form.video.author, {'attr': {'class': 'form-control'}}) }}
-        </div>
-      </div>
-      {{ form_widget(form.save, { 'label': 'Sauvegarder le nouvel article', 'attr': {'class': 'btn btn-success btn-lg'}}) }}
-
-    </div>
-
-      {# Génération automatique des champs pas encore écrits.
-         Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
-         et tous les champs cachés (type « hidden »). #}
-      {{ form_rest(form) }}
-
-      {# Fermeture de la balise <form> du formulaire HTML #}
-      {{ form_end(form) }}
-    </div>
-  </fieldset>
-    {{ tinymce_init() }}
-
+  {{ include("WKTPlatformBundle::formAddArticleAndArticleModified.html.twig") }}
 {% endblock %}
 {% block javascripts %}
   {{ parent()}}

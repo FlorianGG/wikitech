@@ -1,7 +1,9 @@
 {# src/WKT/PlatformBundle/Resources/views/ArticleModified/edit.html.twig #}
 
 {% extends 'WKTPlatformBundle:ArticleModified:layout.html.twig' %}
-
+{% block addArticle %}
+	{{ path('wkt_platform_article_modified_add_new_article', {'id': articleModified.article.part.training.id}) }}
+{% endblock %}
 {% block introListArticleModified %}
     Choisissez la version sur laquelle vous préferez travailler :
 {% endblock %}

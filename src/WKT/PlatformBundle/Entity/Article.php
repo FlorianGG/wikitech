@@ -4,6 +4,7 @@ namespace WKT\PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Article
@@ -26,6 +27,7 @@ class Article
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\Length(min=5, minMessage="Le titre doit faire au moins {{ limit }} caractères.")
      */
     private $title;
 
@@ -33,6 +35,7 @@ class Article
      * @var string
      *
      * @ORM\Column(name="introduction", type="text")
+     * @Assert\Length(min=10, minMessage="L'introduction' doit faire au moins {{ limit }} caractères.")
      */
     private $introduction;
 
@@ -40,6 +43,7 @@ class Article
      * @var string
      *
      * @ORM\Column(name="content", type="text")
+     * @Assert\Length(min=20, minMessage="Le contenu de l'article doit faire au moins {{ limit }} caractères.")
      */
     private $content;
 
@@ -47,6 +51,7 @@ class Article
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime")
+     * @Assert\DateTime()
      */
     private $createdAt;
 
@@ -54,6 +59,7 @@ class Article
      * @var \DateTime
      *
      * @ORM\Column(name="modifiedAt", type="datetime", nullable=true)
+     * @Assert\DateTime()
      */
     private $modifiedAt;
 
@@ -94,6 +100,7 @@ class Article
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
     private $slug;
+
 
     public function __construct()
     {
@@ -375,4 +382,5 @@ class Article
     {
         return $this->part;
     }
+
 }

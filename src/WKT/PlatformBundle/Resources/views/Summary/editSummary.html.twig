@@ -1,0 +1,42 @@
+<div class="row" id="addArticleSummary">
+  {% if summary is empty %}
+      <small><h4 class="text-center"><em>Pas encore d'article</em></h4></small>
+      
+    {% else %}
+      <p class="text-center"><strong>SOMMAIRE</strong></p>
+      <div id="articleOrderInPart" class="container">
+        {% for part in summary %}
+            <div>
+              <h4>{{ part.Part.entity.title }}</h4>
+              {% if part.Article is defined %}
+                {% for article in part.Article %}
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="optionsRadios" value=" {{ article.orderArticle }}">
+                        {{ article.entityArticle.title }}
+                        <input type="hidden" name="partId" value="{{part.Part.entity.id}}">
+                      </label>    
+                    </div>
+                    
+                {% endfor %}
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="optionsRadios" id="option{{loop.index}}" value="{{ part.Article|last.orderArticle + 1 }}">
+                      <small><em>Ajouter un article à la fin de la partie</em></small>
+                      <input type="hidden" name="partId" value="{{part.Part.entity.id}}">
+                    </label>
+                  </div>
+              {% else %}
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="optionsRadios" value="1">
+                      <small><em>Ajouter une première page à cette partie</em></small>
+                      <input type="hidden" name="partId" value="{{part.Part.entity.id}}">
+                    </label>
+                  </div>
+              {% endif %}
+            </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+</div>

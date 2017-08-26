@@ -90,9 +90,27 @@ class ArticleModified
 
     /**
      * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Article")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $article;
+
+    /**
+     * @ORM\OneToOne(targetEntity="WKT\UserBundle\Entity\User")
+     * * @ORM\JoinColumn(nullable=true)
+     */
+    private $user;
+
+    /**
+     * @var float
+     * @ORM\Column(name="orderPart", type="decimal", precision=20, scale=18, nullable=false)
+     */
+    private $orderInPart;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Part", inversedBy="articles")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $part;
 
 
     public function __construct()
@@ -375,5 +393,77 @@ class ArticleModified
     public function getArticle()
     {
         return $this->article;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \WKT\UserBundle\Entity\User $user
+     *
+     * @return ArticleModified
+     */
+    public function setUser(\WKT\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \WKT\UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set orderInPart
+     *
+     * @param string $orderInPart
+     *
+     * @return ArticleModified
+     */
+    public function setOrderInPart($orderInPart)
+    {
+        $this->orderInPart = $orderInPart;
+
+        return $this;
+    }
+
+    /**
+     * Get orderInPart
+     *
+     * @return string
+     */
+    public function getOrderInPart()
+    {
+        return $this->orderInPart;
+    }
+
+    /**
+     * Set part
+     *
+     * @param \WKT\PlatformBundle\Entity\Part $part
+     *
+     * @return ArticleModified
+     */
+    public function setPart(\WKT\PlatformBundle\Entity\Part $part)
+    {
+        $this->part = $part;
+
+        return $this;
+    }
+
+    /**
+     * Get part
+     *
+     * @return \WKT\PlatformBundle\Entity\Part
+     */
+    public function getPart()
+    {
+        return $this->part;
     }
 }

@@ -5,16 +5,10 @@ namespace WKT\PlatformBundle\Controller;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WKT\PlatformBundle\Entity\Article;
 use WKT\PlatformBundle\Entity\Training;
-use WKT\PlatformBundle\Form\PartType;
-use WKT\PlatformBundle\Form\VideoType;
 use WKT\PlatformBundle\Repository\PartRepository;
 
 
@@ -54,9 +48,8 @@ class ArticleController extends Controller
 	{
 		$article = new Article();
 		$summary = $this->container->get('wkt_platform.summary')->returnSummaryInArray($id);
-		// $order = $this->container->get('wkt_platform.summary')->getOrderForPart($id);
 		
-		$form = $this->generateForm($article, $id);
+		$form = $this->container->get('wkt_platform.generate_form')->generateFormArticle($article, $id);
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 			$em = $this->getDoctrine()->getManager();
@@ -72,45 +65,9 @@ class ArticleController extends Controller
 	    'form' => $form->createView(),
 	    'training' => $id,
 	    'summary' => $summary,
-	    // 'order' => $order
 	  ));
 	}
 
-
-	private function generateForm(Article $article, Training $id)
-	{
-		$em = $this->getDoctrine()->getManager();
-		$parts = $em->getRepository('WKTPlatformBundle:Part')->getPartsByTrainingAsArray($id);
-
-		return $this->createFormBuilder($article)
-			->add('title')
-			->add('introduction', TextareaType::class, array(
-			    'attr' => array('class' => 'tinymce')))
-			->add('content', TextareaType::class, array(
-			    'attr' => array('class' => 'tinymce')))
-			->add('orderInPart', HiddenType::class)
-			->add('part', EntityType::class, array(
-			    'class' => 'WKTPlatformBundle:Part',
-			    'choice_label' => 'title',
-			    'multiple' => false,
-			    'query_builder' => function(PartRepository $repository) use($id){
-			        return $repository->qbPartsByTraining($id);
-			    }
-			    ))
-			->add('video', VideoType::class, array(
-				'required' => false))
-			->add('save', SubmitType::class)
-			->getForm();
-	}
 }
-// ->add('part', ChoiceType::class, array(
-// 	'multiple' => false,
-//     'choices' => $parts,
-//     'group_by' => function($val, $key, $index) {
-//         if ($val === null) {
-//             return 'Nouvelle partie';
-//         } else {
-//             return 'Parties existantes';
-//         }
-//     },
-//     ))
+
+// 
