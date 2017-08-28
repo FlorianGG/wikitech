@@ -86,6 +86,13 @@ wkt_platform_article_modified_add_new_article:
     requirements:
         id: \d+ 
 
+# Commit
+
+wkt_platform_commit_index:
+    path: /commit/index
+    defaults:
+        _controller: WKTPlatformBundle:Commit:index
+
 
 
 

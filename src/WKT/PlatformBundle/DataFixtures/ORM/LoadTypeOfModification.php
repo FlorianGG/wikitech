@@ -19,10 +19,10 @@ class LoadTypeOfModification extends AbstractFixture implements OrderedFixtureIn
     $typeOfModifications = array(
       array(
         'type' => 'Correction d\'une coquille',
-        'value' => 5),
+        'value' => 1),
       array(
         'type' => 'Ajout(s) ici et là',
-        'value' => 10),
+        'value' => 5),
       array(
         'type' => 'Modification complète',
         'value' => 30),

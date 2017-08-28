@@ -4,21 +4,23 @@
 namespace WKT\PlatformBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WKT\PlatformBundle\Entity\Article;
 use WKT\PlatformBundle\Entity\ArticleModified;
+use WKT\PlatformBundle\Entity\Commit;
 use WKT\PlatformBundle\Entity\Training;
 use WKT\PlatformBundle\Entity\Video;
 use WKT\PlatformBundle\Form\ArticleModifiedType;
+use WKT\PlatformBundle\Form\CommitType;
 
 
 class ArticleModifiedController extends Controller
 {
-
 	public function indexAction(Request $request)
 	{
-		
+
 	}
 
 	public function indexByArticleAction(Request $request, Article $id)
@@ -32,10 +34,12 @@ class ArticleModifiedController extends Controller
 
 		$articleModified = $em->getRepository('WKTPlatformBundle:ArticleModified')->find($id);
 
-		//on explode le commit de l'articleModified pour en tirer un tableau
-		$commits = $this->returnCommitsInArray($articleModified->getCommit());
+		//on récupère la liste des articlesModified pour la même page article
+		$articlesModified = $this->returnArticlesModifiedArray($articleModified);
 
-		$articlesModified = $em->getRepository('WKTPlatformBundle:ArticleModified')->findBy(array('article' => $articleModified->getArticle()), array('id' => 'DESC'));
+		//on récupère la liste des commits pour cet articleModified
+		$commits = $this->returnCommits($articleModified);
+
 
 		return $this->render('WKTPlatformBundle:ArticleModified:view.html.twig', array(
 			'articleModified' => $articleModified,
@@ -49,11 +53,14 @@ class ArticleModifiedController extends Controller
 		$em = $this->getDoctrine()->getManager();
 
 		$articleModified = new ArticleModified();
+		//On récupère la liste des articlesModified pour cet article
+		$articlesModified = $this->returnArticlesModifiedArray($articleModified);
 
-		
 		$article = $em->getRepository('WKTPlatformBundle:Article')->find($id);
 
-		$articleModified->setArticle($id)->setTitle($article->getTitle())->setIntroduction($article->getIntroduction())->setContent($article->getContent())->setUser($this->getUser());
+		// on set les attributs de articleModified avec le contenu de l'article
+		$articleModified->setArticle($id)->setTitle($article->getTitle())->setIntroduction($article->getIntroduction())->setContent($article->getContent())->setUser($this->getUser())->setPart($article->getPart())->setOrderInPart($article->getOrderInPart());
+
 		if (!is_null($article->getVideo())) {
 			$video = new Video;
 			$video->setUrl('https://www.youtube.com/watch?v=' . $article->getVideo()->getUrl())->setAuthor($article->getVideo()->getAuthor());
@@ -62,32 +69,32 @@ class ArticleModifiedController extends Controller
 
 		//on capture les données originales pour les comparer avec celles qui seront postées
 		$origin = $this->getValues($articleModified);
-
-		$articlesModified = $articlesModified = $this->returnArticlesModifiedArray($articleModified);
 		
 		$form   = $this->get('form.factory')->create(ArticleModifiedType::class, $articleModified);
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-			if (is_null($articleModified->getCommit())) {
-				$articleModified->setCommit('L\'utilisateur n\'a pas donné d\'explication');
-			}
+
 			//On récupère les nouvelles valeurs d'articleModified
 			$new = $this->getValues($articleModified);
 
-			// On ajout le nouveau commit à l'ancien avec une chaine permettant d'explode le commit
+			// on verifie qu'il y a bien eu des modifications effectuées sinon on renvoi un message d'erreur
 			if ($this->checkValues($origin, $new)) {
 				$request->getSession()->getFlashBag()->add('alert', 'Votre nouvelle modification n\'a pas été prise en compte car aucun des champs n\'a été modifié');
 
 				return $this->redirectToRoute('wkt_platform_article_view', array('id' => $article->getId(), 'slugTraining' => $article->getPart()->getTraining()->getSlug(), 'slugArticle' => $article->getSlug()));
 			}
+
+			// On crée le commit relatif à cette création de modification
+			$commit = $this->createCommit($articleModified, $form);
+
+			// on change dans l'article le statut IsModifying à true
 			$article->setIsModifying(true);
 
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($articleModified);
+			$em->persist($commit);
 			$em->persist($article);
 			$em->flush();
-
-
 
 			$request->getSession()->getFlashBag()->add('notice', 'Votre modification a été enregistrée');
 
@@ -107,29 +114,18 @@ class ArticleModifiedController extends Controller
 
 		$articleModified = $em->getRepository('WKTPlatformBundle:ArticleModified')->find($id);
 
-		//on stock le commit  qui est en bd avant le post
-		$commit = $articleModified->getCommit();
+		//on récupère la liste des articlesModified pour la même page article
+		$articlesModified = $this->returnArticlesModifiedArray($articleModified);
 
-		//on explode le commit pour en tirer un tableau
-		$commits = $this->returnCommitsInArray($commit);
+		//on récupère la liste des commits pour cet articleModified
+		$commits = $this->returnCommits($articleModified);
 
 		//on capture les données originales pour les comparer avec celles qui seront postées
 		$origin = $this->getValues($articleModified);
 
-
-		//On récupère la liste des articlesModified pour cet article
-		$articlesModified = $this->returnArticlesModifiedArray($articleModified);
-
-		$form   = $this->get('form.factory')->create(ArticleModifiedType::class, $articleModified);
-
-		//Possibilité de garder l'ancien commit et d'ajouter un nouveau lors de la modification de l'articleModified
-
+		$form  = $this->get('form.factory')->create(ArticleModifiedType::class, $articleModified);
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-
-			// On ajout le nouveau commit à l'ancien avec une chaine permettant d'explode le commit
-			$articleModified->setCommit($commit . '/n Edit :' . $articleModified->getCommit());
-
 			//On récupère les nouvelles valeurs d'articleModified
 			$new = $this->getValues($articleModified);
 
@@ -139,9 +135,14 @@ class ArticleModifiedController extends Controller
 
 				return $this->redirectToRoute('wkt_platform_article_modified_view', array('id' => $articleModified->getId()));
 			}
+
+			// On crée le commit relatif à cette modification
+			$commit = $this->createCommit($articleModified, $form);
+
 			$articleModified->setModifiedAt(new \Datetime);
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($articleModified);
+			$em->persist($commit);
 			$em->flush();
 
 			$request->getSession()->getFlashBag()->add('notice', 'Votre modification a été enregistrée');
@@ -162,23 +163,33 @@ class ArticleModifiedController extends Controller
 	//function qui permet à l'utilisateur de créer une nouvelle page
 	public function addNewArticleAction(Request $request, Training $id)
 	{
-		if (!$this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
-		  // Sinon on déclenche une exception « Accès interdit »
-		  throw new AccessDeniedException('Accès limité aux utilisateurs connectés.');
-		}
-
 		$em = $this->getDoctrine()->getManager();
+
 		$articleModified = new ArticleModified();
+
 		$summary = $this->container->get('wkt_platform.summary')->returnSummaryInArray($id);
 		$training = $em->getRepository('WKTPlatformBundle:Training')->find($id);
 		$typeOfModification = $em->getRepository('WKTPlatformBundle:TypeOfModification')->findOneBy(array('type' => 'Création page'));
 
-		$articleModified->setTypeOfModification($typeOfModification)->setUser($this->getUser());
+		$articleModified->setUser($this->getUser());
 		
 		$form = $this->container->get('wkt_platform.generate_form')->generateFormArticleModified($articleModified, $id);
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+			// on appelle le service qui s'occupe du score et la fonction qui va le générer
+			$score = $this->container->get('wkt_platform.score')->getScore($articleModified);
+			
+			//création du commit associé à la création de page
+			$commit = new Commit();
+			$commit
+				->setContent(null)
+				->setTypeOfModification($typeOfModification)
+				->setUser($this->getUser())
+				->setArticleModified($articleModified)
+				->setScore($score);
+
 			$em->persist($articleModified);
+			$em->persist($commit);
 			$em->flush();
 
 			$request->getSession()->getFlashBag()->add('notice', 'Merci pour votre contribution 🤗 . Votre proposition de page a bien été enregistrée. Elle sera visible après validation par WikiTech');
@@ -193,12 +204,6 @@ class ArticleModifiedController extends Controller
 	  ));
 	}
 
-	private function returnAlertInEdit(Request $request, $id)
-	{
-		$request->getSession()->getFlashBag()->add('alert', 'Votre modification n\'a pas été prise en compte car aucun des champs n\'a été modifiée');
-
-		return $this->redirectToRoute('wkt_platform_article_modified_view', array('id' => $id));
-	}
 
 	public function deleteAction(Request $request, ArticleModified $id)
 	{
@@ -233,21 +238,38 @@ class ArticleModifiedController extends Controller
 	}
 
 	//factorisation de la fonction qui récupère tous les articlesModified d'un article
-	private function returnArticlesModifiedArray(ArticleModified $aM)
+	private function returnArticlesModifiedArray(ArticleModified $articleModified)
 	{
 		//On récupère la liste des articlesModified pour cet article
-		return $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:ArticleModified')->findBy(array('article' => $aM->getArticle()), array('id' => 'DESC'));
+		return $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:ArticleModified')->findBy(array('article' => $articleModified->getArticle()), array('id' => 'DESC'));
 	}
 
 	//factorisation de la fonction qui génére un tableau de commits avec explode du commit en bd
-	private function returnCommitsInArray($commit)
+	private function returnCommits($articleModified)
 	{
-		if (!is_null($commit)) {
-			return explode('/n Edit :', $commit);
-		}else{
-			return null;
-		}
+		//On récupère la liste des commits pour cet articleModified
+		return $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:Commit')->findBy(array('articleModified' => $articleModified), array('id' => 'DESC'));
 	}
 
+	//factorisation de la fonction qui crée à nouveau commit avec le CommitEntity mapped false
+	private function createCommit(ArticleModified $articleModified, Form $form)
+	{
+		$formCommit = $form->get('commit')->getData();
+
+		$commit = new Commit();
+		$commit
+			->setUser($this->getUser())
+			->setArticleModified($articleModified)
+			->setTypeOfModification($formCommit->getTypeOfModification());
+
+		if (is_null($formCommit->getContent())) {
+			$commit->setContent('L\'utilisateur n\'a pas donné d\'explication');
+		}else{
+			$commit->setContent($formCommit->getContent()); 
+		}
+
+		return $commit;
+
+	}
 
 }

@@ -10,3 +10,7 @@ services:
         arguments: 
           - "@doctrine.orm.entity_manager"
           - "@form.factory"
+    wkt_platform.score:
+        class: WKT\PlatformBundle\Score\WKTScore
+        arguments: 
+          - "@doctrine.orm.entity_manager"

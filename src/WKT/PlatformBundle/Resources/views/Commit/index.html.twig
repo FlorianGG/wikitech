@@ -1,0 +1,43 @@
+{# src/WKT/PlatformBundle/Resources/views/Commit/index.html.twig #}
+
+{% extends 'WKTCoreBundle:Core:layout.html.twig' %}
+{% block bodyLeft %}
+{% endblock %}
+{% block bodyRight %}
+    {% set testArticleModified = [] %}
+    <h2>Liste des modifications existantes</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-condensed">
+            <thead>
+            {% if commits is empty %}
+                <strong><em>Aucune modification n'a encore été enregistrée </em>🤓</strong>
+            {% else %}
+                <tr>
+                    <th>Formation</th>
+                    <th>Titre de l'article</th>
+                    <th>Date création</th>
+                    <th>Auteur</th>
+                    <th>Type de modification</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for commit in commits %}
+                    {% if commit.articleModified not in testArticleModified %}
+                      <tr>
+                          <td>{{commit.articleModified.part.training.title}}</td>
+                          <td>{{commit.articleModified.title}}</td>
+                          <td>{{commit.articleModified.createdAt|date('d/m/Y')}}</td>
+                          <td>{{ commit.user.username }}</td>
+                          <td>{{commit.typeOfModification.type}}</td>
+                          <td><a class="btn btn-success btn-xs" href="#" >Voir</a></td>
+                      </tr> 
+                    {% set testArticleModified = testArticleModified|merge([commit.articleModified]) %}
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+            {% endif %}
+        </table>
+    </div>         
+{% endblock %}
+

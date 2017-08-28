@@ -5,7 +5,6 @@ namespace WKT\PlatformBundle\Summary;
 
 use Doctrine\ORM\EntityManager;
 use WKT\PlatformBundle\Entity\Training;
-use WKT\PlatformBundle\Entity\getOrderInTraining;
 
 class WKTSummary
 {
@@ -67,7 +66,6 @@ class WKTSummary
 			}
 			
 		}
-		// var_dump($summary['Créer un nouveau document']);
 		return $summary;
 	}
 

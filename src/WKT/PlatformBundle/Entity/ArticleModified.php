@@ -43,13 +43,6 @@ class ArticleModified
     private $content;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="commit", type="text", nullable=true)
-     */
-    private $commit;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime")
@@ -83,20 +76,14 @@ class ArticleModified
     private $slug;
 
     /**
-     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\TypeOfModification")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $TypeOfModification;
-
-    /**
      * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Article")
      * @ORM\JoinColumn(nullable=true)
      */
     private $article;
 
     /**
-     * @ORM\OneToOne(targetEntity="WKT\UserBundle\Entity\User")
-     * * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity="WKT\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
@@ -201,30 +188,6 @@ class ArticleModified
     public function getContent()
     {
         return $this->content;
-    }
-
-    /**
-     * Set commit
-     *
-     * @param string $commit
-     *
-     * @return ArticleModified
-     */
-    public function setCommit($commit)
-    {
-        $this->commit = $commit;
-
-        return $this;
-    }
-
-    /**
-     * Get commit
-     *
-     * @return string
-     */
-    public function getCommit()
-    {
-        return $this->commit;
     }
 
     /**
@@ -345,30 +308,6 @@ class ArticleModified
     public function getVideo()
     {
         return $this->video;
-    }
-
-    /**
-     * Set typeOfModification
-     *
-     * @param \WKT\PlatformBundle\Entity\TypeOfModification $typeOfModification
-     *
-     * @return ArticleModified
-     */
-    public function setTypeOfModification(\WKT\PlatformBundle\Entity\TypeOfModification $typeOfModification)
-    {
-        $this->TypeOfModification = $typeOfModification;
-
-        return $this;
-    }
-
-    /**
-     * Get typeOfModification
-     *
-     * @return \WKT\PlatformBundle\Entity\TypeOfModification
-     */
-    public function getTypeOfModification()
-    {
-        return $this->TypeOfModification;
     }
 
     /**
