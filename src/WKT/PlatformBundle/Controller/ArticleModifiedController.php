@@ -241,7 +241,10 @@ class ArticleModifiedController extends Controller
 	private function returnArticlesModifiedArray(ArticleModified $articleModified)
 	{
 		//On récupère la liste des articlesModified pour cet article
-		return $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:ArticleModified')->findBy(array('article' => $articleModified->getArticle()), array('id' => 'DESC'));
+		if (!is_null($articleModified->getArticle())) {
+			return $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:ArticleModified')->findByArticle($articleModified->getArticle());
+		}
+		
 	}
 
 	//factorisation de la fonction qui génére un tableau de commits avec explode du commit en bd

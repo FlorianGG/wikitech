@@ -67,14 +67,12 @@
 
 {% endblock fos_user_content %}
 {% block javascripts %}
-    {{parent()}}
-    <script type="text/javascript">
-		$( document ).ready(function() {
-			var trashlink = $('.trash-link');
-			trashlink.remove();
-		})
-    </script>
+  {{parent()}}
+  {% javascripts 'bundles/wktuser/removeTrashLink.js'%} 
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
 {% endblock %}
+
 
 
 

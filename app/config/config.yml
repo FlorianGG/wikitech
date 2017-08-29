@@ -93,7 +93,17 @@ stof_doctrine_extensions:
     orm:
         default:
             sluggable: true
-    
+# app/config/config.yml
+
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~
+        jsqueeze: ~
+        scssphp:
+            formatter: 'Leafo\ScssPhp\Formatter\Compressed'
+
 stfalcon_tinymce:
     theme:
         # Simple theme: same as default theme
