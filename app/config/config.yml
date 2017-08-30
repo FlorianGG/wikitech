@@ -116,8 +116,4 @@ stfalcon_tinymce:
                 - "insertdatetime media nonbreaking save table contextmenu directionality"
                 - "emoticons template paste textcolor jbimages"
             toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link jbimages | forecolor emoticons | code preview"           
-            style_formats: [
-                { title: 'Titre 1', block: 'h2' },
-                { title: 'Titre 2', block: 'h3' },
-                { title: 'Titre 3', block: 'h4' },
-                { title: 'Badge', block: 'p', styles: { background-color: '#F5F5F5', 'border-radius': '5px', padding: '15px 15px', margin: '20px'} }]
+            style_formats: [{ title: 'Titre 1', block: 'h2' }, { title: 'Titre 2', block: 'h3' }, { title: 'Titre 3', block: 'h4' }, { title: 'Badge', block: 'p', styles: { background-color: '#F5F5F5', 'border-radius': '5px', padding: '15px 15px', margin: '20px'} }]
