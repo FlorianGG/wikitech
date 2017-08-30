@@ -11,6 +11,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="WKT\PlatformBundle\Repository\ArticleRepository")
+ *
+/**
+
  */
 class Article
 {
@@ -66,7 +69,7 @@ class Article
     /**
      * @var bool
      *
-     * @ORM\Column(name="isModifying", type="boolean", nullable=true, options={"default":false})
+     * @ORM\Column(name="isModifying", type="boolean", nullable=false)
      */
     private $isModifying;
 
@@ -85,7 +88,8 @@ class Article
 
     /**
      * @ORM\OneToOne(targetEntity="WKT\PlatformBundle\Entity\Video", cascade={"persist", "remove"})
-     * * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true)
+     * @Assert\Valid()
      */
     private $video;
 
@@ -105,6 +109,7 @@ class Article
     public function __construct()
     {
         $this->createdAt = new \DateTime;
+        $this->isModifying = false;
     }
 
 

@@ -2,6 +2,8 @@
 
 namespace WKT\PlatformBundle\Repository;
 
+use WKT\PlatformBundle\Entity\Article;
+
 /**
  * ArticleModifiedRepository
  *
@@ -10,4 +12,15 @@ namespace WKT\PlatformBundle\Repository;
  */
 class ArticleModifiedRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getArticlesModifiedNotRejectedByArticle(Article $article)
+	{
+		return $this->createQueryBuilder('am')
+			->where('am.article = :article')
+				->setParameter('article', $article)
+			->andWhere('am.isRejected = :isRejected')
+				->setParameter('isRejected', false)
+			->orderBy('am.id', 'DESC')
+			->getQuery()
+			->getResult();
+	}
 }

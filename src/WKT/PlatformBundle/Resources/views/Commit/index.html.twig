@@ -5,9 +5,8 @@
   {{parent()}}
   
 {% endblock %}
-{% block bodyLeft %}
-{% endblock %}
-{% block bodyRight %}
+
+{% block body %}
     {% set testArticleModified = [] %}
     <h2>Liste des modifications existantes</h2>
     <div class="table-responsive">
@@ -21,23 +20,41 @@
                     <th>Titre de l'article</th>
                     <th>Date création</th>
                     <th>Auteur</th>
+                    <th>Indice de confiance</th>
                     <th>Type de modification</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for commit in commits %}
-                    {% if commit.articleModified not in testArticleModified %}
                       <tr>
                           <td>{{commit.articleModified.part.training.title}}</td>
                           <td>{{commit.articleModified.title}}</td>
                           <td>{{commit.articleModified.createdAt|date('d/m/Y')}}</td>
-                          <td>{{ commit.user.username }}</td>
+                          <td>
+                            {% if commit.user is empty %}
+                              Un utilisateur anonyme 
+                            {% else %}
+                              {{commit.user.username}}
+                            {% endif %}
+                          </td>
+                          <td class="text-center">
+                            {% if commit.user is empty %}
+                            -
+                            {% else %}
+                              {% if confidenceScores[commit.user.username] == 'first' %}
+                                <small>Première contribution</small>
+                              {% elseif confidenceScores[commit.user.username] == 'waiting' %} 
+                                <small>Toutes les contributions sont en attentes</small>
+                              {% else %}
+                                {{confidenceScores[commit.user.username]|number_format(2)}}% 
+                              {% endif %}
+                            {% endif %}
+                            
+                          </td>
                           <td>{{commit.typeOfModification.type}}</td>
-                          <td><a class="btn btn-success btn-xs" href="#" >Voir</a></td>
+                          <td><a class="btn btn-success btn-xs" href="{{path('wkt_platform_article_modified_validation', {'id': commit.articleModified.id})}}" >Voir</a></td>
                       </tr> 
-                    {% set testArticleModified = testArticleModified|merge([commit.articleModified]) %}
-                    {% endif %}
                 {% endfor %}
             </tbody>
             <tfoot>
@@ -52,7 +69,7 @@
             </tfoot>
             {% endif %}
         </table>
-    </div>         
+    </div>       
 {% endblock %}
 {% block javascripts %}
     {{parent()}}

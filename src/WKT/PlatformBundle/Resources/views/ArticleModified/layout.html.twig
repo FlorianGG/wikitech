@@ -35,36 +35,12 @@
                 {% endif %}
             </div>
         </div>
+    {{tinymce_init()}}
     {% endblock %}
 {% endblock %}
 {% block bodyRight %}
     {% block articleModified %}
-        {% if commits is empty %}
-                {% else %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Dernières modifications</h3>
-                        </div>
-                        <div class="panel-body">
-                            {% for commit in commits %}
-                                {% if commit is empty %}
-                                    <p><strong>Commit n°{{ loop.index }} :</strong></p>
-                                    <p><small><em>L'utilisateur n'a pas donné d'explication</em></small></p>
-                                {% else %}
-                                    <p><strong>Commit n°{{ loop.index }} :</strong></p>
-                                    <p>{{commit.content}}</p>
-                                    <p><small><em>Crée par : 
-                                        {% if commit.user is empty %}
-                                            Un utilisateur qui souhaite garder l'anonymat 👤
-                                        {% else %}
-                                            {{commit.user.firstname}} {{commit.user.lastname}} le {{commit.createdAt|date("m/d/Y")}}
-                                        {% endif %}
-                                    </em></small></p>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endif %}
+        {{ include("WKTPlatformBundle:Commit:listCommits.html.twig") }}
     {% endblock %} 
 {% endblock %}
 

@@ -7,26 +7,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\DateTime;
 use WKT\PlatformBundle\Entity\Article;
 use WKT\PlatformBundle\Entity\ArticleModified;
 use WKT\PlatformBundle\Entity\Commit;
 use WKT\PlatformBundle\Entity\Training;
 use WKT\PlatformBundle\Entity\Video;
 use WKT\PlatformBundle\Form\ArticleModifiedType;
+use WKT\PlatformBundle\Form\ArticleType;
 use WKT\PlatformBundle\Form\CommitType;
 
 
 class ArticleModifiedController extends Controller
 {
-	public function indexAction(Request $request)
-	{
-
-	}
-
-	public function indexByArticleAction(Request $request, Article $id)
-	{
-		
-	}
 
 	public function viewAction(Request $request, ArticleModified $id)
 	{
@@ -48,24 +41,147 @@ class ArticleModifiedController extends Controller
 			));
 	}
 
+	//fonction qui valide un articleModified et le converti en article
+	// Peut également passer en Enabled une Part crée par un user
+	// Converti le statut du commit en true
+	// attribue des points au user
+	public function validationAction(Request $request, ArticleModified $id)
+	{
+		$em = $this->getDoctrine()->getManager();
+
+		$articleModified = $em->getRepository('WKTPlatformBundle:ArticleModified')->find($id);
+		if (is_null($articleModified->getArticle())) {
+			$article = new Article;
+		}else{
+			$article = $em->getRepository('WKTPlatformBundle:Article')->find($articleModified->getArticle()->getId());
+		}
+		
+		$article
+			->setTitle($articleModified->getTitle())
+			->setIntroduction($articleModified->getIntroduction())
+			->setContent($articleModified->getContent())
+			->setModifiedAt(new \DateTime)
+			->setOrderInPart($articleModified->getOrderInPart())
+			->setPart($articleModified->getPart());
+		//on récupère la liste des commits pour cet articleModified
+		$commits = $this->returnCommits($articleModified);
+
+		//on récupère le sommaire de la formation
+		$trainingId = $articleModified->getPart()->getTraining();
+		$summary = $this->container->get('wkt_platform.summary')->returnSummaryInArray($trainingId);
+
+		if (end($commits)->getTypeOfModification()->getType() == 'Création page') {
+			$form = $this->container->get('wkt_platform.generate_form')->generateFormArticleValidation($article, $trainingId);
+		}else{
+			$form = $this->container->get('wkt_platform.generate_form')->generateFormArticleValidationWithoutPart($article, $trainingId);
+		}
+		
+
+		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+			//on vérifie si la partie de l'article a un status IsEnabled true sinon on l'active
+			if (!$article->getPart()->getIsEnabled()) {
+				$article->getPart()->setIsEnabled(true);
+			}
+
+			// on change dans l'article le statut IsModifying à false
+			$article->setIsModifying(false);
+
+			$commits[0]->setIsValidate(true);
+
+			
+			if (!is_null($commits[0]->getUser())) {
+				//on attribut les points du dernier commit de l'articleModified à son User
+				$user = $commits[0]->getUser();
+				$multiplicateur = $form->get('coefScore')->getData();
+				$score = $user->getNbPoint() + ( $commits[0]->getScore() * $multiplicateur );
+				$user->setNbPoint($score);
+				$em->persist($user);
+			}
+			$em->persist($commits[0]);
+			$em->persist($article);
+			$em->flush();
+
+			$request->getSession()->getFlashBag()->add('notice', 'Le nouvel article a bien remplacé l\'ancien 😄');
+
+			return $this->redirectToRoute('wkt_platform_commit_index');
+		}
+
+
+		return $this->render('WKTPlatformBundle:ArticleModified:validation.html.twig', array(
+			'form' => $form->createView(),
+			'articleModified' => $articleModified,
+			'commits' => $commits,
+			'summary' => $summary,
+			'training' => $trainingId,
+			));
+	}
+
+	public function rejectionAction(Request $request, ArticleModified $id, $strike)
+	{
+		$em = $this->getDoctrine()->getManager();
+
+		$repoArticleModified = $em->getRepository('WKTPlatformBundle:ArticleModified');
+
+		$articleModified = $repoArticleModified->find($id);
+
+		// on verifie s'il y a d'autres articleModified pour cette l'article
+		// sinon on change le status IsModifying à false
+		if (!is_null($articleModified->getArticle())) {
+			$articlesModified = $repoArticleModified->findBy(array('article' => $articleModified->getArticle()));
+			if (sizeof($articlesModified) === 1 && $articlesModified[0]->getId() === $articleModified->getId()) {
+				$article = $articleModified->getArticle();
+				$article->setIsModifying(false);
+				$em->persist($article);
+			}
+		}
+
+		//on récupère la liste des commits pour cet articleModified
+		$commits = $this->returnCommits($articleModified);
+
+		// on change le status isValidate du dernier commit à false
+		$commits[0]->setIsValidate(false);
+
+		//si le paramètre url strike est renseigné on ajoute 1 au champ nbStrike du user
+		if ($strike) {
+			if (!is_null($commits[0]->getUser())) {
+				$user = $commits[0]->getUser();
+				$user->setNbStrike($user->getNbStrike() + 1);
+				$em->persist($user);
+			}
+		}
+
+		// on change le status isRejected de l'articleModified à true
+		$articleModified->setIsRejected(true);
+
+		$em->persist($articleModified);
+		$em->persist($commits[0]);
+		$em->flush();
+
+		$request->getSession()->getFlashBag()->add('notice', 'La contribution a bien été refusée 🤔');
+
+		return $this->redirectToRoute('wkt_platform_commit_index');
+	}
+
 	public function addAction(Request $request, Article $id)
 	{
 		$em = $this->getDoctrine()->getManager();
 
 		$articleModified = new ArticleModified();
-		//On récupère la liste des articlesModified pour cet article
-		$articlesModified = $this->returnArticlesModifiedArray($articleModified);
 
 		$article = $em->getRepository('WKTPlatformBundle:Article')->find($id);
 
 		// on set les attributs de articleModified avec le contenu de l'article
-		$articleModified->setArticle($id)->setTitle($article->getTitle())->setIntroduction($article->getIntroduction())->setContent($article->getContent())->setUser($this->getUser())->setPart($article->getPart())->setOrderInPart($article->getOrderInPart());
+		$articleModified->setArticle($id)->setTitle($article->getTitle())->setIntroduction(strip_tags($article->getIntroduction()))->setContent($article->getContent())->setUser($this->getUser())->setPart($article->getPart())->setOrderInPart($article->getOrderInPart());
 
 		if (!is_null($article->getVideo())) {
 			$video = new Video;
 			$video->setUrl('https://www.youtube.com/watch?v=' . $article->getVideo()->getUrl())->setAuthor($article->getVideo()->getAuthor());
 			$articleModified->setVideo($video);
 		}
+
+		//On récupère la liste des articlesModified pour cet article
+		$articlesModified = $this->returnArticlesModifiedArray($articleModified);
 
 		//on capture les données originales pour les comparer avec celles qui seront postées
 		$origin = $this->getValues($articleModified);
@@ -113,13 +229,14 @@ class ArticleModifiedController extends Controller
 		$em = $this->getDoctrine()->getManager();
 
 		$articleModified = $em->getRepository('WKTPlatformBundle:ArticleModified')->find($id);
+		$articleModified->setIntroduction(strip_tags($articleModified->getIntroduction()));
 
 		//on récupère la liste des articlesModified pour la même page article
 		$articlesModified = $this->returnArticlesModifiedArray($articleModified);
 
 		//on récupère la liste des commits pour cet articleModified
 		$commits = $this->returnCommits($articleModified);
-
+		
 		//on capture les données originales pour les comparer avec celles qui seront postées
 		$origin = $this->getValues($articleModified);
 
@@ -139,9 +256,26 @@ class ArticleModifiedController extends Controller
 			// On crée le commit relatif à cette modification
 			$commit = $this->createCommit($articleModified, $form);
 
+			//On valide le précédent commit
+			// car on part du principe qu'une modification modifiée 
+			// est considérée comme présentant de l'intérêt
+			$commits[0]->setIsValidate(true);
+
+			//on attribut la moitié des points au user qui a créer la modification qui n'est pas une création de page
+			// si ce n'est pas celui qui crée la nouvelle
+			if ($commit->getTypeOfModification()->getType() !== 'Création page' && !is_null($commits[0]->getUser())) {
+				$user = $commits[0]->getUser();
+				if ($user != $this->getUser()) {
+					$score = $user->getNbPoint() + ceil(($commits[0]->getScore())/2);
+					$user->setNbPoint($score);
+				}
+
+				$em->persist($user);
+			}
+			
 			$articleModified->setModifiedAt(new \Datetime);
-			$em = $this->getDoctrine()->getManager();
 			$em->persist($articleModified);
+			$em->persist($commits[0]);
 			$em->persist($commit);
 			$em->flush();
 
@@ -177,6 +311,7 @@ class ArticleModifiedController extends Controller
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 			// on appelle le service qui s'occupe du score et la fonction qui va le générer
+
 			$score = $this->container->get('wkt_platform.score')->getScore($articleModified);
 			
 			//création du commit associé à la création de page
@@ -242,7 +377,7 @@ class ArticleModifiedController extends Controller
 	{
 		//On récupère la liste des articlesModified pour cet article
 		if (!is_null($articleModified->getArticle())) {
-			return $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:ArticleModified')->findByArticle($articleModified->getArticle());
+			return $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:ArticleModified')->getArticlesModifiedNotRejectedByArticle($articleModified->getArticle());
 		}
 		
 	}
@@ -263,7 +398,8 @@ class ArticleModifiedController extends Controller
 		$commit
 			->setUser($this->getUser())
 			->setArticleModified($articleModified)
-			->setTypeOfModification($formCommit->getTypeOfModification());
+			->setTypeOfModification($formCommit->getTypeOfModification())
+			->setScore($formCommit->getTypeOfModification()->getValue());
 
 		if (is_null($formCommit->getContent())) {
 			$commit->setContent('L\'utilisateur n\'a pas donné d\'explication');

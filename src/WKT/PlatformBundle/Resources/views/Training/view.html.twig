@@ -15,7 +15,7 @@
     <p> {{ training.introduction }} </p>
     <hr>
     <h2> Sommaire de la formation </h2>
-    {{ render(controller("WKTPlatformBundle:Training:summary", {'id': training.id } )) }}
+    {{ include("WKTPlatformBundle:Summary:viewSummary.html.twig") }}
     <hr>
     <p><a class="btn btn-primary btn-lg" href="{{ path('wkt_platform_index') }}">Retour sur la liste des formations</a></p>
 {% endblock %}

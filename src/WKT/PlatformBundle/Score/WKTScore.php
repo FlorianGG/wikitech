@@ -36,7 +36,7 @@ class WKTScore
 	//retourne le nombre d'images incluses dans la partie content
 	private function scoreForImage(ArticleModified $articleModified)
 	{
-		return substr_count($articleModified->getContent(), '<p><img src="');
+		return substr_count($articleModified->getContent(), '<img src="');
 	}
 
 	// retourne un booléean selon la présence d'une vidéo ou nom

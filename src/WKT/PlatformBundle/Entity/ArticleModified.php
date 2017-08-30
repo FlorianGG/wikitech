@@ -4,6 +4,7 @@ namespace WKT\PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * ArticleModified
  *
@@ -66,7 +67,9 @@ class ArticleModified
     /**
      * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Video", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
+     * @Assert\Valid()
      */
+
     private $video;
 
     /**
@@ -94,7 +97,7 @@ class ArticleModified
     private $orderInPart;
 
     /**
-     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Part", inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Part")
      * @ORM\JoinColumn(nullable=false)
      */
     private $part;

@@ -62,10 +62,18 @@ class Commit
      */
     private $createdAt;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="isValidate", type="boolean", nullable=true)
+     */
+    private $isValidate;
+
 
     public function __construct()
     {
         $this->createdAt = new \DateTime;
+        $this->isValidate = null;
     }
 
     /**
@@ -221,5 +229,29 @@ class Commit
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Set isValidate
+     *
+     * @param boolean $isValidate
+     *
+     * @return Commit
+     */
+    public function setIsValidate($isValidate)
+    {
+        $this->isValidate = $isValidate;
+
+        return $this;
+    }
+
+    /**
+     * Get isValidate
+     *
+     * @return boolean
+     */
+    public function getIsValidate()
+    {
+        return $this->isValidate;
     }
 }

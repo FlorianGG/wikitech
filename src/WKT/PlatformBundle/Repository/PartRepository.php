@@ -28,16 +28,4 @@ class PartRepository extends EntityRepository
 			->orderBy('p.orderInTraining', 'ASC');
 	}
 
-	public function getPartsByTrainingAsArray($id)
-	{
-		$parts = $this->getPartsByTraining($id);
-		$array['Créer une nouvelle partie'] = null;
-
-		foreach ($parts as $part) {
-			$array[$part->getTitle()] = $part;
-		}
-		
-		return $array;
-	}
-
 }

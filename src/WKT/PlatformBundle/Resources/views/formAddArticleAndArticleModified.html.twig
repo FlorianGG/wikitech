@@ -10,7 +10,7 @@
         {{ form_label(form.part, "Partie choisie", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
         {{ form_errors(form.part) }}
         <div class="col-sm-10">
-          {{ form_widget(form.part, {'attr': {'class': 'form-control'}}) }}
+          {{ form_widget(form.part, {'attr': {'class': 'form-control', 'style': 'display:none;'}}) }}
           <input id="inputPartReadOnly" class="form-control" type="text" placeholder="" readonly>
         </div>
       </div>
@@ -39,9 +39,11 @@
     <div class="form-group">
       {{ form_label(form.video, "Video de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
     </div>
+    <div class="alert alert-warning" role="alert">
+    <p class="text-center"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Attention ! <i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong></p>
+    <p class="text-center">Par soucis de compatibilité, seul les liens Youtube sont acceptés. Merci pour votre compréhension</p></div>
     <div class="form-group">
       {{ form_label(form.video.url, "Url de la video", {'label_attr': {'class': 'col-sm-2 col-sm-offset-1 control-label'}}) }}
-      {{ form_errors(form.video.url) }}
       <div class="col-sm-9">
         {{ form_errors(form.video.url) }}
         {{ form_widget(form.video.url, {'attr': {'class': 'form-control'}}) }}
@@ -49,7 +51,6 @@
     </div>
     <div class="form-group">
       {{ form_label(form.video.author, "Auteur de la video", {'label_attr': {'class': 'col-sm-2 col-sm-offset-1 control-label'}}) }}
-      {{ form_errors(form.video.author) }}
       <div class="col-sm-9">
         {{ form_errors(form.video.author) }}
         {{ form_widget(form.video.author, {'attr': {'class': 'form-control'}}) }}

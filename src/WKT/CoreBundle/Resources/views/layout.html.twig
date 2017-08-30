@@ -32,11 +32,17 @@
           {% endfor %}
         {% endfor %}
 
+        <div class="">
+          {% block body %}
+          {% endblock %}
+        </div>
 
-        {% block body %}{% endblock %}
-        {% block footer %}
-           {{ include("WKTCoreBundle::footer.html.twig") }}
-        {% endblock %}
+        <div class="container-fluid">
+          {% block footer %}
+             {{ include("WKTCoreBundle::footer.html.twig") }}
+          {% endblock %}
+        </div>
+
       </div>
       {% block javascripts %}
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

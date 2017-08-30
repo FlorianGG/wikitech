@@ -35,9 +35,10 @@ class TrainingController extends Controller
 
 	public function summaryAction(Training $id)
 	{
-		//utilisation du service summary qui récupère toutes les pages d'une formations
+		//utilisation du service summary qui récupère toutes les pages d'une formations activée
 		//les organise par parties et dans l'ordre
 		$summary = $this->container->get('wkt_platform.summary')->returnSummaryInArray($id);
+
 
 		$request = $this->get('request_stack')->getMasterRequest();
 		return $this->render('WKTPlatformBundle:Training:summary.html.twig', array('summary' => $summary, 'request' => $request));

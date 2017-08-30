@@ -61,14 +61,12 @@ class Video
         if (strpos( $url,"v=") !== false)
         {
             $key =  substr($url, strpos($url, "v=") + 2, 11);
-            $this->url = $key;
         }
         elseif(strpos( $url,"embed/") !== false)
         {
             $key = substr($url, strpos($url, "embed/") + 6, 11);
-            $this->url = $key;
         }
-        $this->url =  $url;
+        $this->url = $key;
 
         return $this;
     }
@@ -120,19 +118,6 @@ class Video
               ->atPath('url')  // attribut de l'objet qui est violé
               ->addViolation(); // ceci déclenche l'erreur
         }
-
-        if (is_null($this->getUrl()) && !is_null($this->getAuthor())) {
-           $context
-             ->buildViolation('L\'ajout d\'une vidéo nécessite une url Youtube valide et un auteur') // message
-             ->atPath('url')  // attribut de l'objet qui est violé
-             ->addViolation(); // ceci déclenche l'erreur
-        }
-
-        if (!is_null($this->getUrl()) && is_null($this->getAuthor())) {
-           $context
-             ->buildViolation('L\'ajout d\'une vidéo nécessite une url youtube valide et un auteur') // message
-             ->atPath('author')  // attribut de l'objet qui est violé
-             ->addViolation(); // ceci déclenche l'erreur
-        }
     }
 }
+

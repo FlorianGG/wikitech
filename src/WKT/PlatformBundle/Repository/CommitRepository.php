@@ -2,6 +2,8 @@
 
 namespace WKT\PlatformBundle\Repository;
 
+use WKT\UserBundle\Entity\User;
+
 /**
  * CommitRepository
  *
@@ -10,5 +12,4 @@ namespace WKT\PlatformBundle\Repository;
  */
 class CommitRepository extends \Doctrine\ORM\EntityRepository
 {
-
 }

@@ -80,9 +80,16 @@ class User extends BaseUser
     /**
      * @var int
      *
-     * @ORM\Column(name="nb_point", type="integer", options={"default":0}, nullable=true)
+     * @ORM\Column(name="nb_point", type="integer", nullable=false)
      */
     protected $nbPoint;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="nb_strike", type="integer", nullable=false)
+     */
+    protected $nbStrike;
 
 
     /**
@@ -136,6 +143,8 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->links = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->nbPoint = 0;
+        $this->nbStrike = 0;
     }
 
 
@@ -365,5 +374,29 @@ class User extends BaseUser
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * Set nbStrike
+     *
+     * @param integer $nbStrike
+     *
+     * @return User
+     */
+    public function setNbStrike($nbStrike)
+    {
+        $this->nbStrike = $nbStrike;
+
+        return $this;
+    }
+
+    /**
+     * Get nbStrike
+     *
+     * @return integer
+     */
+    public function getNbStrike()
+    {
+        return $this->nbStrike;
     }
 }

@@ -46,24 +46,28 @@ wkt_platform_article_modified_add:
     requirements:
         id: \d+  
 
-wkt_platform_article_modified_index_by_article:
-    path: /labo/index_by_article/{id}
-    defaults:
-        _controller: WKTPlatformBundle:ArticleModified:indexByArticle
-    requirements:
-        id: \d+ 
-
-wkt_platform_article_modified_index:
-    path: /labo
-    defaults:
-        _controller: WKTPlatformBundle:ArticleModified:index
-
 wkt_platform_article_modified_view:
     path: /labo/article_modified/{id}
     defaults:
         _controller: WKTPlatformBundle:ArticleModified:view
     requirements:
         id: \d+ 
+
+wkt_platform_article_modified_validation:
+    path: /labo/validation/{id}
+    defaults:
+        _controller: WKTPlatformBundle:ArticleModified:validation
+    requirements:
+        id: \d+ 
+
+wkt_platform_article_modified_rejection:
+    path: /labo/rejection/{id}/{strike}
+    defaults:
+        _controller: WKTPlatformBundle:ArticleModified:rejection
+        strike: 0
+    requirements:
+        id: \d+ 
+        strike : \d 
 
 wkt_platform_article_modified_edit:
     path: /labo/edit/{id}
