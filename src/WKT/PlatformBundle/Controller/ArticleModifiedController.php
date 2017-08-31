@@ -13,9 +13,8 @@ use WKT\PlatformBundle\Entity\ArticleModified;
 use WKT\PlatformBundle\Entity\Commit;
 use WKT\PlatformBundle\Entity\Training;
 use WKT\PlatformBundle\Entity\Video;
-use WKT\PlatformBundle\Form\ArticleModifiedType;
-use WKT\PlatformBundle\Form\ArticleType;
-use WKT\PlatformBundle\Form\CommitType;
+use WKT\PlatformBundle\Form\Type\ArticleModifiedType;
+
 
 
 class ArticleModifiedController extends Controller

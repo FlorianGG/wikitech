@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormFactory;
 use WKT\PlatformBundle\Entity\Article;
 use WKT\PlatformBundle\Entity\ArticleModified;
 use WKT\PlatformBundle\Entity\Training;
-use WKT\PlatformBundle\Form\VideoType;
+use WKT\PlatformBundle\Form\Type\VideoType;
 use WKT\PlatformBundle\Repository\PartRepository;
 
 class WKTGenerateForm

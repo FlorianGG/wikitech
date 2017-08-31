@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WKT\UserBundle\Entity\Link;
-use WKT\UserBundle\Form\LinkType;
+use WKT\UserBundle\Form\Type\LinkType;
 use WKT\UserBundle\Repository\LinkRepository;
 
 

@@ -81,12 +81,12 @@ fos_user:
         sender_name: "%mailer_user%"
     profile:
         form:
-            type: WKT\UserBundle\Form\ProfileFormType
+            type: WKT\UserBundle\Form\Type\ProfileFormType
     registration:
         confirmation:
             enabled: true
         form:
-            type: WKT\UserBundle\Form\RegistrationType
+            type: WKT\UserBundle\Form\Type\RegistrationType
 
 # Stof\DoctrineExtensionsBundle configuration
 stof_doctrine_extensions:

@@ -1,10 +1,11 @@
 {
     "name": "florian/wikitech",
     "license": "proprietary",
+    "property": "Florian Garcia & Nicolas Levé",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "": "src/WKT"
         },
         "classmap": [
             "app/AppKernel.php",
