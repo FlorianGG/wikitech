@@ -1,0 +1,28 @@
+wkt_user_link_add:
+    path: profile/link/add/
+    defaults:
+        _controller: WKTUserBundle:Link:add
+    requirements:
+        id: \d+  
+
+wk_user_link_get_ajax:
+    path: /profile/link/getByAjax
+    defaults:
+        _controller: WKTUserBundle:Link:indexByUserWithAjax
+    methods: [post]
+
+wk_user_link_index_by_user:
+    path: /profile/link/index
+    defaults:
+        _controller: WKTUserBundle:Link:indexByUser
+
+
+wk_user_link_delete:
+    path: /profile/link/delete/{id}
+    methods: [post]
+    defaults:
+        _controller: WKTUserBundle:Link:delete
+    requirements:
+        id: \d+  
+
+

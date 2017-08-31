@@ -1,0 +1,21 @@
+{# src/WKT/PlatformBundle/Resources/views/Article/add.html.twig #}
+{% extends 'WKTPlatformBundle:Article:layout.html.twig' %}
+
+{% block addPart %}
+  {{ include("WKTPlatformBundle:Part:addAjax.html.twig") }}
+{% endblock %}
+
+{% block summaryInTraining %}
+  {{ include("WKTPlatformBundle:Summary:editSummary.html.twig") }}
+{% endblock %}
+
+{% block articleInTraining %}
+  {{ include("WKTPlatformBundle::formAddArticleAndArticleModified.html.twig") }}
+{% endblock %}
+{% block javascripts %}
+  {{parent()}}
+  {% javascripts 'bundles/wktplatform/addAndChoosePart.js'%} 
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
+{% endblock %}
+

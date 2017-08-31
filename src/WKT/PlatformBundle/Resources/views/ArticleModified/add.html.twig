@@ -1,0 +1,112 @@
+{# src/WKT/PlatformBundle/Resources/views/ArticleModified/add.html.twig #}
+
+{% extends 'WKTPlatformBundle:ArticleModified:layout.html.twig' %}
+{% block addArticle %}
+	{{ path('wkt_platform_article_modified_add_new_article', {'id': articleModified.article.part.training.id}) }}
+{% endblock %}
+{% block introListArticleModified %}
+	{% if articlesModified is empty %}
+		Aucune modification
+	{% else %}
+	    Choisissez la version sur laquelle vous préferez travailler :
+	{% endif %}
+{% endblock %}
+{% block urlArticleModified %}
+    {{ path('wkt_platform_article_modified_edit', {'id': articleModified.id}) }}
+{% endblock %}
+{% block articleModified %}
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">Créer une nouvelle modification</h3>
+	  </div>
+	</div>
+    <div class="well">
+		{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+	    <div class="form-group">
+	    	{{ form_label(form.title, "Titre de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+	        {{ form_errors(form.title) }}
+	        <div class="col-sm-10">
+	        	{{ form_widget(form.title, {'attr': {'class': 'form-control'}, 'value': articleModified.title}) }}
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        {{ form_label(form.introduction, "Introduction de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+	        {{ form_errors(form.introduction) }}
+	        <div class="col-sm-10">
+	        	{{ form_widget(form.introduction, {'attr': {'class': 'form-control'}, 'value': articleModified.introduction }) }}
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        {{ form_label(form.content, "Contenu de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+	        {{ form_errors(form.content) }}
+	        <div class="col-sm-10">
+	        	{{ form_widget(form.content, {'attr': {'class': 'tinymce form-control'}, 'value': articleModified.content}) }}
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        {{ form_label(form.video, "Video de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+	        <div class="col-xs-10">
+	        	{% if articleModified.video is empty %}
+					<h3>Aucune vidéo n'est encore enregistrée sur cette article</h3>
+				{% else %}
+				    <div class="embed-responsive embed-responsive-16by9">
+				    	<iframe class="embed-responsive-item" allowfullscreen src="https://www.youtube.com/embed/{{ articleModified.video.url}}"></iframe>
+				    </div>
+	        	{% endif %}
+	        </div>
+	    </div>
+	    <div style="display: none;" id="alertVideo" class="alert alert-danger">
+	    	<p class="text-center">Merci d'ajouter une url valide et un nom d'auteur pour chaque vidéo</p>
+	    </div>
+	    <div class="form-group">
+	        {{ form_label(form.video.url, "Url de la video", {'label_attr': {'class': 'col-sm-2 col-sm-offset-1 control-label'}}) }}
+	        {{ form_errors(form.video.url) }}
+	        <div class="col-sm-9">
+	        	{{ form_errors(form.video.url) }}
+	        	{% if articleModified.video is empty %}
+					{{ form_widget(form.video.url, {'attr': {'class': 'form-control'}}) }}
+				{% else %}
+				    {{ form_widget(form.video.url, {'attr': {'class': 'form-control'}, 'value': 'https://www.youtube.com/embed/' ~ articleModified.video.url }) }}
+	        	{% endif %}
+	        </div> 
+	    </div>
+	    <div class="form-group">
+	        {{ form_label(form.video.author, "Auteur de la video", {'label_attr': {'class': 'col-sm-2 col-sm-offset-1 control-label'}}) }}
+	        {{ form_errors(form.video.author) }}
+	        <div class="col-sm-9">
+			{{ form_errors(form.video.author) }}
+			{% if articleModified.video is empty %}
+				{{ form_widget(form.video.author, {'attr': {'class': 'form-control'}}) }}
+				{% else %}
+			    	{{ form_widget(form.video.author, {'attr': {'class': 'form-control'}, 'value': articleModified.video.author}) }}
+			{% endif %}
+	        </div>
+	    </div>
+		{{ include("WKTPlatformBundle:ArticleModified:modal.html.twig") }}
+	    <div class="row">
+			<button type="button" class="col-xs-3 col-xs-offset-2 btn btn-success" data-toggle="modal" data-target="#myModal">
+			  Valider</button>
+	    	<a class="col-xs-3 col-xs-offset-2 btn btn-danger" href="{{ path('wkt_platform_article_view', {'id': articleModified.article.id, 'slugTraining': articleModified.article.part.training.slug, 'slugArticle': articleModified.article.slug}) }}">Retourner sur l'article principal</a>
+	    </div>
+    	
+
+    
+		{# Génération automatique des champs pas encore écrits.
+		 Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
+		 et tous les champs cachés (type « hidden »). #}
+		{{ form_rest(form) }}
+
+		{# Fermeture de la balise <form> du formulaire HTML #}
+		{{ form_end(form) }}
+	</div>
+{% endblock %}
+{% block javascripts %}
+  {{parent()}}
+  {% javascripts 'bundles/wktplatform/checkVideoInArticleModified.js'%} 
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
+{% endblock %}
+
+
+
+

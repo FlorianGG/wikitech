@@ -1,0 +1,184 @@
+<div class="row">
+	<div class="col-sm-6">
+    	<div class="panel panel-default">
+    		<div class="panel-heading">
+    	    	<h3 class="panel-title">Article d'origine</h3>
+    		</div>
+    		<div class="panel-body">
+		        <div class="row">
+		            <div class="col-xs-12">
+		                <h2>{{ articleModified.article.title}}</h2>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+    		<div class="panel-heading">
+    	    	<h3 class="panel-title">Article modifié</h3>
+    		</div>
+    		<div class="panel-body">
+			    <div class="row">
+			    	<div class="col-xs-12">
+			    		<div class="form-group">
+			    			<h3>{{ form_label(form.title, "Titre de l'article", {'label_attr': {'class': 'control-label'}}) }}</h3>
+			    		    {{ form_errors(form.title) }}
+			    		    <div class="col-sm-12">
+			    		    	{{ form_widget(form.title, {'attr': {'class': 'form-control'}, 'value': articleModified.title}) }}
+			    		    </div>
+			    		</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-6">
+    	<div class="panel panel-default">
+    		<div class="panel-heading">
+    	    	<h3 class="panel-title">Article d'origine</h3>
+    		</div>
+    		<div class="panel-body">
+		        <div class="row">
+		            <div class="col-xs-12">
+		                <h2>En Bref</h2>
+		            </div>
+		        </div>
+    			<div> 
+    			    {{ articleModified.article.introduction}}
+    			</div>
+		    </div>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+    		<div class="panel-heading">
+    	    	<h3 class="panel-title">Article modifié</h3>
+    		</div>
+    		<div class="panel-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="form-group">
+							<h3>{{ form_label(form.introduction, "En Bref", {'label_attr': {'class': 'control-label'}}) }}</h3>
+						    {{ form_errors(form.introduction) }}
+						    <div class="col-sm-12">
+						    	{{ form_widget(form.introduction, {'attr': {'class': 'form-control'}, 'value': articleModified.introduction}) }}
+						    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-6">
+    	<div class="panel panel-default">
+    		<div class="panel-heading">
+    	    	<h3 class="panel-title">Article d'origine</h3>
+    		</div>
+    		<div class="panel-body">
+		        <div class="row">
+		            <div class="col-xs-12">
+		                <h2>En Détail</h2>
+		            </div>
+		        </div>
+    			<div> 
+    			    {{ articleModified.article.content|raw}} {# var won't be escaped #}
+    			</div>
+		    </div>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+    		<div class="panel-heading">
+    	    	<h3 class="panel-title">Article modifié</h3>
+    		</div>
+    		<div class="panel-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="form-group">
+							<h3>{{ form_label(form.content, "En Détail", {'label_attr': {'class': 'control-label'}}) }}</h3>
+						    {{ form_errors(form.content) }}
+						    <div class="col-sm-12">
+						    	{{ form_widget(form.content, {'attr': {'class': 'tinymce form-control'}, 'value': articleModified.content}) }}
+						    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-6">
+    	<div class="panel panel-default">
+    		<div class="panel-heading">
+    	    	<h3 class="panel-title">Article d'origine</h3>
+    		</div>
+    		<div class="panel-body">
+		        {% if articleModified.article.video.url is defined %}
+					<div class="row">
+					    <div class="col-xs-12">
+					        <h2>En Vidéo</h2>
+					    </div>
+					</div>
+    			    <div class="">
+    			        <p><strong>Crée par : </strong>{{articleModified.article.video.author}}</p>
+    			    </div>
+    			    <div class="embed-responsive embed-responsive-16by9">
+    			      <iframe class="embed-responsive-item" allowfullscreen src="https://www.youtube.com/embed/{{ articleModified.article.video.url}}"></iframe>
+    			    </div>
+    			    <hr>
+    			{% endif %}
+		    </div>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+    		<div class="panel-heading">
+    	    	<h3 class="panel-title">Article modifié</h3>
+    		</div>
+    		<div class="panel-body">
+		        <div class="row">
+		        	<div class="col-xs-12">
+		        		<div style="display: none;" id="alertVideo" class="alert alert-danger">
+		        			<p class="text-center">Merci d'ajouter une url valide et un nom d'auteur pour chaque vidéo</p>
+		        		</div>
+		        	    <div class="form-group">
+		        	        {{ form_label(form.video.url, "Url de la video") }}
+		        	        {{ form_errors(form.video.url) }}
+	        	        	{{ form_errors(form.video.url) }}
+	        	        	{% if articleModified.video is empty %}
+	        					{{ form_widget(form.video.url, {'attr': {'class': 'form-control'}}) }}
+	        				{% else %}
+	        				    {{ form_widget(form.video.url, {'attr': {'class': 'form-control'}, 'value': 'https://www.youtube.com/embed/' ~ articleModified.video.url }) }}
+	        	        	{% endif %}
+		        	    </div>	
+    	        	    <div class="form-group">
+    	        	        {{ form_label(form.video.author, "Auteur de la video") }}
+    	        	        {{ form_errors(form.video.author) }}
+						    {{ form_errors(form.video.author) }}
+						    {% if articleModified.video is empty %}
+						    	{{ form_widget(form.video.author, {'attr': {'class': 'form-control'}}) }}
+						    	{% else %}
+						        	{{ form_widget(form.video.author, {'attr': {'class': 'form-control'}, 'value': articleModified.video.author}) }}
+						    {% endif %}
+    	        	    </div>	
+		        	</div>
+	        		<div class="col-xs-12">
+        				{% if articleModified.video is empty %}
+        			    	<h3>Aucune vidéo n'est encore enregistrée sur cette article</h3>
+        			    {% else %}
+        			    	 <div class="embed-responsive embed-responsive-16by9">
+        			    	 	<iframe class="embed-responsive-item" allowfullscreen src="https://www.youtube.com/embed/{{ articleModified.video.url}}"></iframe>
+        			    	 </div>
+        			    {% endif %}
+	        		</div>
+		        </div>
+			</div>
+		</div>
+	</div>
+</div>

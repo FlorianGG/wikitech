@@ -1,0 +1,47 @@
+{# src/WKT/PlatformBundle/Resources/views/ArticleModified/layout.html.twig #}
+
+{% extends 'WKTCoreBundle:Core:layout.html.twig' %}
+{% block bodyLeft %}
+    {% if is_granted('ROLE_USER') %}
+    <div class="row">
+        <a class="btn btn-success btn-lg col-xs-12" href="{% block addArticle %}{% endblock %}">Ajouter un article</a>
+    </div>
+    <br>
+    {% endif %}
+    {% set currentArticleModified = app.request.attributes.get('_route_params')['id'] %}
+    {% block listArticlesModified %}
+        <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="text-center panel-title">{% block introListArticleModified %}Ci-dessous la liste des modifications existantes pour cet article :{% endblock %}</h3>
+              </div>
+                {% if articlesModified is empty %}
+                    <div class="panel-body">
+                        <p class="text-center"><small><em>Vous pouvez également créer une nouvelle modification</em></small></p>
+                        <p><a class="center-block btn btn-default btn-xs" href="{{ path('wkt_platform_article_modified_add', {'id': articleModified.article.id}) }}">Créer une nouvelle modification</a></p>
+                    </div>
+                    {% else %}
+                    <div class="panel-body">
+                        {% for articleModified in articlesModified %}
+                            <p><a class="center-block btn {% if currentArticleModified == articleModified.id %}btn-primary {% else %}
+                                btn-default{% endif %}" href="{% block urlArticleModified %}{% endblock %}">{{ articleModified.title }}</a></p>
+                        {% endfor %}
+                    </div>
+                    <div class="panel-footer">
+                        <p class="text-center"><small><em>Vous pouvez également créer une nouvelle modification</em></small></p>
+                        <p><a class="center-block btn btn-default btn-xs" href="{{ path('wkt_platform_article_modified_add', {'id': articleModified.article.id}) }}">Créer une nouvelle modification</a></p>
+                    </div>
+
+                {% endif %}
+            </div>
+        </div>
+    {{tinymce_init()}}
+    {% endblock %}
+{% endblock %}
+{% block bodyRight %}
+    {% block articleModified %}
+        {{ include("WKTPlatformBundle:Commit:listCommits.html.twig") }}
+    {% endblock %} 
+{% endblock %}
+
+

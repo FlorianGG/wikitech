@@ -1,0 +1,7 @@
+# src/WKT/UserBundle/Resources/config/services.yml
+
+services:
+    wkt_user.confidence_score:
+        class: WKT\UserBundle\ConfidenceScore\WKTConfidenceScore
+        arguments: 
+          - "@doctrine.orm.entity_manager"

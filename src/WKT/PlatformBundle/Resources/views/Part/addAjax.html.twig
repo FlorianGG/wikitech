@@ -1,0 +1,35 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"> <span class="badge">1</span> Choisissez où va votre page</h3>
+  </div>
+  <div class="panel-body">
+    <p class="text-center">Par défaut votre page s'ajoute à la fin d'une partie. Pour modifier sa position, cliquez sur la page avant laquelle vous voulez insérer la vôtre. Si vous voulez d'abord créer une nouvelle partie, cliquez sur le bouton "Créer une nouvelle partie"</p>
+  </div>
+</div>
+<a id="buttonCreatePart" class=" col-xs-12 btn btn-default btn-lg" href="#">Créer une nouvelle partie</a>
+<form id="formPart" style="display: none" action="{{ path('wkt_platform_part_add_ajax', {'id': training.id})}}" method="post">
+  <div class="form-group">
+    <label for="partTitle"> </label>
+    <input type="text" class="form-control" id="partTitle"  name="title" placeholder="Saisissez le nom de la partie" required>
+  </div>
+  <div class="form-group">
+    <label for="partOrderInTraining">Choisissez avant quelle partie créer la vôtre</label>
+    <select id="partOrderInTraining" class="form-control">
+      {% if summary is empty %}
+          <option value="1" selected>Ajouter une première partie</option>
+      {% else %}
+      <optgroup label="Parties existantes">
+       {% for part in summary %}
+          {% if part.Part.entity.isEnabled %}
+            <option value="{{ part.Part.order }}">{{ part.Part.entity.title }}</option>
+          {% endif %}  
+       {% endfor %}
+      </optgroup>
+      <optgroup label="Fin de la formation">
+       <option value="{{summary|last.Part.order + 1}}" selected>Ajouter votre partie à la fin de la formation</option>
+      </optgroup>
+      {% endif %}
+    </select>
+  </div>
+  <button type="submit" class="col-xs-12 btn btn-primary btn-lg">Créer la partie</button>
+</form>

@@ -1,0 +1,99 @@
+{% extends "@FOSUser/Profile/layout.html.twig" %}
+
+{% block fos_user_content %}
+		{% trans_default_domain 'FOSUserBundle' %}
+		{{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+	    <div class="col-sm-3">
+	    	<div class=>
+				<div class="form-group">
+				  {{ form_label(form.firstname, "Prénom", {'label_attr': {'class': 'text-left col-xs-12 control-label'}}) }}
+				  {{ form_errors(form.firstname) }}
+				  <div class="col-xs-12">
+				    {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+				  </div>
+				</div>
+				<div class="form-group">
+				  {{ form_label(form.lastname, "Nom", {'label_attr': {'class': 'text-left col-xs-12 control-label'}}) }}
+				  {{ form_errors(form.lastname) }}
+				  <div class="col-xs-12">
+				    {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+				  </div>
+				</div>
+				<div class="form-group">
+				  {{ form_label(form.additionalName, "Nom complémentaire", {'label_attr': {'class': 'text-left col-xs-12 control-label'}}) }}
+				  {{ form_errors(form.additionalName) }}
+				  <div class="col-xs-12">
+				    {{ form_widget(form.additionalName, {'attr': {'class': 'form-control'}}) }}
+				  </div>
+				</div>
+				<div class="form-group">
+				  {{ form_label(form.biography, "Votre biographie.", {'label_attr': {'class': 'text-left col-xs-12 control-label'}}) }}
+				  {{ form_errors(form.biography) }}
+				  <div class="col-xs-12">
+				    {{ form_widget(form.biography, {'attr': {'class': 'form-control'}}) }}
+				  </div>
+				</div>
+	    	</div>
+		</div>
+		<div class="col-sm-9">
+			<div id="editInfo" class="panel panel-default">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Mes informations</h3>
+			  </div>
+			  <div class="panel-body">
+			    <!-- List group -->
+			    <ul class="list-group">
+			      <li class="list-group-item">{{ form_row(form.email) }}</li>
+			      <li class="list-group-item">{{ form_row(form.company) }}</li>
+			      <li class="list-group-item">
+			      	<div id="locationField">
+			      	     <input id="autocomplete" class="form-control" placeholder="Entrez votre ville de résidence"
+			      	            onFocus="geolocate()" type="text"></input>
+			      	   </div>
+			      </li>
+			      <li class="list-group-item">
+			      	<div class="form-group">
+			      		<label class="control-label control-label" for="fos_user_profile_form_locality">Ville de résidence</label> <span style="background-color: #D9534F;" class="butonResetField badge btn"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+			      		{{ form_errors(form.locality) }}
+			      		{{ form_widget(form.locality, {'id':'locality', 'attr': {'class': 'form-control'}}) }}
+			      	</div>
+			      </li>
+			      <li class="list-group-item">
+			      	<div class="form-group">
+			      		<label class="control-label control-label" for="fos_user_profile_form_COUNTRY">Pays de résidence</label> <span style="background-color: #D9534F;" class="butonResetField badge btn"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+			      		{{ form_errors(form.country) }}
+			      		{{ form_widget(form.country, {'id':'country', 'attr': {'class': 'form-control'}}) }}
+			      	</div>
+			      </li>
+			    </ul>
+			  </div>
+			</div>
+			{{ form_end(form) }}
+			<div id="editLien" class="panel panel-default">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Mes Liens</h3>
+			  </div>
+			  <div class="panel-body">
+			  	<button id="addLink" class="btn btn-default" type="button">Ajouter un lien</button>
+			    <form id="linkForm" style="display: none;" action="{{ path('wkt_user_link_add')}}" method="post">
+			    	{{ render(controller("WKTUserBundle:Link:add")) }}
+			    </form>
+			    <ul id="links" class="list-group">
+			    {{ render(controller("WKTUserBundle:Link:indexByUser")) }}
+			    </ul>
+			  </div>
+			</div>
+			<div>
+			    <input class="btn btn-success" type="submit" value="{{ 'profile.edit.submit'|trans }}" />
+			</div>
+
+		</div>
+{% endblock fos_user_content %}
+{% block javascripts %}
+	{{parent()}}
+	{{ include("WKTUserBundle:Profile:google.html.twig") }}
+	{% javascripts 'bundles/wktuser/googleMapWidget.js' 'ajaxDeleteLinkAndAddLink.js'%} 
+		<script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+{% endblock %}
+

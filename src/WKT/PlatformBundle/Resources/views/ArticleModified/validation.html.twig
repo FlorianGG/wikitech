@@ -1,0 +1,90 @@
+{# src/WKT/PlatformBundle/Resources/views/ArticleModified/viewWithArticle.html.twig #}
+
+{% extends 'WKTCoreBundle:Core:layout.html.twig' %}
+{% block body %}
+	{% if articleModified.article is empty  %}
+		{% set class = 'col-sm-6 col-sm-offset-3' %}
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title"> <span class="badge">1</span> Emplacement de l'article</h3>
+				  </div>
+				  <div class="panel-body">
+				    <p class="text-center">Par défaut l'article se positionnera sur l'emplacement choisit par l'utilisateur. Vous pouvez sélectionner un autre emplacement en cliquant sur la page avant laquelle vous voulez insérer la vôtre. Vous pouvez également créer une autre partie</p>
+					{{ include("WKTPlatformBundle:ArticleModified:validationAddPart.html.twig") }}	
+				  </div>
+				  <div class="panel-footer">
+				  	{{ include("WKTPlatformBundle:ArticleModified:validationSummary.html.twig") }}
+				  </div>
+				</div>
+			</div>
+			<div class="col-sm-8">
+				{{ form_start(form) }}
+				{{ include("WKTPlatformBundle:ArticleModified:validationWithoutArticle.html.twig") }}
+			</div>
+		</div>
+		
+	{% else %}
+		{% set class = 'col-sm-6' %}
+		{{ form_start(form) }}
+		{{ include("WKTPlatformBundle:ArticleModified:validationWithArticle.html.twig") }}
+	{% endif %}
+
+    <div class="row">
+    	<div class="col-sm-6">
+    		{{ include("WKTPlatformBundle:Commit:listCommits.html.twig") }}
+    	</div>
+    	<div class="col-sm-6">
+    		<div class="panel panel-default">
+	    		<div class="panel-heading">
+	    	    	<h3 class="panel-title">Points de contributions</h3>
+	    		</div>
+	    		<div class="panel-body">
+	    			<ul class="list-group">
+	    			  <li class="list-group-item">Points calculés pour la modification : {{commits|first.score}} pts</li>
+	    			  <li class="list-group-item">
+	    			  	<div class="row">
+	    			  		<div class="form-group">
+	    			  			{{ form_label(form.coefScore, "Multiplicateur à attributer", {'label_attr': {'class': 'col-xs-5 control-label'}}) }}
+	    			  		    {{ form_errors(form.coefScore) }}
+	    			  		    <div class="col-xs-7">
+	    			  		    	{{ form_widget(form.coefScore, {'attr': {'class': 'form-control'}, 'value': articleModified.title}) }}
+	    			  		    </div>
+	    			  		 </div>
+	    			  	</div>	
+	    			  </li>
+	    			  <li class="text-center list-group-item">
+	    			  	<button type="submit" class="btn btn-success btn-sm">Valider la contribution</button>
+	    			  	<a class="btn btn-warning btn-sm" href="{{path('wkt_platform_article_modified_rejection', {'id': articleModified.id, 'strike': 0})}}">Rejeter la contribution</a>
+	    			  	{% if commits[0].user is null %}
+						{% else %}
+						    <a class="btn btn-danger btn-sm" href="{{path('wkt_platform_article_modified_rejection', {'id': articleModified.id, 'strike': 1})}}">Rejeter la contribution et striker l'utilisateur</a>
+	    			  	{% endif %}
+	    			  </li>
+	    			  <li class="list-group-item">
+
+	    			  </li>
+	    			</ul>
+	    		</div>
+    		</div>
+    	</div>
+    </div>
+    {# Génération automatique des champs pas encore écrits.
+       Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
+       et tous les champs cachés (type « hidden »). #}
+    {{ form_rest(form) }}
+    {# Fermeture de la balise <form> du formulaire HTML #}
+    {{ form_end(form) }}
+    {{ tinymce_init() }}
+{% endblock %}
+{% block javascripts %}
+{% if articleModified.article is empty  %}
+	{{parent()}}
+	{% javascripts 'bundles/wktplatform/addAndChoosePart.js'%} 
+	  <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+{% endif %}
+
+{% endblock %}
+

@@ -1,0 +1,9 @@
+<div class="panel-body">
+  <!-- List group -->
+  <ul id="links" class="list-group">
+  	{% for link in links %}
+  	    <li id="liWithId{{link.id}}" class="list-group-item"><a href="{{link.url}}"><i class="{{link.social.logo}}"></i> {{link.title}}</a> <span data-href="{{path('wk_user_link_delete', {'id': link.id})}}" style="display: none; background-color: #D9534F;" id="{{link.id}}" class="trash-link badge btn"><i class="fa fa-trash-o" aria-hidden="true"></i></span></li>
+  	{% endfor %}
+
+  </ul>
+</div>

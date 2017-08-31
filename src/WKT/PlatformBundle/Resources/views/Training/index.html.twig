@@ -1,0 +1,29 @@
+{# src/WKT/PlatformBundle/Resources/views/Training/index.html.twig #}
+
+{% extends 'WKTCoreBundle:Core:layout.html.twig' %}
+{% block bodyLeft %}
+    
+{% endblock %}
+{% block bodyRight %}
+    <h1>Voici la liste des formations</h1>
+    <hr>
+	<div class="row">
+		{% if trainings is empty %}
+			<div class="jumbotron">
+				<h3 class="text-center">Aucune formation encore en ligne 😱</h3>
+			</div>
+		{% else %}
+		    {% for training in trainings %}
+		        <div class="col-sm-4">
+		        	<h3> {{ training.title }}</h3>
+		        	<hr>
+		        	<p> {{ training.introduction }} </p>
+		        	<hr>
+		        	<p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_view', { 'id': training.id, 'slugTraining': training.slug}) }}">Commencer la formation</a></p>
+		        	<p class="text-center"><small><em>Crée le {{ training.createdAt|date('d/m/Y') }}</em></small></p>
+		        </div>
+		    {% endfor %}
+		{% endif %}
+	</div>
+{% endblock %}
+
