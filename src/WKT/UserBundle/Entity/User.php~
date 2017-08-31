@@ -139,6 +139,7 @@ class User extends BaseUser
      */
     protected $links;
 
+
     public function __construct()
     {
         parent::__construct();
@@ -374,5 +375,29 @@ class User extends BaseUser
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * Set nbStrike
+     *
+     * @param integer $nbStrike
+     *
+     * @return User
+     */
+    public function setNbStrike($nbStrike)
+    {
+        $this->nbStrike = $nbStrike;
+
+        return $this;
+    }
+
+    /**
+     * Get nbStrike
+     *
+     * @return integer
+     */
+    public function getNbStrike()
+    {
+        return $this->nbStrike;
     }
 }

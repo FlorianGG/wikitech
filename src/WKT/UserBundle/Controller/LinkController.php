@@ -29,7 +29,6 @@ class LinkController extends Controller
 		$form  = $this->get('form.factory')->create(LinkType::class, $link);
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-			$em = $this->getDoctrine()->getManager();
 			$em->persist($link);
 			$em->flush();
 

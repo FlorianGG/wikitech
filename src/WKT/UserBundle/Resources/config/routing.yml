@@ -11,18 +11,52 @@ wk_user_link_get_ajax:
         _controller: WKTUserBundle:Link:indexByUserWithAjax
     methods: [post]
 
-wk_user_link_index_by_user:
+wkt_user_link_index_by_user:
     path: /profile/link/index
     defaults:
         _controller: WKTUserBundle:Link:indexByUser
 
 
-wk_user_link_delete:
+wkt_user_link_delete:
     path: /profile/link/delete/{id}
     methods: [post]
     defaults:
         _controller: WKTUserBundle:Link:delete
     requirements:
         id: \d+  
+
+wkt_user_index:
+    path: /admin/user/index
+    defaults:
+        _controller: WKTUserBundle:User:index
+
+wkt_user_promote:
+    path: /admin/user/promote/{id}
+    defaults:
+        _controller: WKTUserBundle:User:promoteUser
+    requirements:
+        id: \d+ 
+
+wkt_user_demote:
+    path: /admin/user/demote/{id}
+    defaults:
+        _controller: WKTUserBundle:User:demoteUser
+    requirements:
+        id: \d+
+
+wkt_user_enabled:
+    path: /admin/user/enabled/{id}/{activate}
+    defaults:
+        _controller: WKTUserBundle:User:enabledUser
+    requirements:
+        id: \d+
+        activate : \d 
+
+wkt_user_view_profile:
+    path: /user/profile/{id}
+    defaults:
+        _controller: WKTUserBundle:User:viewProfile
+    requirements:
+        id: \d+
 
 

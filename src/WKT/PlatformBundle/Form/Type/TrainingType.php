@@ -3,6 +3,9 @@
 namespace WKT\PlatformBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,7 +16,12 @@ class TrainingType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title')->add('introduction')->add('createdAt')->add('slug');
+        $builder
+            ->add('title', TextType::class)
+            ->add('introduction', TextareaType::class, array(
+                'attr' => array('class' => 'tinymce')))
+            ->add('Enregistrer', SubmitType::class, array(
+                'attr' => array('class' => 'btn btn-success')));
     }
     
     /**

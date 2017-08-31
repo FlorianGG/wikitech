@@ -92,7 +92,7 @@
 {% block javascripts %}
 	{{parent()}}
 	{{ include("WKTUserBundle:Profile:google.html.twig") }}
-	{% javascripts 'bundles/wktuser/googleMapWidget.js' 'ajaxDeleteLinkAndAddLink.js'%} 
+	{% javascripts 'bundles/wktuser/googleMapWidget.js' 'bundles/wktuser/ajaxDeleteLinkAndAddLink.js'%} 
 		<script type="text/javascript" src="{{ asset_url }}"></script>
 	{% endjavascripts %}
 {% endblock %}

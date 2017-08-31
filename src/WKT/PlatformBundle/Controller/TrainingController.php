@@ -4,8 +4,10 @@
 namespace WKT\PlatformBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WKT\PlatformBundle\Entity\Training;
+use WKT\PlatformBundle\Form\Type\TrainingType;
 
 
 class TrainingController extends Controller
@@ -28,10 +30,73 @@ class TrainingController extends Controller
 		return $this->render('WKTPlatformBundle:Training:view.html.twig', array('training' => $training));
 	}
 
-	public function addAction()
+	public function addAction(Request $request)
 	{
-		
+		$em = $this->getDoctrine()->getManager();
 
+		$trainings = $em->getRepository('WKTPlatformBundle:Training')->findAll();
+
+		$training = new Training;
+
+		$form  = $this->get('form.factory')->create(TrainingType::class, $training);
+
+		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+			$em->persist($training);
+			$em->flush();
+
+			$request->getSession()->getFlashBag()->add('notice', 'La formation a bien été crée');
+
+			return $this->redirectToRoute('wkt_platform_view', array('id' => $training->getId(), 'slugTraining' => $training->getSlug()));
+		}
+
+		return $this->render('WKTPlatformBundle:Training:add.html.twig', array(
+			'form' => $form->createView(),
+			'trainings' => $trainings));
+	}
+
+	public function editAction(Request $request, Training $id)
+	{
+		$em = $this->getDoctrine()->getManager();
+
+		$trainings = $em->getRepository('WKTPlatformBundle:Training')->findAll();
+
+		$training = $em->getRepository('WKTPlatformBundle:Training')->find($id);
+
+		$form  = $this->get('form.factory')->create(TrainingType::class, $training);
+
+		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+			$em->persist($training);
+			$em->flush();
+
+			$request->getSession()->getFlashBag()->add('notice', 'La formation a bien été crée');
+
+			return $this->redirectToRoute('wkt_platform_view', array('id' => $training->getId(), 'slugTraining' => $training->getSlug()));
+		}
+
+		return $this->render('WKTPlatformBundle:Training:edit.html.twig', array(
+			'form' => $form->createView(),
+			'trainings' => $trainings,
+			'training' => $training,
+			));
+	}
+
+	public function deleteAction(Request $request, Training $id)
+	{
+		$em = $this->getDoctrine()->getManager();
+
+		$training = $em->getRepository('WKTPlatformBundle:Training')->find($id);
+
+		if (is_null($training->getParts()[0])) {
+			$em->remove($training);
+			$em->flush();
+
+			$request->getSession()->getFlashBag()->add('notice', 'La formation a bien été supprimée');
+
+			return $this->redirectToRoute('wkt_platform_add');
+		}
+		$request->getSession()->getFlashBag()->add('alert', 'Impossible de supprimer la formation, car cette dernière n\'est pas vide');
+
+		return $this->redirectToRoute('wkt_platform_add');
 	}
 
 	public function summaryAction(Training $id)

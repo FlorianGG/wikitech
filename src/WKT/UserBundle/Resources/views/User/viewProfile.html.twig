@@ -1,0 +1,82 @@
+{% extends "WKTUserBundle:Profile:layout.html.twig" %}
+
+{% block fos_user_content %}
+	    <div class="col-sm-3">
+			<div class="panel panel-default">
+			  <!-- Default panel contents -->
+			  <div class="panel-heading">
+			  	<h4 class="text-center">{{ user.firstname }} {{ user.lastname }} </h4>
+			  	{% if user.additionalName is empty %}
+			  	{% else %}
+			  	    <h4 class="text-center">{{ user.additionalName }}</h4>
+			  	{% endif %}
+			  	</div>
+			  <div class="panel-body">
+			    <h4 class="text-center">Ces points de contribution</h4>
+			    <p class="text-center">{{ user.nbPoint }} pts</p>
+			  </div>
+			  <div class="panel-footer">
+			    <h4 class="text-center">Sa biographie</h4>
+			    {% if user.biography is empty %}
+					<small><em>Sa biographie est vide...</em></small>
+				{% else %}
+					<p class="text-center"><small><em>{{ user.biography}}</em></small> </p>
+			    {% endif %}
+
+			  </div>
+
+			</div>
+	    </div>
+		<div class="col-sm-9">
+			<div class="panel panel-default">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Détails de ses contributions</h3>
+			  </div>
+			  <div class="panel-body">
+			   <p class="text-center"><small><em>Aucune contribution réalisée</em></small> </p>
+				
+			  </div>
+			</div>
+			<div class="panel panel-default">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Ses informations</h3>
+			  </div>
+			  <div class="panel-body">
+			    <!-- List group -->
+			    <ul class="list-group">
+			      <li class="list-group-item"><p><strong>Adresse email : </strong> {{ user.email }}</p></li>
+			      <li class="list-group-item"><p><strong>Son entreprise actuelle : </strong> {{ user.company }}</p></li>
+			      <li class="list-group-item"><p><strong>Ville de résidence : </strong> {{ user.locality }}</p></li>
+			      <li class="list-group-item"><p><strong>Pays de résidence : </strong> {{ user.country }}</p></li>
+			    </ul>
+			  </div>
+			</div>
+			<div class="panel panel-default">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Ses Liens</h3>
+			  </div>
+			  <div class="panel-body">
+			    <!-- List group -->
+			    <ul id="links" class="list-group">
+			    {{ render(controller("WKTUserBundle:Link:indexByUser")) }}
+			    </ul>
+			  </div>
+			</div>
+		</div>
+
+
+{% endblock fos_user_content %}
+{% block javascripts %}
+  {{parent()}}
+  {% javascripts 'bundles/wktuser/removeTrashLink.js'%} 
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
+{% endblock %}
+
+
+
+
+
+
+
+

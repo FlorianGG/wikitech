@@ -139,6 +139,7 @@ class User extends BaseUser
      */
     protected $links;
 
+
     public function __construct()
     {
         parent::__construct();

@@ -12,7 +12,7 @@
         {% endif %}   
 	</div>
     <h2>Présentation de la formation</h2>
-    <p> {{ training.introduction }} </p>
+    <p> {{ training.introduction|raw}} </p>
     <hr>
     <h2> Sommaire de la formation </h2>
     {{ include("WKTPlatformBundle:Summary:viewSummary.html.twig") }}

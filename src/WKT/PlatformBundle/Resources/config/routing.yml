@@ -13,9 +13,23 @@ wkt_platform_view:
         id: \d+     
 
 wkt_platform_add:
-    path: /formation/add
+    path: /admin/formation/add
     defaults:
         _controller: WKTPlatformBundle:Training:add
+
+wkt_platform_edit:
+    path: /admin/formation/edit/{id}
+    defaults:
+        _controller: WKTPlatformBundle:Training:edit
+    requirements:
+        id: \d+ 
+
+wkt_platform_delete:
+    path: /admin/formation/delete/{id}
+    defaults:
+        _controller: WKTPlatformBundle:Training:delete
+    requirements:
+        id: \d+   
 
 wkt_platform_article_view:
     path: /formation/{slugTraining}/article/{id}/{slugArticle}
@@ -25,7 +39,7 @@ wkt_platform_article_view:
         id: \d+
 
 wkt_platform_article_add:
-    path: /article/add/{id}
+    path: /admin/article/add/{id}
     defaults:
         _controller: WKTPlatformBundle:Article:add
     requirements:
@@ -54,14 +68,14 @@ wkt_platform_article_modified_view:
         id: \d+ 
 
 wkt_platform_article_modified_validation:
-    path: /labo/validation/{id}
+    path: /admin/labo/validation/{id}
     defaults:
         _controller: WKTPlatformBundle:ArticleModified:validation
     requirements:
         id: \d+ 
 
 wkt_platform_article_modified_rejection:
-    path: /labo/rejection/{id}/{strike}
+    path: /admin/labo/rejection/{id}/{strike}
     defaults:
         _controller: WKTPlatformBundle:ArticleModified:rejection
         strike: 0
@@ -77,7 +91,7 @@ wkt_platform_article_modified_edit:
         id: \d+ 
 
 wkt_platform_article_modified_delete:
-    path: /labo/delete/{id}
+    path: /admin/labo/delete/{id}
     defaults:
         _controller: WKTPlatformBundle:ArticleModified:delete
     requirements:
@@ -93,7 +107,7 @@ wkt_platform_article_modified_add_new_article:
 # Commit
 
 wkt_platform_commit_index:
-    path: /commit/index
+    path: /admin/commit/index
     defaults:
         _controller: WKTPlatformBundle:Commit:index
 
