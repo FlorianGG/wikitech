@@ -1,3 +1,0 @@
-wkt_core_home:
-    path:     /
-    defaults: { _controller: WKTCoreBundle:Core:home }
