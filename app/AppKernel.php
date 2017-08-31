@@ -18,11 +18,11 @@ class AppKernel extends Kernel
             new WKT\PlatformBundle\WKTPlatformBundle(),
             new WKT\CoreBundle\WKTCoreBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
-            new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new WKT\UserBundle\WKTUserBundle(),
             new Bmatzner\FontAwesomeBundle\BmatznerFontAwesomeBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

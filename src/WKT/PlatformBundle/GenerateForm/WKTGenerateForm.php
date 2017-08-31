@@ -4,6 +4,7 @@
 namespace WKT\PlatformBundle\GenerateForm;
 
 use Doctrine\ORM\EntityManager;
+use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -60,10 +61,10 @@ class WKTGenerateForm
 
     return $this->formBuilder->createBuilder(FormType::class, $article)
       ->add('title')
-      ->add('introduction', TextareaType::class, array(
-          'attr' => array('class' => 'tinymce')))
-      ->add('content', TextareaType::class, array(
-          'attr' => array('class' => 'tinymce')))
+      ->add('introduction', CKEditorType::class, array(
+        'config_name' => 'basic_config',))
+      ->add('content', CKEditorType::class, array(
+        'config_name' => 'full_config',))
       ->add('orderInPart', HiddenType::class)
       ->add('part', EntityType::class, array(
           'class' => 'WKTPlatformBundle:Part',

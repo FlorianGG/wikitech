@@ -105,17 +105,17 @@ assetic:
         scssphp:
             formatter: 'Leafo\ScssPhp\Formatter\Compressed'
 
-stfalcon_tinymce:
-    theme:
-        # Simple theme: same as default theme
-        simple: 
-            height: 200
-            relative_urls: false
-            forced_root_block: false
-            force_p_newlines : true
-            plugins:
-                - "advlist autolink lists link image charmap print preview hr anchor pagebreak"
-                - "searchreplace wordcount visualblocks visualchars code fullscreen"
-                - "insertdatetime media nonbreaking save table contextmenu directionality"
-                - "emoticons template paste textcolor jbimages"
-            toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link jbimages | forecolor emoticons | code preview"           
+ivory_ck_editor:
+    configs:
+        full_config:
+            jquery: true
+            height: '900px'
+            language: fr
+            filebrowserBrowseRoute: elfinder
+            filebrowserBrowseRouteParameters: []
+            extraPlugins: 'lineutils,widget,dialog,codesnippet,widgetselection'
+        basic_config:
+            jquery: true
+            heihgt: '250px'
+            language: fr
+            toolbar: basic

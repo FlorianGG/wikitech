@@ -32,7 +32,7 @@
             </div>
             <div> 
                 {% autoescape %}
-                    {{ articleModified.introduction|raw }} {# var won't be escaped #}
+                    {{ articleModified.introduction}} {# var won't be escaped #}
                 {% endautoescape %}
             </div>
             <hr>
@@ -46,7 +46,7 @@
             </div>
             <div> 
                 {% autoescape %}
-                    {{ articleModified.content|raw }} {# var won't be escaped #}
+                    {{ articleModified.content}} {# var won't be escaped #}
                 {% endautoescape %} 
             </div>
             <hr>
