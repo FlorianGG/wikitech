@@ -1,7 +1,7 @@
 {
     "name": "florian/wikitech",
     "license": "proprietary",
-    "property": "Florian Garcia & Nicolas Levé",
+    "description": "WikiTech project under the propriety of Nicolas Levé & Florian Garcia",
     "type": "project",
     "autoload": {
         "psr-4": {
