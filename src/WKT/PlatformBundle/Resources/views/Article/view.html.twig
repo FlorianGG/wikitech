@@ -44,9 +44,7 @@
             
          
             <div> 
-                {% autoescape %}
-                    {{ article.introduction|raw }} {# var won't be escaped #}
-                {% endautoescape %}
+                {{ article.introduction}}
             </div>
             <hr>
             <div class="row">
@@ -63,9 +61,7 @@
                 </div>
             </div>
             <div> 
-                {% autoescape %}
-                    {{ article.content|raw }} {# var won't be escaped #}
-                {% endautoescape %} 
+                {{ article.content|raw}}
             </div>
             <hr>
             {% if article.video.url is defined %}

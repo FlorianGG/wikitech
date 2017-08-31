@@ -47,9 +47,7 @@
 		            </div>
 		        </div>
     			<div> 
-    			    {% autoescape %}
-    			        {{ articleModified.article.introduction|raw }} {# var won't be escaped #}
-    			    {% endautoescape %}
+    			    {{ articleModified.article.introduction}}
     			</div>
 		    </div>
 		</div>
@@ -66,7 +64,7 @@
 							<h3>{{ form_label(form.introduction, "En Bref", {'label_attr': {'class': 'control-label'}}) }}</h3>
 						    {{ form_errors(form.introduction) }}
 						    <div class="col-sm-12">
-						    	{{ form_widget(form.introduction, {'attr': {'class': 'tinymce form-control'}, 'value': articleModified.introduction}) }}
+						    	{{ form_widget(form.introduction, {'attr': {'class': 'form-control'}, 'value': articleModified.introduction}) }}
 						    </div>
 						</div>
 					</div>
@@ -88,9 +86,7 @@
 		            </div>
 		        </div>
     			<div> 
-    			    {% autoescape %}
-    			        {{ articleModified.article.content|raw }} {# var won't be escaped #}
-    			    {% endautoescape %}
+    			    {{ articleModified.article.content|raw}} {# var won't be escaped #}
     			</div>
 		    </div>
 		</div>
