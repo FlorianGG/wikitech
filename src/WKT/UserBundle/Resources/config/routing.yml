@@ -60,3 +60,10 @@ wkt_user_view_profile:
         id: \d+
 
 
+wkt_user_article_is_read:
+    path: /user/articleIsRead/{id}
+    defaults:
+        _controller: WKTUserBundle:User:articleIsRead
+    requirements:
+        id: \d+   
+

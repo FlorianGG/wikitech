@@ -87,7 +87,20 @@
                 <hr>
             {% endif %}
 
-            <p><a class="btn btn-primary btn-lg" href="{{ path('wkt_platform_view', {'id': article.part.training.id, 'slugTraining': article.part.training.slug}) }}">Retour à l'accueil de la formation</a></p>
+            <p>
+            <a class="btn btn-primary btn-lg" href="{{ path('wkt_platform_view', {'id': article.part.training.id, 'slugTraining': article.part.training.slug}) }}">Retour à l'accueil de la formation</a>
+            {% set break = false %}
+            {% for articleRead in app.user.userArticlesRead %}
+               {% if articleRead.article == article %}
+                {% set break = true %}
+               {% endif %}
+            {% endfor %}
+            {% if not break %}
+            <a class="btn btn-success btn-lg" href="{{ path('wkt_user_article_is_read', {'id': article.id})}}">Article terminé</a>
+            {% endif %}
+            
+            </p>
+
         </div>
           <!-- Modal -->
         <div class="modal fade" id="isModifying" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

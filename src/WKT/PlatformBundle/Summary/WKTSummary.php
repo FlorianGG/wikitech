@@ -69,4 +69,19 @@ class WKTSummary
 		return $summary;
 	}
 
+	public function getArticlesByTraining(Training $id)
+	{
+		$parts = $this->getParts($id);
+		$articles = [];
+
+		foreach ($parts as $part) {
+			$articlesInPart = $part->getArticles();
+			foreach ($articlesInPart as $article) {
+				$articles[] = $article;
+			}
+		}
+
+		return $articles;
+	}
+
 }

@@ -2,8 +2,9 @@
 
 namespace WKT\UserBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -139,15 +140,19 @@ class User extends BaseUser
      */
     protected $links;
 
+    /**
+     * @ORM\OneToMany(targetEntity="WKT\UserBundle\Entity\UserArticleRead", mappedBy="$user")
+     */
+    private $userArticlesRead;
+
 
     public function __construct()
     {
         parent::__construct();
-        $this->links = new \Doctrine\Common\Collections\ArrayCollection();
         $this->nbPoint = 0;
         $this->nbStrike = 0;
+        $this->links = new ArrayCollection;  
     }
-
 
     /**
      * Set firstname
@@ -270,6 +275,30 @@ class User extends BaseUser
     }
 
     /**
+     * Set nbStrike
+     *
+     * @param integer $nbStrike
+     *
+     * @return User
+     */
+    public function setNbStrike($nbStrike)
+    {
+        $this->nbStrike = $nbStrike;
+
+        return $this;
+    }
+
+    /**
+     * Get nbStrike
+     *
+     * @return integer
+     */
+    public function getNbStrike()
+    {
+        return $this->nbStrike;
+    }
+
+    /**
      * Set company
      *
      * @param string $company
@@ -291,42 +320,6 @@ class User extends BaseUser
     public function getCompany()
     {
         return $this->company;
-    }
-
-    /**
-     * Add link
-     *
-     * @param \WKT\UserBundle\Entity\Link $link
-     *
-     * @return User
-     */
-    public function addLink(\WKT\UserBundle\Entity\Link $link)
-    {
-        $this->links[] = $link;
-
-        $link->setUser($this);
-
-        return $this;
-    }
-
-    /**
-     * Remove link
-     *
-     * @param \WKT\UserBundle\Entity\Link $link
-     */
-    public function removeLink(\WKT\UserBundle\Entity\Link $link)
-    {
-        $this->links->removeElement($link);
-    }
-
-    /**
-     * Get links
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getLinks()
-    {
-        return $this->links;
     }
 
     /**
@@ -378,26 +371,74 @@ class User extends BaseUser
     }
 
     /**
-     * Set nbStrike
+     * Add link
      *
-     * @param integer $nbStrike
+     * @param \WKT\UserBundle\Entity\Link $link
      *
      * @return User
      */
-    public function setNbStrike($nbStrike)
+    public function addLink(\WKT\UserBundle\Entity\Link $link)
     {
-        $this->nbStrike = $nbStrike;
+        $this->links[] = $link;
+        $link->setUser($this);
 
         return $this;
     }
 
     /**
-     * Get nbStrike
+     * Remove link
      *
-     * @return integer
+     * @param \WKT\UserBundle\Entity\Link $link
      */
-    public function getNbStrike()
+    public function removeLink(\WKT\UserBundle\Entity\Link $link)
     {
-        return $this->nbStrike;
+        $this->links->removeElement($link);
+    }
+
+    /**
+     * Get links
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLinks()
+    {
+        return $this->links;
+    }
+
+
+    /**
+     * Add userArticlesRead
+     *
+     * @param \WKT\UserBundle\Entity\UserArticleRead $userArticlesRead
+     *
+     * @return User
+     */
+    public function addUserArticlesRead(\WKT\UserBundle\Entity\UserArticleRead $userArticlesRead)
+    {
+        $this->userArticlesRead[] = $userArticlesRead;
+
+        $userArticlesRead->setUser($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove userArticlesRead
+     *
+     * @param \WKT\UserBundle\Entity\UserArticleRead $userArticlesRead
+     */
+    public function removeUserArticlesRead(\WKT\UserBundle\Entity\UserArticleRead $userArticlesRead)
+    {
+        $this->userArticlesRead->removeElement($userArticlesRead);
+    }
+
+    /**
+     * Get userArticlesRead
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUserArticlesRead()
+    {
+        return $this->userArticlesRead;
     }
 }
