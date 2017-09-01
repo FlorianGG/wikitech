@@ -46,10 +46,10 @@
 	    	    		{% endif %}
 	    	    	</td>
 					<td>
-						{% if user.roles[0] is empty %}
-							Utilisateur 
-						{% else %}
+						{% if 'ROLE_ADMIN' in user.roles %}
 							Administrateur
+						{% else %}
+							Utilisateur
 					    {% endif %}
 					</td>
 	    	    	<td>
