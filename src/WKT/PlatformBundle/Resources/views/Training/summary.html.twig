@@ -14,19 +14,20 @@
 						{% for article in part.Article %}
 						    <ul class="nav nav-pills nav-stacked">
 						    	<li {% if request.attributes.get("_route") == 'wkt_platform_article_view' and  request.attributes.get('_route_params')['id'] == article.entityArticle.id %} class="active" {% endif %} role="presentation"><a href=" {{ path('wkt_platform_article_view', { 'id': article.entityArticle.id , 'slugTraining': part.Part.entity.training.slug, 'slugArticle': article.entityArticle.slug})}}">
-						    	{% if app.user.userArticlesRead is empty %}
-								{% else %}
-								   {% for articleRead in app.user.userArticlesRead %}
-								    	{% if articleRead.article == article.entityArticle %}
-								    		{% if articleRead.updated %}
-								    			<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-								    		{% else %}
-								    			<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
-								    		{% endif %}
-								        {% endif %}
-								   {% endfor %}
+						    	{% if app.user %}
+							    	{% if app.user.userArticlesRead is empty %}
+									{% else %}
+									   {% for articleRead in app.user.userArticlesRead %}
+									    	{% if articleRead.article == article.entityArticle %}
+									    		{% if articleRead.updated %}
+									    			<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+									    		{% else %}
+									    			<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+									    		{% endif %}
+									        {% endif %}
+									   {% endfor %}
+							    	{% endif %}
 						    	{% endif %}
-
 						    	{{ article.entityArticle.title }}</a></li>
 						    </ul>
 						{% endfor %}

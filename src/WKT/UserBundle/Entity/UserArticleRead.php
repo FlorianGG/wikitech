@@ -35,7 +35,7 @@ class UserArticleRead
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Article")
+     * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Article", inversedBy="userArticlesRead")
      * @ORM\JoinColumn(nullable=false)
      */
     private $article;

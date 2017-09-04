@@ -1,7 +1,8 @@
 <fieldset id="fieldsetDisabled" disabled>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title"> <span class="badge">2</span> Créer votre page</h3>
+      <h3 class="panel-title"> <span class="badge">2</span> {% if articleEdit is defined %}Modifier l'article {% else %}Créer un article
+          {% endif %}</h3>
     </div>
   </div>
   <div class="well">
@@ -11,7 +12,7 @@
         {{ form_errors(form.part) }}
         <div class="col-sm-10">
           {{ form_widget(form.part, {'attr': {'class': 'form-control', 'style': 'display:none;'}}) }}
-          <input id="inputPartReadOnly" class="form-control" type="text" placeholder="" readonly>
+          <input id="inputPartReadOnly" class="form-control" type="text" placeholder="{% if articleEdit is defined %} {{articleEdit.part.title }}{% endif %}" readonly>
         </div>
       </div>
 
@@ -46,7 +47,12 @@
       {{ form_label(form.video.url, "Url de la video", {'label_attr': {'class': 'col-sm-2 col-sm-offset-1 control-label'}}) }}
       <div class="col-sm-9">
         {{ form_errors(form.video.url) }}
-        {{ form_widget(form.video.url, {'attr': {'class': 'form-control'}}) }}
+        {% if articleEdit is defined and articleEdit.video.url is defined%}
+          {{ form_widget(form.video.url, {'attr': {'class': 'form-control', 'value': 'https://www.youtube.com/embed/' ~ articleEdit.video.url}}) }}
+        {% else %}
+          {{ form_widget(form.video.url, {'attr': {'class': 'form-control'}}) }}   
+        {% endif %}
+        
       </div> 
     </div>
     <div class="form-group">

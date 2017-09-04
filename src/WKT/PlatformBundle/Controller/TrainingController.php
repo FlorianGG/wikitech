@@ -14,11 +14,36 @@ class TrainingController extends Controller
 {
 	public function indexAction()
 	{
-		$trainingRepository = $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:Training');
+		$em = $this->getDoctrine()->getManager();
+		$user = $this->getUser();
 
-		$trainings = $trainingRepository->findAll();
+		$trainings = $em->getRepository('WKTPlatformBundle:Training')->findAll();
+		$userTrainings = $em->getRepository('WKTUserBundle:UserTraining')->findBy(array('user' => $user));
+		$trainingsBeginned = $this->getTrainingsBeginnedStatus($userTrainings);
 
-		return $this->render('WKTPlatformBundle:Training:index.html.twig', array('trainings' => $trainings));
+		return $this->render('WKTPlatformBundle:Training:index.html.twig', array(
+			'trainings' => $trainings,
+			'trainingsBeginned' => $trainingsBeginned));
+	}
+
+	private function getTrainingsBeginnedStatus(array $userTrainings)
+	{
+		$trainingsBeginned = [];
+
+		foreach ($userTrainings as $userTraining) {
+			if (!$userTraining->getFinished()) {
+				$trainingsBeginned[$userTraining->getTraining()->getTitle()] = array(
+					'updated' => $userTraining->getUpdated(),
+					'finished' => $userTraining->getFinished(),
+					'article' => $this->container->get('wkt_user.training_is_finished')->getFirstArticleNotRead($userTraining));
+			}else{
+				$trainingsBeginned[$userTraining->getTraining()->getTitle()] = array(
+					'updated' => $userTraining->getUpdated(),
+					'finished' => $userTraining->getFinished());
+			}
+		}
+
+		return $trainingsBeginned;
 	}
 
 	public function viewAction($id)

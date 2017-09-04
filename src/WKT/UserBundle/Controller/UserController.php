@@ -7,8 +7,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WKT\PlatformBundle\Entity\Article;
+use WKT\PlatformBundle\Entity\Training;
 use WKT\UserBundle\Entity\User;
 use WKT\UserBundle\Entity\UserArticleRead;
+use WKT\UserBundle\Entity\UserTraining;
 use WKT\UserBundle\Repository\UserRepository;
 
 
@@ -94,30 +96,32 @@ class UserController extends Controller
 
 		$user = $this->getUser();
 		$article = $em->getRepository('WKTPlatformBundle:Article')->find($id);
-
+		$training = $article->getPart()->getTraining();
+		$userArticleRead = $this->container->get('wkt_user.user_training_article_updated')->changeAttributeUpdated($article, false);
 		if (!is_null($article)) {
-			$userArticleRead = new UserArticleRead();
-			$userArticleRead->setUser($user)->setArticle($article);
-			$em->persist($userArticleRead);
-			$em->flush();
-			$trainingId = $article->getPart()->getTraining();
-			$articles = $this->container->get('wkt_platform.summary')->getArticlesByTraining($trainingId);
-			$key = array_search($article, $articles);
-			$nextKey = $key + 1;
-			$testTrainingIsNotFinished = $this->container->get('wkt_user.training_is_finished')->getTrainingIsNotFinished($user, $trainingId);
+			//On verifie qu'il existe un userArticleRead
+			// si oui on change la valeur de l'attribut updated
+
+			if (is_null($userArticleRead)) {
+				$userArticleRead = new UserArticleRead();
+				$userArticleRead->setUser($user)->setArticle($article);
+				$em->persist($userArticleRead);
+			}
+
+			$userTraining = $em->getRepository('WKTUserBundle:UserTraining')->getUserTrainingByUserAndTraining($user, $training);
+			if (is_null($userTraining)) {
+				$userTraining = new UserTraining;
+				$userTraining->setUser($user)->setTraining($training);
+				$user->addUserTraining($userTraining);
+			}else{
+				$userTraining->setUpdated(false);
+			}
+			$em->persist($userTraining);
+			$em->flush();			
 
 			//On verifie si la formation est terminée
-			if (!$testTrainingIsNotFinished) {
-				$request->getSession()->getFlashBag()->add('notice', 'Bravo !! 👏🎉 Vous avez terminé la formation ' . $trainingId->getTitle() . '. Vous pouvez dés maintenant en commencer une nouvelle 😁');
-				return $this->redirectToRoute('wkt_platform_index');
-			}else{
-				$request->getSession()->getFlashBag()->add('notice', 'Et une page de terminée 🤓');
-				return $this->redirectToRoute('wkt_platform_article_view', array('id' => $testTrainingIsNotFinished->getId(), 'slugTraining' => $trainingId->getSlug(), 'slugArticle' => $testTrainingIsNotFinished->getSlug()));
-			}
-			$request->getSession()->getFlashBag()->add('notice', 'Et une page de terminée 🤓');
-			if (array_key_exists($nextKey, $articles)) {
-				return $this->redirectToRoute('wkt_platform_article_view', array('id' => $articles[$nextKey]->getId(), 'slugTraining' => $articles[$nextKey]->getPart()->getTraining()->getSlug(), 'slugArticle' => $articles[$nextKey]->getSlug()));
-			}
+			// et on retourne la bonne page
+			return $this->returnAfterValidation($request, $training, $article, $user);
 
 		}
 		$request->getSession()->getFlashBag()->add('alert', 'Aïe ! Aïe ! Quelque chose c\'est mal passé 😳 Peut-être qu\'une nouvelle page a été rajoutée dans la formation. N\'hésitez pas à retourner voir 😁' );
@@ -125,4 +129,38 @@ class UserController extends Controller
 
 	}
 
+	//factorisation fonction qui return sur la bonne page avec le bon message
+	private function returnAfterValidation(Request $request, Training $training, Article $article, User $user)
+	{
+		$em = $this->getDoctrine()->getManager();
+		$userTraining =  $em->getRepository('WKTUserBundle:UserTraining')->getUserTrainingByUserAndTraining($user, $training);
+		//On verifie si la formation est terminée
+		$testTraningIsFinished = $this->container->get('wkt_user.training_is_finished')->checkTrainingIsFinished($userTraining);
+
+
+		$request->getSession()->getFlashBag()->add('notice', 'Et une page de terminée 🤓');
+		$articles = $this->container->get('wkt_platform.summary')->getArticlesByTraining($training);
+		$key = array_search($article, $articles);
+		$nextKey = $key + 1;
+		if ($testTraningIsFinished === false) {
+			$userTraining->setFinished(true);
+			$em->persist($userTraining);
+			$em->flush();
+
+			$request->getSession()->getFlashBag()->add('notice', 'Bravo !! 👏🎉 Vous avez terminé la formation ' . $training->getTitle() . '. Vous pouvez dés maintenant en commencer une nouvelle 😁');
+			return $this->redirectToRoute('wkt_platform_index');
+		}else{
+			if (isset($articles[$nextKey]) && in_array($articles[$nextKey], $testTraningIsFinished)) {
+				return $this->redirectToRoute('wkt_platform_article_view', array('id' => $articles[$nextKey]->getId(), 'slugTraining' => $articles[$nextKey]->getPart()->getTraining()->getSlug(), 'slugArticle' => $articles[$nextKey]->getSlug()));
+			}else{
+				return $this->redirectToRoute('wkt_platform_article_view', array('id' => $testTraningIsFinished[0]->getId(), 'slugTraining' => $training->getSlug(), 'slugArticle' => $testTraningIsFinished[0]->getSlug()));
+			}
+		}
+
+
+		// if ($testTraningIsFinished) {
+		// 	$request->getSession()->getFlashBag()->add('notice', 'Bravo !! 👏🎉 Vous avez terminé la formation ' . $training->getTitle() . '. Vous pouvez dés maintenant en commencer une nouvelle 😁');
+		// 	return $this->redirectToRoute('wkt_platform_index');
+		// }
+	}
 }

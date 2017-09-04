@@ -45,6 +45,13 @@ wkt_platform_article_add:
     requirements:
         id: \d+  
 
+wkt_platform_article_edit:
+    path: /admin/article/edit/{id}
+    defaults:
+        _controller: WKTPlatformBundle:Article:edit
+    requirements:
+        id: \d+ 
+
 wkt_platform_part_add_ajax:
     path: /path/add/{id}
     defaults:

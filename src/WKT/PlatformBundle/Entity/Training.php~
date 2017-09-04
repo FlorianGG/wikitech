@@ -54,12 +54,23 @@ class Training
      */
     private $slug;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="draft", type="boolean", nullable=false)
+     */
+    private $draft;
+
+    /**
+     * @ORM\OneToMany(targetEntity="WKT\UserBundle\Entity\UserTraining", mappedBy="training")
+     */
+    private $userTrainings;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime;
+        $this->draft = false;
     }
-
-  
 
     /**
      * Get id
@@ -201,5 +212,65 @@ class Training
     public function getParts()
     {
         return $this->parts;
+    }
+
+    /**
+     * Set draft
+     *
+     * @param boolean $draft
+     *
+     * @return Training
+     */
+    public function setDraft($draft)
+    {
+        $this->draft = $draft;
+
+        return $this;
+    }
+
+    /**
+     * Get draft
+     *
+     * @return boolean
+     */
+    public function getDraft()
+    {
+        return $this->draft;
+    }
+
+    /**
+     * Add userTraining
+     *
+     * @param \WKT\UserBundle\Entity\UserTraining $userTraining
+     *
+     * @return Training
+     */
+    public function addUserTraining(\WKT\UserBundle\Entity\UserTraining $userTraining)
+    {
+        $this->userTrainings[] = $userTraining;
+
+        $userTraining->setTraining($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove userTraining
+     *
+     * @param \WKT\UserBundle\Entity\UserTraining $userTraining
+     */
+    public function removeUserTraining(\WKT\UserBundle\Entity\UserTraining $userTraining)
+    {
+        $this->userTrainings->removeElement($userTraining);
+    }
+
+    /**
+     * Get userTrainings
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUserTrainings()
+    {
+        return $this->userTrainings;
     }
 }

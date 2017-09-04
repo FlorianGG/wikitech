@@ -4,6 +4,7 @@ namespace WKT\PlatformBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use WKT\UserBundle\Entity\User;
 /**
  * TrainingRepository
  *
@@ -11,6 +12,5 @@ use Doctrine\ORM\QueryBuilder;
  * repository methods below.
  */
 class TrainingRepository extends EntityRepository
-{
-
+{	
 }

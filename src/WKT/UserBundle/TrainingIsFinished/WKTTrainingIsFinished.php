@@ -8,6 +8,7 @@ use WKT\PlatformBundle\Entity\Article;
 use WKT\PlatformBundle\Entity\Training;
 use WKT\PlatformBundle\Summary\WKTSummary;
 use WKT\UserBundle\Entity\User;
+use WKT\UserBundle\Entity\UserTraining;
 
 class WKTTrainingIsFinished
 {
@@ -20,34 +21,76 @@ class WKTTrainingIsFinished
 	        $this->sum = $sum;
 	}
 
-	public function getTrainingIsNotFinished(User $user, Training $id)
+	// factorisation fonction qui retourne dans un tableau la liste des articlesl lus pour un user
+	private function getArticlesRead(UserTraining $userTraining)
 	{
-		$articles = $this->sum->getArticlesByTraining($id);
+		$user = $userTraining->getUser();
 
-		$articlesRead = $user->getUserArticlesRead();
+		$userArticlesRead = $user->getUserArticlesRead();
+		$articlesRead = [];
+
+		foreach ($userArticlesRead as $userArticleRead) {
+			$articlesRead[] = $userArticleRead->getArticle();
+		}
+
+		return $articlesRead;
+
+	}
+
+	// factorisation fonction qui retourne dans un tableau la liste des articles d'une formation
+	private function getArticlesInTraining(UserTraining $userTraining)
+	{
+		$training = $userTraining->getTraining();
+		$articles = $this->sum->getArticlesByTraining($training);
+
+		return $articles;
+	}
+
+	public function getFirstArticleNotRead(UserTraining $userTraining)
+	{
+
+		$articles = $this->getArticlesInTraining($userTraining);
+		
+		$articlesRead = $this->getArticlesRead($userTraining);
 
 		foreach ($articles as $article) {
-			if (!$this->loopInArticlesRead($articlesRead, $article)) {
+			if (!in_array($article, $articlesRead)) {
 				return $article;
 			}
 		}
-
-		return false;
 	}
 
-	private function loopInArticlesRead($articlesRead, Article $article)
+	public function checkTrainingIsFinished(UserTraining $userTraining)
 	{
-		$articles =[];
-		foreach ($articlesRead as $articleRead) {
-			if ($articleRead->getUpdated()) {
-				return false;
+		$articles = $this->getArticlesInTraining($userTraining);
+
+		$articlesRead = $this->getArticlesRead($userTraining);
+
+		foreach ($articles as $article) {
+			if (!in_array($article, $articlesRead)) {
+				$articlesNotRead[] = $article;
 			}
-			$articles[] = $articleRead->getArticle();
 		}
-		if (in_array($article, $articles)) {
-				return true;
+
+		if (empty($articlesNotRead)) {
+			return false;
 		}
-		return false;
+		return $articlesNotRead;	
+
+	}
+
+
+	public function listOfTrainingsBeginned(User $user)
+	{
+		$userTrainings = $user->getUserTrainings();
+		$listOfTrainingsBeginned = [];
+
+		foreach ($userTrainings as $userTraining) {
+			if (!$userTraining->getFinished()) {
+				$listOfTrainingsBeginned[] = $userTraining->getTraining();
+			}
+		}
+		return $listOfTrainingsBeginned;
 	}
 
 }

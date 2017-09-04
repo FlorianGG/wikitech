@@ -145,6 +145,10 @@ class User extends BaseUser
      */
     private $userArticlesRead;
 
+    /**
+     * @ORM\OneToMany(targetEntity="WKT\UserBundle\Entity\UserTraining", mappedBy="user")
+     */
+    private $userTrainings;
 
     public function __construct()
     {
@@ -440,5 +444,41 @@ class User extends BaseUser
     public function getUserArticlesRead()
     {
         return $this->userArticlesRead;
+    }
+
+    /**
+     * Add userTraining
+     *
+     * @param \WKT\UserBundle\Entity\UserTraining $userTraining
+     *
+     * @return User
+     */
+    public function addUserTraining(\WKT\UserBundle\Entity\UserTraining $userTraining)
+    {
+        $this->userTrainings[] = $userTraining;
+
+        $userTraining->setUser($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove userTraining
+     *
+     * @param \WKT\UserBundle\Entity\UserTraining $userTraining
+     */
+    public function removeUserTraining(\WKT\UserBundle\Entity\UserTraining $userTraining)
+    {
+        $this->userTrainings->removeElement($userTraining);
+    }
+
+    /**
+     * Get userTrainings
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUserTrainings()
+    {
+        return $this->userTrainings;
     }
 }

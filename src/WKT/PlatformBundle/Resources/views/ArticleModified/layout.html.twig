@@ -2,12 +2,16 @@
 
 {% extends 'WKTCoreBundle:Core:layout.html.twig' %}
 {% block bodyLeft %}
-    {% if is_granted('ROLE_USER') %}
     <div class="row">
-        <a class="btn btn-success btn-lg col-xs-12" href="{% block addArticle %}{% endblock %}">Ajouter un article</a>
+    {% if is_granted('ROLE_USER') %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-success btn-lg col-xs-12" href="{{ path('wkt_platform_article_add', {'id': articleModified.part.training.id}) }}">Ajouter un article</a>
+        {% else %}
+            <a class="btn btn-success btn-lg col-xs-12" href="{% block addArticle %}{% endblock %}">Proposer un article</a>
+        {% endif %}  
+    {% endif %}
     </div>
     <br>
-    {% endif %}
     {% set currentArticleModified = app.request.attributes.get('_route_params')['id'] %}
     {% block listArticlesModified %}
         <div class="row">

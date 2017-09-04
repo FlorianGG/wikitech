@@ -68,7 +68,6 @@ class Video
             $key = substr($url, strpos($url, "embed/") + 6, 11);
             $this->url = $key;
         }
-        $this->url =  $url;
 
         return $this;
     }
@@ -113,12 +112,18 @@ class Video
     public function isUrlValid(ExecutionContextInterface $context)
     {   
         // On vérifie que l'url contient bien un des éléments suivants
-        if (!strpos( $this->getUrl(),"v=") && !strpos( $this->getUrl(),"embed/")){
+        if (strpos( $this->getUrl(),"v=") !== false){
             // La règle est violée, on définit l'erreur
             $context
               ->buildViolation('L\'url enregistrée, n\'est pas une url Youtube valide 😱' ) // message
               ->atPath('url')  // attribut de l'objet qui est violé
               ->addViolation(); // ceci déclenche l'erreur
+        }elseif (strpos( $this->getUrl(),"embed/") !== false) {
+            // La règle est violée, on définit l'erreur
+                        $context
+                          ->buildViolation('L\'url enregistrée, n\'est pas une url Youtube valide 😱' ) // message
+                          ->atPath('url')  // attribut de l'objet qui est violé
+                          ->addViolation(); // ceci déclenche l'erreur
         }
 
         if (is_null($this->getUrl()) && !is_null($this->getAuthor())) {

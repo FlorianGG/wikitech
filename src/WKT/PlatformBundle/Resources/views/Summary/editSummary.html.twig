@@ -11,7 +11,7 @@
                   {% for article in part.Article %}
                       <div class="radio">
                         <label>
-                          <input type="radio" name="optionsRadios" value=" {{ article.orderArticle }}">
+                          <input type="radio" name="optionsRadios" value=" {{ article.orderArticle }}" {% if articleEdit is defined and article.entityArticle == articleEdit %}checked{% endif %}>
                           {{ article.entityArticle.title }}
                           <input type="hidden" name="partId" value="{{part.Part.entity.id}}">
                         </label>    

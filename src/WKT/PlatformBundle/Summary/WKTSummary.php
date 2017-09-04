@@ -4,6 +4,7 @@
 namespace WKT\PlatformBundle\Summary;
 
 use Doctrine\ORM\EntityManager;
+use WKT\PlatformBundle\Entity\Article;
 use WKT\PlatformBundle\Entity\Training;
 
 class WKTSummary
@@ -82,6 +83,35 @@ class WKTSummary
 		}
 
 		return $articles;
+	}
+
+	public function getFollowingAndPreviousArticle(Article $article)
+	{
+		$training = $article->getPart()->getTraining();
+
+		$articles = $this->getArticlesByTraining($training);
+		$previousAndFollowingArticles = array(
+			'previous' => null,
+			'following' => null);
+
+		for ($i=0; $i < sizeof($articles); $i++) {
+			$j = $i + 1; 
+			$k = $i - 1;
+
+			if ($k >= 0) {
+				if ($articles[$i]->getId() === $article->getId()) {
+					$previousAndFollowingArticles['previous'] = $articles[$k];
+				}
+			}
+			if ($j < sizeof($articles)) {
+				if ($articles[$i]->getId() === $article->getId()) {
+					$previousAndFollowingArticles['following'] = $articles[$j];
+				}
+			}
+			
+		}
+		return $previousAndFollowingArticles;
+
 	}
 
 }

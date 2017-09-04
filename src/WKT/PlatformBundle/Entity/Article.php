@@ -105,14 +105,17 @@ class Article
      */
     private $slug;
 
+    /**
+     * @ORM\OneToMany(targetEntity="WKT\UserBundle\Entity\UserArticleRead", mappedBy="article")
+     */
+    private $userArticlesRead;
+
 
     public function __construct()
     {
         $this->createdAt = new \DateTime;
         $this->isModifying = false;
     }
-
-
 
     /**
      * Get id
@@ -388,4 +391,40 @@ class Article
         return $this->part;
     }
 
+
+    /**
+     * Add userArticlesRead
+     *
+     * @param \WKT\UserBundle\Entity\UserArticleRead $userArticlesRead
+     *
+     * @return Article
+     */
+    public function addUserArticlesRead(\WKT\UserBundle\Entity\UserArticleRead $userArticlesRead)
+    {
+        $this->userArticlesRead[] = $userArticlesRead;
+
+        $userArticlesRead->setArticle($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove userArticlesRead
+     *
+     * @param \WKT\UserBundle\Entity\UserArticleRead $userArticlesRead
+     */
+    public function removeUserArticlesRead(\WKT\UserBundle\Entity\UserArticleRead $userArticlesRead)
+    {
+        $this->userArticlesRead->removeElement($userArticlesRead);
+    }
+
+    /**
+     * Get userArticlesRead
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUserArticlesRead()
+    {
+        return $this->userArticlesRead;
+    }
 }

@@ -86,7 +86,20 @@ class ArticleModifiedController extends Controller
 			// on change dans l'article le statut IsModifying à false
 			$article->setIsModifying(false);
 
+			// on change le statut IsValidate pour le commit
 			$commits[0]->setIsValidate(true);
+
+			$UserTrainingArticleService = $this->container->get('wkt_user.user_training_article_updated');
+
+			if (!is_null($article->getId())) {
+				// on change modified de tous les UserArticleRead  de cet article à true
+				$UserTrainingArticleService->changeAttributeUpdated($article, true);
+			}
+			
+			// on change finished de tous les UserTraining de cet article à false
+			$UserTrainingArticleService->changeAttributeFinished($trainingId);
+			//on change updated de tous les UserTraining liés à cet article
+			$UserTrainingArticleService->changeAttributeUpdatedinUserTraining($training);
 
 			
 			if (!is_null($commits[0]->getUser())) {

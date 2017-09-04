@@ -2,9 +2,14 @@
 
 {% block addArticle %}
     {% if is_granted('ROLE_USER') %}
-        <a class="btn btn-success btn-lg col-xs-12" href="{{ path('wkt_platform_article_modified_add_new_article', {'id': article.part.training.id}) }}">Ajouter un article</a>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-success btn-lg col-xs-12" href="{{ path('wkt_platform_article_add', {'id': article.part.training.id}) }}">Ajouter un article</a>
+        {% else %}
+            <a class="btn btn-success btn-lg col-xs-12" href="{{ path('wkt_platform_article_modified_add_new_article', {'id': article.part.training.id}) }}">Ajouter un article</a>
+        {% endif %}  
     {% endif %}
 {% endblock %}
+
 
 {% block summaryInTraining %}
    {{ include("WKTPlatformBundle:Summary:viewSummary.html.twig") }}
@@ -18,12 +23,17 @@
                     </div>
                 </div>
                 <div class="col-xs-2" style="margin-top: 40px; margin-bottom: 10px;">
-                    {% if article.isModifying %}
-                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#isModifying">
-                          Modifier</button>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_edit', {'id': article.id}) }}">Modifier</a>
                     {% else %}
-                        <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}">Modifier</a>
+                        {% if article.isModifying %}
+                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#isModifying">
+                              Modifier</button>
+                        {% else %}
+                            <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}">Modifier</a>
+                        {% endif %}
                     {% endif %}
+
                 </div>
 
             </div>
@@ -33,11 +43,15 @@
                     <h2>En Bref</h2>
                 </div>
                 <div class="col-xs-2" style="margin-top: 20px; margin-bottom: 10px;">
-                    {% if article.isModifying %}
-                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#isModifying">
-                          Modifier</button>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_edit', {'id': article.id}) }}#wkt_platformbundle_articlemodified_introduction">Modifier</a>
                     {% else %}
-                        <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_introduction">Modifier</a>
+                        {% if article.isModifying %}
+                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#isModifying">
+                              Modifier</button>
+                        {% else %}
+                            <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_introduction">Modifier</a>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
@@ -52,11 +66,15 @@
                     <h2>En Détail</h2>
                 </div>
                 <div class="col-xs-2" style="margin-top: 20px; margin-bottom: 10px;">
-                    {% if article.isModifying %}
-                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#isModifying">
-                          Modifier</button>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_edit', {'id': article.id}) }}#wkt_platformbundle_articlemodified_content">Modifier</a>
                     {% else %}
-                        <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_content">Modifier</a>
+                        {% if article.isModifying %}
+                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#isModifying">
+                              Modifier</button>
+                        {% else %}
+                            <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_content">Modifier</a>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
@@ -70,11 +88,15 @@
                         <h2>En Vidéo</h2>
                     </div>
                     <div class="col-xs-2" style="margin-top: 20px; margin-bottom: 10px;">
-                        {% if article.isModifying %}
-                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#isModifying">
-                              Modifier</button>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_edit', {'id': article.id}) }}#wkt_platformbundle_articlemodified_video">Modifier</a>
                         {% else %}
-                            <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_video">Modifier</a>
+                            {% if article.isModifying %}
+                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#isModifying">
+                                  Modifier</button>
+                            {% else %}
+                                <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_video">Modifier</a>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
@@ -86,21 +108,37 @@
                 </div>
                 <hr>
             {% endif %}
+            <div class="row">
+                {% if app.user %}
+                    {% set break = false %}
+                    {% for articleRead in app.user.userArticlesRead %}
+                       {% if articleRead.article == article %}
+                        {% set break = true %}
+                        {% if articleRead.updated %}
+                             <a class="col-xs-8 col-xs-offset-2 btn btn-success btn-lg" href="{{ path('wkt_user_article_is_read', {'id': article.id})}}">Article terminé</a>
+                        {% endif %}
+                       {% endif %}
+                    {% endfor %}
+                    {% if not break %}
+                    <a class="col-xs-8 col-xs-offset-2 btn btn-success btn-lg" href="{{ path('wkt_user_article_is_read', {'id': article.id})}}">J'ai compris et je passe à l'article suivant</a>
+                    {% endif %}
+                {% endif %} 
+            </div>
+            <br>
+            <div class="row">
+                <nav aria-label="...">
+                  <ul class="pager">
+                    {% if articlePreviousAndFollowing['previous'] %}
+                        <li class="previous"><a href="{{path('wkt_platform_article_view', {'id': articlePreviousAndFollowing.previous.id, 'slugTraining': articlePreviousAndFollowing.previous.part.training.slug, 'slugArticle': articlePreviousAndFollowing.previous.slug})}}">Page Précédente</a></li>
+                    {% endif %}
+                    {% if articlePreviousAndFollowing['following'] %}
+                        <li class="next"><a href="{{path('wkt_platform_article_view', {'id': articlePreviousAndFollowing.following.id, 'slugTraining': articlePreviousAndFollowing.following.part.training.slug, 'slugArticle': articlePreviousAndFollowing.following.slug})}}">Page Suivante</a></li>
+                    {% endif %}
+                  </ul>
+                </nav>
 
-            <p>
-            <a class="btn btn-primary btn-lg" href="{{ path('wkt_platform_view', {'id': article.part.training.id, 'slugTraining': article.part.training.slug}) }}">Retour à l'accueil de la formation</a>
-            {% set break = false %}
-            {% for articleRead in app.user.userArticlesRead %}
-               {% if articleRead.article == article %}
-                {% set break = true %}
-               {% endif %}
-            {% endfor %}
-            {% if not break %}
-            <a class="btn btn-success btn-lg" href="{{ path('wkt_user_article_is_read', {'id': article.id})}}">Article terminé</a>
-            {% endif %}
-            
-            </p>
-
+            </div>
+                   
         </div>
           <!-- Modal -->
         <div class="modal fade" id="isModifying" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

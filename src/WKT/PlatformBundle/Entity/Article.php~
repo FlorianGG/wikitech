@@ -11,6 +11,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="WKT\PlatformBundle\Repository\ArticleRepository")
+ *
+/**
+
  */
 class Article
 {
@@ -101,6 +104,11 @@ class Article
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
     private $slug;
+
+    /**
+     * @ORM\OneToMany(targetEntity="WKT\UserBundle\Entity\UserArticleRead", mappedBy="article")
+     */
+    private $userArticlesRead;
 
 
     public function __construct()
