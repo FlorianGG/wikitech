@@ -59,11 +59,17 @@ wkt_user_view_profile:
     requirements:
         id: \d+
 
-
 wkt_user_article_is_read:
     path: /user/articleIsRead/{id}
     defaults:
         _controller: WKTUserBundle:User:articleIsRead
     requirements:
-        id: \d+   
+        id: \d+ 
+
+wkt_user_cancel_article_is_read:
+    path: /user/cancel_articleIsRead/{id}
+    defaults:
+        _controller: WKTUserBundle:User:cancelIsRead
+    requirements:
+        id: \d+    
 

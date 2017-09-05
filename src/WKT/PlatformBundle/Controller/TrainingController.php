@@ -6,6 +6,7 @@ namespace WKT\PlatformBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use WKT\PlatformBundle\Entity\Article;
 use WKT\PlatformBundle\Entity\Training;
 use WKT\PlatformBundle\Form\Type\TrainingType;
 
@@ -17,7 +18,7 @@ class TrainingController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$user = $this->getUser();
 
-		$trainings = $em->getRepository('WKTPlatformBundle:Training')->findAll();
+		$trainings = $em->getRepository('WKTPlatformBundle:Training')->findBy(array('draft' => false));
 		$userTrainings = $em->getRepository('WKTUserBundle:UserTraining')->findBy(array('user' => $user));
 		$trainingsBeginned = $this->getTrainingsBeginnedStatus($userTrainings);
 
@@ -120,6 +121,28 @@ class TrainingController extends Controller
 			return $this->redirectToRoute('wkt_platform_add');
 		}
 		$request->getSession()->getFlashBag()->add('alert', 'Impossible de supprimer la formation, car cette dernière n\'est pas vide');
+
+		return $this->redirectToRoute('wkt_platform_add');
+	}
+
+	public function draftAction(Request $request, Training $training, bool $boolean)
+	{
+		$em = $this->getDoctrine()->getManager();
+
+		$training = $em->getRepository('WKTPlatformBundle:Training')->find($training);
+
+		$training->setDraft($boolean);
+
+		$em->persist($training);
+
+		$em->flush();
+
+		if ($boolean) {
+			$status = 'mise en status brouillon';
+		}else{
+			$status = 'publiée';
+		}
+		$request->getSession()->getFlashBag()->add('notice', 'La formation '. $training->getTitle() . ' a bien été ' . $status);
 
 		return $this->redirectToRoute('wkt_platform_add');
 	}

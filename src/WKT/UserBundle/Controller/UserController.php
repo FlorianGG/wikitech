@@ -90,6 +90,45 @@ class UserController extends Controller
 			'user' => $user,));
 	}
 
+	public function cancelIsReadAction(Request $request, Article $id)
+	{
+		$em = $this->getDoctrine()->getManager();
+
+		$user = $this->getUser();
+		$article = $em->getRepository('WKTPlatformBundle:Article')->find($id);
+		$training = $article->getPart()->getTraining();
+
+		if (!is_null($article)) {
+			//On verifie qu'il existe un userArticleRead
+			// si oui on change la valeur de l'attribut updated
+			$userArticleRead = $em->getRepository('WKTUserBundle:UserArticleRead')->getUserArticleReadByUserAndArticle($user, $article);
+
+			//on verifie que le userArticleRead existe
+			//pour le supprimer
+			//sinon on retourne sur la page de la formation
+			//avec un message d'erreur
+			if (is_null($userArticleRead)) {
+				$request->getSession()->getFlashBag()->add('alert', 'Ooops il y a un bug dans la matrice !! 🤔' );
+				return $this->redirectToRoute('wkt_platform_view', array('id'=> $training->getId(), 'slugTraining'=> $training->getSlug()));
+			}else{
+				$em->remove($userArticleRead);
+				$userTraining = $em->getRepository('WKTUserBundle:UserTraining')->getUserTrainingByUserAndTraining($user,$training);
+				if ($userTraining->getFinished()) {
+					$userTraining->setFinished(false);
+				}
+				$userArticleReads = $this->container->get('wkt_user.training_is_finished')->getArticlesRead($userTraining);
+				if (sizeof($userArticleReads) === 1) {
+					$em->remove($userTraining);
+				}
+				$em->flush();
+
+				$request->getSession()->getFlashBag()->add('notice', 'Cet article est de nouveau non-validé ! 🤓' );
+
+				return $this->redirectToRoute('wkt_platform_article_view', array('id' => $article->getId(), 'slugTraining' => $training->getSlug(), 'slugArticle' => $article->getSlug()));
+			}
+		}
+	}
+
 	public function articleIsReadAction(Request $request, Article $id)
 	{
 		$em = $this->getDoctrine()->getManager();
@@ -97,15 +136,18 @@ class UserController extends Controller
 		$user = $this->getUser();
 		$article = $em->getRepository('WKTPlatformBundle:Article')->find($id);
 		$training = $article->getPart()->getTraining();
-		$userArticleRead = $this->container->get('wkt_user.user_training_article_updated')->changeAttributeUpdated($article, false);
+
 		if (!is_null($article)) {
 			//On verifie qu'il existe un userArticleRead
 			// si oui on change la valeur de l'attribut updated
+			$userArticleRead = $em->getRepository('WKTUserBundle:UserArticleRead')->getUserArticleReadByUserAndArticle($user, $article);
 
 			if (is_null($userArticleRead)) {
 				$userArticleRead = new UserArticleRead();
 				$userArticleRead->setUser($user)->setArticle($article);
 				$em->persist($userArticleRead);
+			}else{
+				$userArticleRead->setUpdated(false);
 			}
 
 			$userTraining = $em->getRepository('WKTUserBundle:UserTraining')->getUserTrainingByUserAndTraining($user, $training);
@@ -119,7 +161,7 @@ class UserController extends Controller
 			$em->persist($userTraining);
 			$em->flush();			
 
-			//On verifie si la formation est terminée
+			// On verifie si la formation est terminée
 			// et on retourne la bonne page
 			return $this->returnAfterValidation($request, $training, $article, $user);
 
@@ -156,11 +198,5 @@ class UserController extends Controller
 				return $this->redirectToRoute('wkt_platform_article_view', array('id' => $testTraningIsFinished[0]->getId(), 'slugTraining' => $training->getSlug(), 'slugArticle' => $testTraningIsFinished[0]->getSlug()));
 			}
 		}
-
-
-		// if ($testTraningIsFinished) {
-		// 	$request->getSession()->getFlashBag()->add('notice', 'Bravo !! 👏🎉 Vous avez terminé la formation ' . $training->getTitle() . '. Vous pouvez dés maintenant en commencer une nouvelle 😁');
-		// 	return $this->redirectToRoute('wkt_platform_index');
-		// }
 	}
 }

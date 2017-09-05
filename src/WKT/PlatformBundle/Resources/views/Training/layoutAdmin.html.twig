@@ -29,6 +29,11 @@
 			    		    <td class="text-center">
 			    		    	<a href="{{path('wkt_platform_edit', {'id': training.id })}}" class="btn btn-warning btn-xs">Modifier</a>
 			    		    	<a href="{{path('wkt_platform_delete', {'id': training.id })}}" class="btn btn-danger btn-xs">Supprimer</a>
+			    		    	{% if training.draft %}
+									<a href="{{path('wkt_platform_draft', {'id': training.id, 'boolean': 0 })}}" class="btn btn-primary btn-xs">Publier</a>
+									{% else %}
+									<a href="{{path('wkt_platform_draft', {'id': training.id, 'boolean': 1 })}}" class="btn btn-primary btn-xs">Brouillon</a>    
+			    		    	{% endif %}
 			    		    </td>
 			    		</tr>
 			    	{% endfor %}

@@ -12,7 +12,7 @@
 
 
 {% block summaryInTraining %}
-   {{ include("WKTPlatformBundle:Summary:viewSummary.html.twig") }}
+   {% include"WKTPlatformBundle:Summary:viewSummary.html.twig" with {'thisArticle': article} %}
 {% endblock %}
 {% block articleInTraining %}
         <div class="col-xs-12">
@@ -114,13 +114,14 @@
                     {% for articleRead in app.user.userArticlesRead %}
                        {% if articleRead.article == article %}
                         {% set break = true %}
+                        <a class="col-xs-8 col-xs-offset-2 btn btn-danger btn-lg" href="{{ path('wkt_user_cancel_article_is_read', {'id': article.id})}}">Je n'ai pas compris cet article</a>
                         {% if articleRead.updated %}
-                             <a class="col-xs-8 col-xs-offset-2 btn btn-success btn-lg" href="{{ path('wkt_user_article_is_read', {'id': article.id})}}">Article terminé</a>
+                             <a class="col-xs-8 col-xs-offset-2 btn btn-success btn-lg" href="{{ path('wkt_user_article_is_read', {'id': article.id})}}">J'ai compris et je passe à l'article suivant</a>
                         {% endif %}
                        {% endif %}
                     {% endfor %}
                     {% if not break %}
-                    <a class="col-xs-8 col-xs-offset-2 btn btn-success btn-lg" href="{{ path('wkt_user_article_is_read', {'id': article.id})}}">J'ai compris et je passe à l'article suivant</a>
+                            <a class="col-xs-8 col-xs-offset-2 btn btn-success btn-lg" href="{{ path('wkt_user_article_is_read', {'id': article.id})}}">J'ai compris et je passe à l'article suivant</a>   
                     {% endif %}
                 {% endif %} 
             </div>

@@ -69,7 +69,7 @@ class Training
     public function __construct()
     {
         $this->createdAt = new \DateTime;
-        $this->draft = false;
+        $this->draft = true;
     }
 
     /**

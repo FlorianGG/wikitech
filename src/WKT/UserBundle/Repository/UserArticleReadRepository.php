@@ -2,6 +2,9 @@
 
 namespace WKT\UserBundle\Repository;
 
+use WKT\PlatformBundle\Entity\Article;
+use WKT\UserBundle\Entity\User;
+
 /**
  * UserArticleReadRepository
  *
@@ -10,4 +13,14 @@ namespace WKT\UserBundle\Repository;
  */
 class UserArticleReadRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getUserArticleReadByUserAndArticle(User $user, Article $article)
+	{
+		return $this->createQueryBuilder('uar')
+			->where('uar.user = :user')
+			->setParameter('user', $user->getId())
+			->andWhere('uar.article = :article')
+			->setParameter('article', $article->getId())
+			->getQuery()
+			->getOneOrNullResult();
+	}
 }

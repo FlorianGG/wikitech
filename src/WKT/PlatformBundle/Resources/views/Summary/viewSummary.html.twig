@@ -1,9 +1,9 @@
 {% if article is defined %}
-	{{ render(controller("WKTPlatformBundle:Training:summary", {'id': article.part.training.id } )) }}
+	{{ render(controller("WKTPlatformBundle:Training:summary", {'id': article.part.training.id, 'thisArticle': thisArticle } )) }}
 {% endif %}
 {% if articleModified is defined %}
 	{{ render(controller("WKTPlatformBundle:Training:summary", {'id': articleModified.part.training.id } )) }}
 {% endif %}
 {% if training is defined %}
-	{{ render(controller("WKTPlatformBundle:Training:summary", {'id': training.id } )) }}
+	{{ render(controller("WKTPlatformBundle:Training:summary", {'id': training.id, 'open':true } )) }}
 {% endif %}

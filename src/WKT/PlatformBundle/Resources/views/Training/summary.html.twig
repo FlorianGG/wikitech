@@ -5,36 +5,61 @@
 	{% if summary is empty %}
 		<h2>Aucun article n'est enregistré sur cette formation</h2>
 	{% else %}
+	<ul class="nav nav-pills nav-stacked">
+		{% for part in summary %}
+			{% if part.Part.entity.isEnabled %}
+			{% set loopArticle = part.Article|length %}
+			{% set loopArticleRead = 0 %}
 
-	    <ol>
-	    	{% for part in summary %}
-	    		{% if part.Part.entity.isEnabled %}
-					<li role="presentation">{{ part.Part.entity.title }}</li>
-					{% if part.Article is defined %}
-						{% for article in part.Article %}
-						    <ul class="nav nav-pills nav-stacked">
-						    	<li {% if request.attributes.get("_route") == 'wkt_platform_article_view' and  request.attributes.get('_route_params')['id'] == article.entityArticle.id %} class="active" {% endif %} role="presentation"><a href=" {{ path('wkt_platform_article_view', { 'id': article.entityArticle.id , 'slugTraining': part.Part.entity.training.slug, 'slugArticle': article.entityArticle.slug})}}">
-						    	{% if app.user %}
-							    	{% if app.user.userArticlesRead is empty %}
-									{% else %}
-									   {% for articleRead in app.user.userArticlesRead %}
-									    	{% if articleRead.article == article.entityArticle %}
-									    		{% if articleRead.updated %}
-									    			<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-									    		{% else %}
-									    			<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
-									    		{% endif %}
-									        {% endif %}
-									   {% endfor %}
-							    	{% endif %}
-						    	{% endif %}
-						    	{{ article.entityArticle.title }}</a></li>
-						    </ul>
-						{% endfor %}
-					{% endif %}
-	    		{% endif %}
-	    	{% endfor %}
-	    </ol>
+			{% if part.Article is defined %}
+				{% for article in part.Article %}
+			    	{% if app.user.userArticlesRead is empty %}
+					{% else %}
+					   {% for articleRead in app.user.userArticlesRead %}
+					    	{% if articleRead.article == article.entityArticle and articleRead.updated == false %}
+								{% set loopArticleRead = loopArticleRead + 1 %}
+					        {% endif %}
+					   {% endfor %}
+			    	{% endif %}
+				{% endfor %}
+			{% endif %}
+			<li role="presentation">
+				<div class="panel panel-default">
+				    <div class="panel-heading" role="tab" id="heading{{loop.index}}">
+				    	<h4 class="panel-title">
+				    		<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{loop.index}}" aria-expanded="false" aria-controls="collapse{{loop.index}}">{{ part.Part.entity.title }} <span class="badge">{{loopArticleRead}}/{{loopArticle}}</span></a>
+				    	</h4>
+				    </div>
+				    <div id="collapse{{loop.index}}" class="panel-collapse collapse {% if app.request.attributes.get('thisArticle').part is defined and  part.Part.entity.id == app.request.attributes.get('thisArticle').part.id %}in {% elseif app.request.attributes.get('open') is defined and app.request.attributes.get('open') %}in{% endif %}" role="tabpanel" aria-labelledby="heading{{loop.index}}">
+				    	<div class="panel-body">
+							{% if part.Article is defined %}
+								{% for article in part.Article %}
+								    <ul class="nav nav-pills nav-stacked">
+								    	<li {% if request.attributes.get("_route") == 'wkt_platform_article_view' and  request.attributes.get('_route_params')['id'] == article.entityArticle.id %} class="active" {% endif %} role="presentation"><a href=" {{ path('wkt_platform_article_view', { 'id': article.entityArticle.id , 'slugTraining': part.Part.entity.training.slug, 'slugArticle': article.entityArticle.slug})}}">
+								    	{% if app.user %}
+									    	{% if app.user.userArticlesRead is empty %}
+											{% else %}
+											   {% for articleRead in app.user.userArticlesRead %}
+											    	{% if articleRead.article == article.entityArticle %}
+											    		{% if articleRead.updated %}
+											    			<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+											    		{% else %}
+											    			<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+											    		{% endif %}
+											        {% endif %}
+											   {% endfor %}
+									    	{% endif %}
+								    	{% endif %}
+								    	{{ article.entityArticle.title }}</a></li>
+								    </ul>
+								{% endfor %}
+							{% endif %}
+				        </div>
+				    </div>
+				</div>
+			</li>
+			{% endif %}
+		{% endfor %}
+	</ul>
 	{% endif %}
 </div>
-

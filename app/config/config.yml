@@ -66,10 +66,12 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: '%mailer_transport%'
-    host: '%mailer_host%'
-    username: '%mailer_user%'
-    password: '%mailer_password%'
+    transport: "%mailer_transport%"
+    host: "%mailer_host%"
+    encryption: "%mailer_encryption%"
+    port: "%mailer_port%"
+    username: "%mailer_user%"
+    password: "%mailer_password%"
     spool: { type: memory }
 
 # app/config/config.yml
@@ -78,8 +80,10 @@ fos_user:
     firewall_name: main
     user_class: WKT\UserBundle\Entity\User
     from_email:
-        address: florian.prof@gmail.com
-        sender_name: Admin
+        # Adresse de l'expediteur
+        address: no-reply@florian-garcia.com
+        # Nom de l'expediteur
+        sender_name: Admin WikiTech
     profile:
         form:
             type: WKT\UserBundle\Form\Type\ProfileFormType

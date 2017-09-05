@@ -29,7 +29,15 @@ wkt_platform_delete:
     defaults:
         _controller: WKTPlatformBundle:Training:delete
     requirements:
-        id: \d+   
+        id: \d+ 
+
+wkt_platform_draft:
+  path: /admin/formation/draft/{id}/{boolean}
+  defaults:
+      _controller: WKTPlatformBundle:Training:draft
+  requirements:
+      id: \d+  
+      boolean: \d  
 
 wkt_platform_article_view:
     path: /formation/{slugTraining}/article/{id}/{slugArticle}

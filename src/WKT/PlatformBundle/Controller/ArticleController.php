@@ -37,12 +37,18 @@ class ArticleController extends Controller
 			// Pour couvrir le cas ou il y a eu une modification et qu'elle a été supprimé par l'admin
 			$article->setIsModifying(false);
 		}
+		//on récupère l'article précédent et l'article suivant
 		$articlePreviousAndFollowing = $this->container->get('wkt_platform.summary')->getFollowingAndPreviousArticle($article);
+
+		//on vérifie si l'article est déjà validé ou pas
+		$user = $this->getUser();
+		$articleIfValidate = $em->getRepository('WKTUserBundle:UserArticleRead')->getUserArticleReadByUserAndArticle($user, $article);
 
 		return $this->render('WKTPlatformBundle:Article:view.html.twig', array(
 			'article' => $article,
 			'idArticleModified' => $idArticleModified,
 			'articlePreviousAndFollowing' => $articlePreviousAndFollowing,
+			'articleIfValidate' => $articleIfValidate,
 			));
 	}
 

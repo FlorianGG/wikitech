@@ -14,7 +14,7 @@ class CoreController extends Controller
 		$user = $this->getUser();
 
 		if (is_null($user)) {
-			$trainings = $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:Training')->findAll();
+			$trainings = $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:Training')->findBy(array('draft' => false));
 		}else{
 			$trainings = $this->container->get('wkt_user.training_is_finished')->listOfTrainingsBeginned($user);
 		}

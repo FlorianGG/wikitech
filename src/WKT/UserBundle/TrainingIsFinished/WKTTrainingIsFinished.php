@@ -22,14 +22,18 @@ class WKTTrainingIsFinished
 	}
 
 	// factorisation fonction qui retourne dans un tableau la liste des articlesl lus pour un user
-	private function getArticlesRead(UserTraining $userTraining)
+	public function getArticlesRead(UserTraining $userTraining)
 	{
 		$user = $userTraining->getUser();
+		$training = $userTraining->getTraining();
 
 		$userArticlesRead = $user->getUserArticlesRead();
 		$articlesRead = [];
 
 		foreach ($userArticlesRead as $userArticleRead) {
+			if ($userArticleRead->getArticle()->getPart()->getTraining() === $training) {
+				$articlesRead[] = $userArticleRead->getArticle();
+			}
 			$articlesRead[] = $userArticleRead->getArticle();
 		}
 
@@ -86,11 +90,12 @@ class WKTTrainingIsFinished
 		$listOfTrainingsBeginned = [];
 
 		foreach ($userTrainings as $userTraining) {
-			if (!$userTraining->getFinished()) {
+			if (!$userTraining->getFinished() && !$userTraining->getTraining()->getDraft()) {
 				$listOfTrainingsBeginned[] = $userTraining->getTraining();
 			}
 		}
 		return $listOfTrainingsBeginned;
 	}
+
 
 }
