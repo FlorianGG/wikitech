@@ -42,7 +42,12 @@ class ArticleController extends Controller
 
 		//on vérifie si l'article est déjà validé ou pas
 		$user = $this->getUser();
-		$articleIfValidate = $em->getRepository('WKTUserBundle:UserArticleRead')->getUserArticleReadByUserAndArticle($user, $article);
+		if (!is_null($user)) {
+			$articleIfValidate = $em->getRepository('WKTUserBundle:UserArticleRead')->getUserArticleReadByUserAndArticle($user, $article);
+		}else{
+			$articleIfValidate = null;
+		}
+		
 
 		return $this->render('WKTPlatformBundle:Article:view.html.twig', array(
 			'article' => $article,

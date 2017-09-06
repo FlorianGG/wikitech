@@ -21,15 +21,21 @@ class CommitController extends Controller
 		// on crée un tableau contenant tous les users dont un commit est à valider
 		// puis on calcul le confidence Score pour chacun
 		$confidenceScores = [];
+		$nbCommits = [];
 		foreach ($commits as $commit) {
 			if (!is_null($commit->getUser()) && !array_key_exists($commit->getUser()->getUsername(), $confidenceScores)) {
 				$confidenceScores[$commit->getUser()->getUsername()] = $this->container->get('wkt_user.confidence_score')->getConfidenceScore($commit->getUser());
+			}
+			//on ajoute le nombre de commit pour un articleModified
+			if (!array_key_exists($commit->getId(), $nbCommits)) {
+				$nbCommits[$commit->getId()] = $em->getRepository('WKTPlatformBundle:Commit')->countCommitsByArticleModified($commit->getArticleModified());
 			}
 		}
 
 		return $this->render('WKTPlatformBundle:Commit:index.html.twig', array(
 			'commits' => $commits,
-			'confidenceScores' => $confidenceScores));
+			'confidenceScores' => $confidenceScores,
+			'nbCommits' => $nbCommits));
 	}
 
 

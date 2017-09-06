@@ -20,31 +20,10 @@ class TrainingController extends Controller
 
 		$trainings = $em->getRepository('WKTPlatformBundle:Training')->findBy(array('draft' => false));
 		$userTrainings = $em->getRepository('WKTUserBundle:UserTraining')->findBy(array('user' => $user));
-		$trainingsBeginned = $this->getTrainingsBeginnedStatus($userTrainings);
-
+		$trainingsBeginned = $this->container->get('wkt_user.training_is_finished')->getTrainingsBeginnedStatus($userTrainings);
 		return $this->render('WKTPlatformBundle:Training:index.html.twig', array(
 			'trainings' => $trainings,
 			'trainingsBeginned' => $trainingsBeginned));
-	}
-
-	private function getTrainingsBeginnedStatus(array $userTrainings)
-	{
-		$trainingsBeginned = [];
-
-		foreach ($userTrainings as $userTraining) {
-			if (!$userTraining->getFinished()) {
-				$trainingsBeginned[$userTraining->getTraining()->getTitle()] = array(
-					'updated' => $userTraining->getUpdated(),
-					'finished' => $userTraining->getFinished(),
-					'article' => $this->container->get('wkt_user.training_is_finished')->getFirstArticleNotRead($userTraining));
-			}else{
-				$trainingsBeginned[$userTraining->getTraining()->getTitle()] = array(
-					'updated' => $userTraining->getUpdated(),
-					'finished' => $userTraining->getFinished());
-			}
-		}
-
-		return $trainingsBeginned;
 	}
 
 	public function viewAction($id)

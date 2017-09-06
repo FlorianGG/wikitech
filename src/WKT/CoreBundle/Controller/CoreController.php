@@ -1,5 +1,5 @@
 <?php 
-// src/WKT/PlatformBundle/Controller/TrainingController.php
+// src/WKT/CoreBundle/Controller/CoreController.php
 
 namespace WKT\CoreBundle\Controller;
 
@@ -11,19 +11,18 @@ class CoreController extends Controller
 {
 	public function homeAction()
 	{
+		$em = $this->getDoctrine()->getManager();
 		$user = $this->getUser();
 
-		if (is_null($user)) {
-			$trainings = $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:Training')->findBy(array('draft' => false));
-		}else{
-			$trainings = $this->container->get('wkt_user.training_is_finished')->listOfTrainingsBeginned($user);
-		}
+		$trainings = $em->getRepository('WKTPlatformBundle:Training')->findBy(array('draft' => false));
+		$userTrainings = $em->getRepository('WKTUserBundle:UserTraining')->findBy(array('user' => $user));
+		$trainingsBeginned = $this->container->get('wkt_user.training_is_finished')->getTrainingsBeginnedStatus($userTrainings);
 
-		// list de 3 formations aléatoires ou 3 formations aléatoires dans la liste de celles commencées
+		// list de 6 formations aléatoires ou 6 formations aléatoires dans la liste de celles commencées
 		$randTrainings = $this->randTraining($trainings);
 		return $this->render('WKTCoreBundle:Core:home.html.twig', array(
 			'trainings' => $randTrainings,
-			));
+			'trainingsBeginned' => $trainingsBeginned));
 	}
 
 	// factorisation fonction qui génère 3 trainings aléatoire
@@ -38,8 +37,8 @@ class CoreController extends Controller
 		}
 
 		$nb = '';
-		if ($size >= 3) {
-			$nb = 3;
+		if ($size >= 6) {
+			$nb = 6;
 		}else{
 			$nb = $size;
 		}

@@ -22,6 +22,7 @@
                     <th>Auteur</th>
                     <th>Indice de confiance</th>
                     <th>Type de modification</th>
+                    <th>Nombre de commits</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -35,7 +36,7 @@
                           {% if commit.user is empty %}
                             Un utilisateur anonyme 
                           {% else %}
-                            {{commit.user.username}}
+                            {{commit.user.firstname}} {{commit.user.lastname}}
                           {% endif %}
                         </td>
                         <td class="text-center">
@@ -53,6 +54,7 @@
                           
                         </td>
                         <td>{{commit.typeOfModification.type}}</td>
+                        <td>{{nbCommits[commit.id]}}</td>
                         <td>
                           <a class="btn btn-success btn-xs" href="{{path('wkt_platform_article_modified_validation', {'id': commit.articleModified.id})}}" >Voir</a>
                          <a class="btn btn-danger btn-xs" href="{{path('wkt_platform_article_modified_rejection', {'id': commit.articleModified.id, 'strike': 0})}}">Rejeter la contribution</a>
@@ -68,6 +70,7 @@
                   <th>Auteur</th>
                   <th>Indice de confiance</th>
                   <th>Type de modification</th>
+                  <th>Nombre de commits</th>
                   <th>Action</th>
                 </tr>
             </tfoot>

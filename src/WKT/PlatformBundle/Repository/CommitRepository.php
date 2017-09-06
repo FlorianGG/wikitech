@@ -2,6 +2,7 @@
 
 namespace WKT\PlatformBundle\Repository;
 
+use WKT\PlatformBundle\Entity\ArticleModified;
 use WKT\UserBundle\Entity\User;
 
 /**
@@ -12,4 +13,13 @@ use WKT\UserBundle\Entity\User;
  */
 class CommitRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function countCommitsByArticleModified(ArticleModified $articleModified)
+	{
+		return $this->createQueryBuilder('c')
+			->where('c.articleModified = :articleModified')
+			->setParameter('articleModified', $articleModified->getId())
+			->select('COUNT(c)')
+			->getQuery()
+			->getSingleScalarResult();
+	}
 }

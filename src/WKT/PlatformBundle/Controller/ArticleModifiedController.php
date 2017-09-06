@@ -55,28 +55,28 @@ class ArticleModifiedController extends Controller
 			$article = $em->getRepository('WKTPlatformBundle:Article')->find($articleModified->getArticle()->getId());
 		}
 		
-		$article
-			->setTitle($articleModified->getTitle())
-			->setIntroduction($articleModified->getIntroduction())
-			->setContent($articleModified->getContent())
-			->setModifiedAt(new \DateTime)
-			->setOrderInPart($articleModified->getOrderInPart())
-			->setPart($articleModified->getPart());
 		//on récupère la liste des commits pour cet articleModified
 		$commits = $this->returnCommits($articleModified);
 
 		//on récupère le sommaire de la formation
-		$trainingId = $articleModified->getPart()->getTraining();
-		$summary = $this->container->get('wkt_platform.summary')->returnSummaryInArray($trainingId);
+		$training = $articleModified->getPart()->getTraining();
+		$summary = $this->container->get('wkt_platform.summary')->returnSummaryInArray($training);
 
 		if (end($commits)->getTypeOfModification()->getType() == 'Création page') {
-			$form = $this->container->get('wkt_platform.generate_form')->generateFormArticleValidation($article, $trainingId);
+			$form = $this->container->get('wkt_platform.generate_form')->generateFormArticleValidation($article, $training);
 		}else{
-			$form = $this->container->get('wkt_platform.generate_form')->generateFormArticleValidationWithoutPart($article, $trainingId);
+			$form = $this->container->get('wkt_platform.generate_form')->generateFormArticleValidationWithoutPart($article, $training);
 		}
 		
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+			$article
+				->setTitle($articleModified->getTitle())
+				->setIntroduction($articleModified->getIntroduction())
+				->setContent($articleModified->getContent())
+				->setModifiedAt(new \DateTime)
+				->setOrderInPart($articleModified->getOrderInPart())
+				->setPart($articleModified->getPart());
 
 			//on vérifie si la partie de l'article a un status IsEnabled true sinon on l'active
 			if (!$article->getPart()->getIsEnabled()) {
@@ -97,7 +97,7 @@ class ArticleModifiedController extends Controller
 			}
 			
 			// on change finished de tous les UserTraining de cet article à false
-			$UserTrainingArticleService->changeAttributeFinished($trainingId);
+			$UserTrainingArticleService->changeAttributeFinished($training);
 			//on change updated de tous les UserTraining liés à cet article
 			$UserTrainingArticleService->changeAttributeUpdatedinUserTraining($training);
 
@@ -125,7 +125,7 @@ class ArticleModifiedController extends Controller
 			'articleModified' => $articleModified,
 			'commits' => $commits,
 			'summary' => $summary,
-			'training' => $trainingId,
+			'training' => $training,
 			));
 	}
 

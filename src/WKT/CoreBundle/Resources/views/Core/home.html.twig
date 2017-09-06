@@ -6,59 +6,55 @@
     	<p>Le numérique pour tous, par tous 😁</p>
     </div>
     <hr>
-    {% if app.user %}
-    	<div class="panel panel-default">
-    		<div class="panel-heading"><h2>Continuez vos formations</h2></div>
-    		<div class="panel-body">
-    	{% if trainings is empty %}
-    		<p>Ooooh ! Vous n'avez encore commencé aucune formation !!! 😱</p>
-    		<p>N'hésitez pas à regarder ce que nous proposons </p>
-    		<a class="btn btn-success btn-sm" href="{{path('wkt_platform_index')}}">Let's go !</a>
-    	{% else %}
-
-    		{% if trainings|length == 3 %}
-    		{% set col = 'col-sm-4' %}
-    		{% else %}    
-    		{% set col = 'col-sm-6' %}    		    
-    		{% endif %}
-    	    {% for training in trainings if trainings|length > 1%}
-    	        <div class="{{col}}">
-    	        	<h3> {{ training.title }}</h3>
-    	        	<hr>
-    	        	<p> {{ training.introduction }} </p>
-    	        	<hr>
-    	        	<p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_view', { 'id': training.id, 'slugTraining': training.slug}) }}">Continuer la formation</a></p>
-    	        	<p class="text-center"><small><em>Crée le {{ training.createdAt|date('d/m/Y') }}</em></small></p>
-    	        </div>
-            {% else %}
-                <div class="{{col}} col-sm-offset-3">
-                    <h3> {{ trainings.title }}</h3>
-                    <hr>
-                    <p> {{ trainings.introduction }} </p>
-                    <hr>
-                    <p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_view', { 'id': trainings.id, 'slugTraining': trainings.slug}) }}">Continuer la formation</a></p>
-                    <p class="text-center"><small><em>Crée le {{ trainings.createdAt|date('d/m/Y') }}</em></small></p>
-                </div>
-    	    {% endfor %}
-		{% endif %} 
-			</div>
-		</div>
+    {% if app.user and trainings is not empty %}
+        <div class="panel panel-default">
+            <div class="panel-heading"><h2>Continuez vos formations</h2></div>
+            <div class="panel-body">
+                {% for training in trainings %}
+                    <div class="col-md-4">
+                        {% if trainingsBeginned[training.title] is defined %}
+                            {% if trainingsBeginned[training.title].finished %}
+                                <h3 class=""> {{ training.title }}</h3> <span class="label label-danger">Terminée</span>
+                                <hr>
+                                <p> {{ training.introduction }} </p>
+                                <hr>
+                                <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', { 'id': training.id, 'slugTraining': training.slug}) }}">Voir la formation</a></p>
+                            {% elseif trainingsBeginned[training.title].updated %}
+                                <h3 class=""> {{ training.title }}</h3> <span class="label label-warning">Modifications</span>
+                                <hr>
+                                <p> {{ training.introduction }} </p>
+                                <hr>
+                                <p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_article_view', { 'id': trainingsBeginned[training.title].article.id, 'slugTraining': training.slug, 'slugArticle': trainingsBeginned[training.title].article.slug}) }}">Continuer la formation</a></p>
+                            {% else %}
+                                <h3 class=""> {{ training.title }}</h3> <span class="label label-success">En cours</span>
+                                <hr>
+                                <p> {{ training.introduction }} </p>
+                                <hr>
+                                <p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_article_view', { 'id': trainingsBeginned[training.title].article.id, 'slugTraining': training.slug, 'slugArticle': trainingsBeginned[training.title].article.slug}) }}">Continuer la formation</a></p>
+                            {% endif %}
+                        {% else %}
+                            <h3 class=""> {{ training.title }}</h3>
+                            <br>
+                            <hr>
+                            <p> {{ training.introduction }} </p>
+                            <hr>
+                            <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', { 'id': training.id, 'slugTraining': training.slug}) }}">Commencer la formation</a></p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
 	{% else %}
     	<div class="panel panel-default">
     		<div class="panel-heading"><h2>Commencer une formation</h2></div>
     		<div class="panel-body">
-	    		{% if trainings|length == 3 %}
-	    		{% set col = 'col-sm-4' %}
-	    		{% else %}    
-	    		{% set col = 'col-sm-6' %}    		    
-	    		{% endif %}
 	    	    {% for training in trainings %}
-    	        <div class="{{col}}">
-    	        	<h3> {{ training.title }}</h3>
-    	        	<hr>
-    	        	<p> {{ training.introduction }} </p>
-    	        	<hr>
-    	        	<p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_view', { 'id': training.id, 'slugTraining': training.slug}) }}">Commencer la formation</a></p>
+    	        <div class="col-sm-6 col-md-4">
+                    <h3 class=""> {{ training.title }}</h3>
+                    <hr>
+                    <p> {{ training.introduction }} </p>
+                    <hr>
+                    <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', { 'id': training.id, 'slugTraining': training.slug}) }}">Voir la formation</a></p>
     	        	<p class="text-center"><small><em>Crée le {{ training.createdAt|date('d/m/Y') }}</em></small></p>
     	        </div>
     	    {% endfor %} 

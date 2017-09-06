@@ -167,7 +167,7 @@ class UserController extends Controller
 
 		}
 		$request->getSession()->getFlashBag()->add('alert', 'Aïe ! Aïe ! Quelque chose c\'est mal passé 😳 Peut-être qu\'une nouvelle page a été rajoutée dans la formation. N\'hésitez pas à retourner voir 😁' );
-		return $this->redirectToRoute('wkt_platform_index');
+		return $this->redirectToRoute('wkt_core_home');
 
 	}
 
@@ -190,7 +190,7 @@ class UserController extends Controller
 			$em->flush();
 
 			$request->getSession()->getFlashBag()->add('notice', 'Bravo !! 👏🎉 Vous avez terminé la formation ' . $training->getTitle() . '. Vous pouvez dés maintenant en commencer une nouvelle 😁');
-			return $this->redirectToRoute('wkt_platform_index');
+			return $this->redirectToRoute('wkt_core_home');
 		}else{
 			if (isset($articles[$nextKey]) && in_array($articles[$nextKey], $testTraningIsFinished)) {
 				return $this->redirectToRoute('wkt_platform_article_view', array('id' => $articles[$nextKey]->getId(), 'slugTraining' => $articles[$nextKey]->getPart()->getTraining()->getSlug(), 'slugArticle' => $articles[$nextKey]->getSlug()));

@@ -112,7 +112,7 @@
                 {% if app.user %}
                     {% set break = false %}
                     {% for articleRead in app.user.userArticlesRead %}
-                       {% if articleRead.article == article %}
+                       {% if articleRead.article == article and articleRead.updated == false %}
                         {% set break = true %}
                         <a class="col-xs-8 col-xs-offset-2 btn btn-danger btn-lg" href="{{ path('wkt_user_cancel_article_is_read', {'id': article.id})}}">Je n'ai pas compris cet article</a>
                         {% if articleRead.updated %}
@@ -146,7 +146,6 @@
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="myModalLabel">⚠️ Attention ⚠️</h4>
                     </div>
                     <div class="modal-body">

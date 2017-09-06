@@ -3,10 +3,10 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Dernières modifications</h3>
-            <small><em>Du plus récents au plus anciens</em></small>
+            <small><em>Du plus ancien au plus récent</em></small>
         </div>
         <div class="panel-body">
-            {% for commit in commits %}
+            {% for commit in commits|reverse %}
                 {% if commit is empty %}
                     <p><strong>Commit n°{{ loop.index }} :</strong></p>
                     <p><small><em>L'utilisateur n'a pas donné d'explication</em></small></p>

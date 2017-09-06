@@ -31,12 +31,10 @@ class WKTTrainingIsFinished
 		$articlesRead = [];
 
 		foreach ($userArticlesRead as $userArticleRead) {
-			if ($userArticleRead->getArticle()->getPart()->getTraining() === $training) {
+			if ($userArticleRead->getArticle()->getPart()->getTraining() === $training && !$userArticleRead->getUpdated()) {
 				$articlesRead[] = $userArticleRead->getArticle();
 			}
-			$articlesRead[] = $userArticleRead->getArticle();
 		}
-
 		return $articlesRead;
 
 	}
@@ -54,7 +52,7 @@ class WKTTrainingIsFinished
 	{
 
 		$articles = $this->getArticlesInTraining($userTraining);
-		
+
 		$articlesRead = $this->getArticlesRead($userTraining);
 
 		foreach ($articles as $article) {
@@ -69,7 +67,8 @@ class WKTTrainingIsFinished
 		$articles = $this->getArticlesInTraining($userTraining);
 
 		$articlesRead = $this->getArticlesRead($userTraining);
-
+		$articlesNotRead = [];
+		
 		foreach ($articles as $article) {
 			if (!in_array($article, $articlesRead)) {
 				$articlesNotRead[] = $article;
@@ -95,6 +94,26 @@ class WKTTrainingIsFinished
 			}
 		}
 		return $listOfTrainingsBeginned;
+	}
+
+	public function getTrainingsBeginnedStatus(array $userTrainings)
+	{
+		$trainingsBeginned = [];
+
+		foreach ($userTrainings as $userTraining) {
+			if (!$userTraining->getFinished() || $userTraining->getUpdated()) {
+				$trainingsBeginned[$userTraining->getTraining()->getTitle()] = array(
+					'updated' => $userTraining->getUpdated(),
+					'finished' => $userTraining->getFinished(),
+					'article' => $this->getFirstArticleNotRead($userTraining));
+			}else{
+				$trainingsBeginned[$userTraining->getTraining()->getTitle()] = array(
+					'updated' => $userTraining->getUpdated(),
+					'finished' => $userTraining->getFinished());
+			}
+		}
+
+		return $trainingsBeginned;
 	}
 
 
