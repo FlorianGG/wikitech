@@ -4,6 +4,7 @@
 namespace WKT\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -18,11 +19,15 @@ class CoreController extends Controller
 		$userTrainings = $em->getRepository('WKTUserBundle:UserTraining')->findBy(array('user' => $user));
 		$trainingsBeginned = $this->container->get('wkt_user.training_is_finished')->getTrainingsBeginnedStatus($userTrainings);
 
+		//on récupère les 3 premiers users au leaderboard général
+		$users = $em->getRepository('WKTUserBundle:User')->findBy(array('enabled' => true), array('nbPoint' => 'DESC'), 3, 0);
+
 		// list de 6 formations aléatoires ou 6 formations aléatoires dans la liste de celles commencées
 		$randTrainings = $this->randTraining($trainings);
 		return $this->render('WKTCoreBundle:Core:home.html.twig', array(
 			'trainings' => $randTrainings,
-			'trainingsBeginned' => $trainingsBeginned));
+			'trainingsBeginned' => $trainingsBeginned,
+			'users' => $users));
 	}
 
 	// factorisation fonction qui génère 3 trainings aléatoire
@@ -56,5 +61,16 @@ class CoreController extends Controller
 		}
 
 		return $arrayRand;
+	}
+
+	public function leaderboardAction(Request $request)
+	{
+		$em = $this->getDoctrine()->getManager();
+
+		$users = $em->getRepository('WKTUserBundle:User')->findBy(array('enabled' => true), array('nbPoint' => 'DESC'));
+
+		return $this->render('WKTCoreBundle:Core:leaderboard.html.twig', array(
+			'users' => $users,));
+
 	}
 }

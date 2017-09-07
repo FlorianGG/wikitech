@@ -16,32 +16,67 @@ class LinkController extends Controller
 {
 	public function addAction(Request $request)
 	{
-		$em = $this->getDoctrine()->getManager();
-		
-		//on récupère le user courant
+
+	 	//on récupère le user courant
 		$user = $this->getUser();
 
-		$link = new Link();
-		$link->setUser($user);
+	   	$link = new Link();
+	   	$link->setUser($user);
 
-		$links = $em->getRepository('WKTUserBundle:Link')->findBy(array('user' => $user));
+	    $form  = $this->get('form.factory')->create(LinkType::class, $link);
 
-		$form  = $this->get('form.factory')->create(LinkType::class, $link);
+	    $form->handleRequest($request);
+	 	
+		if ($request->isXmlHttpRequest()) {
 
-		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+			$idSocial = $request->request->get('social');
+			$social = $this->getDoctrine()->getManager()->getRepository('WKTUserBundle:Social')->find($idSocial);
+			$link->setSocial($social)->setTitle($request->request->get('title'))->setUrl($request->request->get('url'));
+			$em = $this->getDoctrine()->getManager();
 			$em->persist($link);
 			$em->flush();
-
+			
 			$request->getSession()->getFlashBag()->add('notice', 'Votre modification a été enregistrée');
-
-			return $this->redirectToRoute('fos_user_profile_edit');
+			
+			return new JsonResponse(array('id' => $link->getId(), 'social' => $link->getSocial()->getLogo(), 'title' => $link->getTitle(), 'url' => $link->getUrl()), 200);
 		}
-
-		return $this->render('WKTUserBundle:Link:add.html.twig', array(
-		  'form' => $form->createView(),
-		  'links' => $links,
-		));
+	    
+	    return $this->render('WKTUserBundle:Link:add.html.twig', array(
+	      'form' => $form->createView(),
+	    ));
 	}
+
+	public function addAjaxAction(Request $request)
+	{
+	    if (!$request->isXmlHttpRequest()) {
+	        return new JsonResponse(array('message' => 'Erreur : Ce n\'est pas une requête AJAX'), 400);
+	    }
+	 	//on récupère le user courant
+		$user = $this->getUser();
+
+	   	$link = new Link();
+	   	$link->setUser($user);
+
+	    $form  = $this->get('form.factory')->create(LinkType::class, $link);
+
+	    $form->handleRequest($request);
+	 
+	    if ($form->isValid()) {
+	        $em = $this->getDoctrine()->getManager();
+	        $em->persist($link);
+	        $em->flush();
+	 		
+	 		$request->getSession()->getFlashBag()->add('notice', 'Votre modification a été enregistrée');
+
+	        return new JsonResponse(array('social' => $link->getSocial(), 'title' => $link->getTitle(), 'url' => $link->getUrl()), 200);
+	    }
+	 
+	    return $this->render('WKTUserBundle:Link:add.html.twig', array(
+	      'form' => $form->createView(),
+	    ));
+	}
+
+
 
 	public function deleteAction(Request $request, Link $id)
 	{
@@ -71,8 +106,6 @@ class LinkController extends Controller
 		return $this->render('WKTUserBundle:Link:indexByUser.html.twig', array(
 		  'links' => $links,
 		));
-
-
 
 	}
 

@@ -4,6 +4,7 @@
 namespace WKT\UserBundle\ConfidenceScore;
 
 use Doctrine\ORM\EntityManager;
+use WKT\PlatformBundle\Entity\Training;
 use WKT\UserBundle\Entity\User;
 
 class WKTConfidenceScore
@@ -48,6 +49,30 @@ class WKTConfidenceScore
 		$confidenceScore = ($nbCommitValid/($nbCommitValid + $nbCommitNotValid) * 100) - (($nbStrike/($nbCommitValid + $nbCommitNotValid))* 10);
 
 		return $confidenceScore;	
+	}
+
+	public function getContributionScoreByUserAndByTraining(User $user)
+	{
+		$commits= $this->em->getRepository('WKTPlatformBundle:Commit')->getCommitsValidateByUser($user);;
+
+		if (is_null($commits)) {
+			return null;
+		}
+
+		$commitsByTraining = [];
+		foreach ($commits as $commit) {
+			$training = $commit->getArticleModified()->getPart()->getTraining()->getTitle();
+			if (!array_key_exists($training, $commitsByTraining)) {
+				$commitsByTraining[$training] = array(
+					'training' => $training,
+					'score' => $commit->getScore());
+			}else{
+				$commitsByTraining[$training] = array(
+					'training' => $training,
+					'score' => $commitsByTraining[$training]['score'] + $commit->getScore());
+			}
+		}
+		return $commitsByTraining;
 	}
 
 }

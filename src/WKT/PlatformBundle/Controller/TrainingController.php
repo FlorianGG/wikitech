@@ -32,7 +32,8 @@ class TrainingController extends Controller
 
 		$training = $trainingRepository->find($id);
 
-		return $this->render('WKTPlatformBundle:Training:view.html.twig', array('training' => $training));
+		return $this->render('WKTPlatformBundle:Training:view.html.twig', array(
+			'training' => $training,));
 	}
 
 	public function addAction(Request $request)

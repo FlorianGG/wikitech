@@ -74,25 +74,32 @@
 			    <h3 class="panel-title">Mes Liens</h3>
 			  </div>
 			  <div class="panel-body">
-			  	<button id="addLink" class="btn btn-default" type="button">Ajouter un lien</button>
-			    <form id="linkForm" style="display: none;" action="{{ path('wkt_user_link_add')}}" method="post">
-			    	{{ render(controller("WKTUserBundle:Link:add")) }}
-			    </form>
-			    <ul id="links" class="list-group">
-			    {{ render(controller("WKTUserBundle:Link:indexByUser")) }}
+			  	<ul id="links" class="list-group">
+				    {% include 'WKTUserBundle:Link:indexByUser.html.twig'%}
 			    </ul>
+			    <div class="row">
+			    	<div class="col-xs-12">
+			    		<button id="addLink" class="btn btn-link btn-xs" type="button">Ajouter un lien</button>
+			    	</div>
+			    </div>
+			  	
+			  	<div class="row">
+			  		<form id="linkForm" style="display: none;" action="{{ path('wkt_user_link_add')}}" method="post" class="form-inline">
+			  			{{ render(controller("WKTUserBundle:Link:add")) }}
+			  		</form>
+			  	</div>
+
 			  </div>
 			</div>
 			<div>
 			    <input class="btn btn-success" type="submit" value="{{ 'profile.edit.submit'|trans }}" />
 			</div>
-
 		</div>
 {% endblock fos_user_content %}
 {% block javascripts %}
 	{{parent()}}
 	{{ include("WKTUserBundle:Profile:google.html.twig") }}
-	{% javascripts 'bundles/wktuser/googleMapWidget.js' 'bundles/wktuser/ajaxDeleteLinkAndAddLink.js'%} 
+	{% javascripts 'bundles/wktuser/ajaxDeleteLinkAndAddLink.js' 'bundles/wktuser/ajaxAddLink.js'%} 
 		<script type="text/javascript" src="{{ asset_url }}"></script>
 	{% endjavascripts %}
 {% endblock %}

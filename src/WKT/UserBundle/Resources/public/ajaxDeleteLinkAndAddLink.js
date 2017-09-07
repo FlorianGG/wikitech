@@ -9,7 +9,7 @@ $( document ).ready(function() {
 	addLink.click(function(event) {
 		linkForm.toggle();
 	});
-
+	
 	var trashlink = $('.trash-link');
 	trashlink.show();
 	trashlink.click(function(event) {

@@ -20,18 +20,22 @@ class LoadTraining extends AbstractFixture implements OrderedFixtureInterface
       array(
         'title' => 'Word 2016',
         'introduction' => $introduction,
+        'draft' => false,
         'training' => 'training1'),
       array(
         'title' => 'Excel 2016',
         'introduction' => $introduction,
+        'draft' => false,
         'training' => 'training2'),
       array(
         'title' => 'PowertPoint 2016',
         'introduction' => $introduction,
+        'draft' => false,
         'training' => 'training3'),
       array(
         'title' => 'Access 2016',
         'introduction' => $introduction,
+        'draft' => true,
         'training' => 'training4')
     );
 
@@ -40,6 +44,7 @@ class LoadTraining extends AbstractFixture implements OrderedFixtureInterface
       $training = new Training();
       $training->setTitle($newTraining['title']);
       $training->setIntroduction($newTraining['introduction']);
+      $training->setDraft($newTraining['draft']);
       // On la persiste
       $manager->persist($training);
       $manager->flush();

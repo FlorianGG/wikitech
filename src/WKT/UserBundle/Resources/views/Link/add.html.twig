@@ -1,4 +1,27 @@
-{{ form(form) }}
+{{ form_start(form) }}
+	<div class="form-group form-group-sm col-sm-3">
+		{{ form_errors(form.social) }}
+		<div>
+		  	{{ form_widget(form.social, {'attr': {'class': 'form-control', 'style': 'width: 100%;'}}) }}
+		</div>
+	</div>
+	<div class="form-group form-group-sm col-sm-3">
+		{{ form_errors(form.title) }}
+		<div>
+		  	{{ form_widget(form.title, {'attr': {'class': 'form-control', 'style': 'width: 100%;'}}) }}
+		</div>
+	</div>
+	<div class="form-group form-group-sm col-sm-4">
+		{{ form_errors(form.url) }}
+		<div>
+		  	{{ form_widget(form.url, {'attr': {'class': 'form-control', 'style': 'width: 100%;'}}) }}
+		</div>
+	</div>
+	<div class="col-sm-2 col-xs-12">
+		<button id="addLink" class="btn btn-success btn-sm" type="submit">Ajout</button>
+	</div>
+{{ form_rest(form) }}
 
-
+{# Fermeture de la balise <form> du formulaire HTML #}
+{{ form_end(form) }}
 

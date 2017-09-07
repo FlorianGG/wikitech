@@ -30,11 +30,18 @@
 		<div class="col-sm-9">
 			<div class="panel panel-default">
 			  <div class="panel-heading">
-			    <h3 class="panel-title">Détails de ses contributions</h3>
+			    <h3 class="panel-title">Détails de vos contributions</h3>
 			  </div>
 			  <div class="panel-body">
-			   <p class="text-center"><small><em>Aucune contribution réalisée</em></small> </p>
-				
+			  	{% if score is empty %}
+					<p class="text-center"><small><em>Aucune contribution réalisée</em></small> </p>
+				{% else %}
+				    <ul class="list-group">
+				    	{% for training in score %}
+				    	    <li class="list-group-item">{{training.training}} - {{training.score}} pts</li>
+				    	{% endfor %}
+				    </ul>
+			  	{% endif %}
 			  </div>
 			</div>
 			<div class="panel panel-default">
@@ -55,12 +62,7 @@
 			  <div class="panel-heading">
 			    <h3 class="panel-title">Ses Liens</h3>
 			  </div>
-			  <div class="panel-body">
-			    <!-- List group -->
-			    <ul id="links" class="list-group">
-			    {{ render(controller("WKTUserBundle:Link:indexByUser")) }}
-			    </ul>
-			  </div>
+			  {% include 'WKTUserBundle:Link:indexByUser.html.twig'%}
 			</div>
 		</div>
 

@@ -109,6 +109,7 @@ class ArticleModifiedController extends Controller
 				$score = $user->getNbPoint() + ( $commits[0]->getScore() * $multiplicateur );
 				$user->setNbPoint($score);
 				$em->persist($user);
+				$commits[0]->setScore($commits[0]->getScore() * $multiplicateur);
 			}
 			$em->persist($commits[0]);
 			$em->persist($article);

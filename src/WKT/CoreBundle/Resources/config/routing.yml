@@ -5,3 +5,7 @@ wkt_core_home:
 wkt_core_contact_send_email:
     path:     /contact
     defaults: { _controller: WKTCoreBundle:Contact:sendEmail }
+
+wkt_core_leaderboard:
+    path:     /leaderboard
+    defaults: { _controller: WKTCoreBundle:Core:leaderboard }

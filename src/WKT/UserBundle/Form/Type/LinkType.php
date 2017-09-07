@@ -22,9 +22,9 @@ class LinkType extends AbstractType
                 'class' => 'WKTUserBundle:Social',
                 'choice_label' => 'name',
                 'multiple' => false))
-            ->add('title', TextType::class)
-            ->add('url', UrlType::class)
-            ->add('save', SubmitType::class);
+            ->add('title', TextType::class, array(
+                'label' => ''))
+            ->add('url', UrlType::class);
     }
     
     /**

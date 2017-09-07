@@ -3,6 +3,7 @@
 namespace WKT\PlatformBundle\Repository;
 
 use WKT\PlatformBundle\Entity\ArticleModified;
+use WKT\PlatformBundle\Entity\Training;
 use WKT\UserBundle\Entity\User;
 
 /**
@@ -22,4 +23,17 @@ class CommitRepository extends \Doctrine\ORM\EntityRepository
 			->getQuery()
 			->getSingleScalarResult();
 	}
+
+	public function getCommitsValidateByUser(User $user)
+	{
+		return $this->createQueryBuilder('c')
+			->where('c.user = :user')
+				->setParameter('user', $user->getId())
+			->andWhere('c.isValidate = :isValidate')
+				->setParameter('isValidate', true)
+			->getQuery()
+			->getResult();
+	}
+
+
 }

@@ -86,8 +86,16 @@ class UserController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$user = $em->getRepository('WKTUserBundle:User')->find($id);
 
+		// on récupère ses liens
+		$links = $em->getRepository('WKTUserBundle:Link')->findBy(array('user' => $user));
+
+		// on récupère les points de contributions par formation du user
+		$contributionScoreByTraining = $this->container->get('wkt_user.confidence_score')->getContributionScoreByUserAndByTraining($user);
+
 		return $this->render('WKTUserBundle:User:viewProfile.html.twig', array(
-			'user' => $user,));
+			'user' => $user,
+			'links' => $links,
+			'score' => $contributionScoreByTraining));
 	}
 
 	public function cancelIsReadAction(Request $request, Article $id)
