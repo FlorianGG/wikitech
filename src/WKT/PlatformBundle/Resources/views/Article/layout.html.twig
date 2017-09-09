@@ -2,6 +2,24 @@
 
 {% extends 'WKTCoreBundle:Core:layout.html.twig' %}
 {% block bodyLeft %}
+    <div class="row">
+        {% if article.part.training.image is empty %}
+            <div class="thumbnail">
+                <div class="caption">
+                    <h3>{{article.part.training.title}}</h3>
+                </div>
+                <img src="{{asset('images/training.jpeg')}}" alt="Miniature Wikitech">
+            </div>
+        {% else %}
+            <div class="thumbnail">
+                <div class="caption">
+                    <h3>{{article.part.training.title}}</h3>
+                </div>
+                <img src="{{ asset(article.part.training.image.webPath) }}" alt="{{ article.part.training.image.alt }}">
+            </div>
+        {% endif %}
+
+    </div>
     <div class="row" style="margin-bottom: 20px">
          <a class="btn btn-primary btn-lg col-xs-12" href="{{ path('wkt_platform_view', {'id': article.part.training.id, 'slugTraining': article.part.training.slug}) }}">Sommaire</a>
     </div>

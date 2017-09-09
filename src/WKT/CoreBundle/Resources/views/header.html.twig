@@ -27,7 +27,12 @@
               {% endif %}
               </li>
               {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <li><a href="{{ path('fos_user_profile_show') }}">{{ app.user.firstname }} {{ app.user.lastname }}</a></li>
+                <li><a href="{{ path('fos_user_profile_show') }}">
+                    {% if app.user and app.user.image is not empty %}
+                      <img style="max-width: 20px;" class="img-circle" src="{{ asset(app.user.image.webPath) }}" alt="{{ app.user.image.alt }}">
+                    {% endif %}
+                     {{ app.user.firstname }} {{ app.user.lastname }}
+                  </a></li>
                 <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
               {% else %}
                 <li> <a href="{{ path('fos_user_security_login') }}">Connexion</a></li>
@@ -39,4 +44,3 @@
         </div><!-- /.container-fluid -->
       </nav>
   </header>
-  

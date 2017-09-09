@@ -3,7 +3,19 @@
 {% extends 'WKTCoreBundle:Core:layout.html.twig' %}
 {% block bodyRight %}
 	<div class="jumbotron">
-		<h1> {{ training.title }} </h1>
+        {% if training.image is empty %}
+            <h1> {{ training.title }} </h1>
+        {% else %}
+            <div class="col-xs-3">
+                <div class="thumbnail">
+                    <img src="{{ asset(training.image.webPath) }}" alt="{{ training.image.alt }}">
+                </div>
+            </div>
+            <div class="col-xs-9">
+                <h1> {{ training.title }} </h1>
+            </div>
+        {% endif %}
+		
 		<p><a class="btn btn-primary btn-lg" href="">Commencer le cours !</a> 
         {% if is_granted('ROLE_USER') %}
             {% if is_granted('ROLE_ADMIN') %}

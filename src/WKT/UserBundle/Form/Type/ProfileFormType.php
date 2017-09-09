@@ -7,6 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use WKT\UserBundle\Form\Type\ImageType;
 
 class ProfileFormType extends AbstractType
 {
@@ -21,6 +22,8 @@ class ProfileFormType extends AbstractType
             'required' => true))
             ->remove('username')
             ->remove('current_password')
+            ->add('image', ImageType::class, array(
+                'required' => false,))
             ->add('lastname', TextType::class, array(
             'label' => 'Nom',
             'required' => true))

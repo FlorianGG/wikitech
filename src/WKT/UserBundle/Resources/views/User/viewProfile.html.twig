@@ -5,6 +5,11 @@
 			<div class="panel panel-default">
 			  <!-- Default panel contents -->
 			  <div class="panel-heading">
+			  	<div class="col-xs-12">
+			  		{% if user.image is not empty %}
+			  			<p class="text-center"><img class="img-circle" src="{{ asset(user.image.webPath) }}" alt="{{ user.image.alt }}"></p>    
+			  		{% endif %}
+			  	</div>
 			  	<h4 class="text-center">{{ user.firstname }} {{ user.lastname }} </h4>
 			  	{% if user.additionalName is empty %}
 			  	{% else %}

@@ -57,7 +57,18 @@
 					</div>
 					<div class="panel-body">
 					  	<div class="well">
-					  		{{form(form)}}
+					  		{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+					  		{{ form_row(form.title) }}
+					  		<div class="form-group">
+								{{ form_label(form.homeText, "Phrase d'introduction") }}
+								{{ form_errors(form.homeText) }}
+								{{ form_widget(form.homeText, {'attr': {'class': 'form-control'}}) }}
+								<p class="help-block"><small><em>Entre 2 et 149 caractères. Comme un tweet 😘</em></small></p>
+					  		</div>
+					  		{{ form_row(form.introduction) }}
+					  		{% block miniature %}{% endblock %}
+					  		{{ form_rest(form) }}
+					  		{{ form_end(form) }}
 					  	</div>
 					</div>
 					{{tinymce_init()}}

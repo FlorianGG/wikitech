@@ -158,6 +158,13 @@ class User extends BaseUser
      */
     protected $plainPassword;
 
+    /**
+     * @ORM\OneToOne(targetEntity="WKT\UserBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     * @Assert\Valid()
+     */
+    private $image;
+
     public function __construct()
     {
         parent::__construct();
@@ -488,5 +495,29 @@ class User extends BaseUser
     public function getUserTrainings()
     {
         return $this->userTrainings;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \WKT\UserBundle\Entity\Image $image
+     *
+     * @return User
+     */
+    public function setImage(\WKT\UserBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \WKT\UserBundle\Entity\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

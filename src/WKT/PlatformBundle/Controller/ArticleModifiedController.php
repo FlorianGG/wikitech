@@ -308,13 +308,7 @@ class ArticleModifiedController extends Controller
 	    'summary' => $summary,
 	  ));
 	}
-
-
-	public function deleteAction(Request $request, ArticleModified $id)
-	{
-		
-	}
-
+	
 	//fonction getValues qui permet de récupérer le contenu de l'entité en objet
 	private function getValues($item)
 	{

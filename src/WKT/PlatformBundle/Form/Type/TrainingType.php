@@ -8,6 +8,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use WKT\PlatformBundle\Form\Type\ImageType;
+
 
 class TrainingType extends AbstractType
 {
@@ -18,8 +20,11 @@ class TrainingType extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
+            ->add('homeText', TextType::class)
             ->add('introduction', TextareaType::class, array(
                 'attr' => array('class' => 'tinymce')))
+            ->add('image', ImageType::class, array(
+                'required' => false,))
             ->add('Enregistrer', SubmitType::class, array(
                 'attr' => array('class' => 'btn btn-success')));
     }

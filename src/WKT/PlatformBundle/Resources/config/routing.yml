@@ -41,20 +41,6 @@ wkt_platform_article_view:
     requirements:
         id: \d+
 
-wkt_platform_article_add:
-    path: /admin/article/add/{id}
-    defaults:
-        _controller: WKTPlatformBundle:Article:add
-    requirements:
-        id: \d+  
-
-wkt_platform_article_edit:
-    path: /admin/article/edit/{id}
-    defaults:
-        _controller: WKTPlatformBundle:Article:edit
-    requirements:
-        id: \d+ 
-
 # Part
 wkt_platform_part_add_ajax:
     path: /part/add/{id}
@@ -104,13 +90,6 @@ wkt_platform_article_modified_edit:
     path: /labo/edit/{id}
     defaults:
         _controller: WKTPlatformBundle:ArticleModified:edit
-    requirements:
-        id: \d+ 
-
-wkt_platform_article_modified_delete:
-    path: /admin/labo/delete/{id}
-    defaults:
-        _controller: WKTPlatformBundle:ArticleModified:delete
     requirements:
         id: \d+ 
 

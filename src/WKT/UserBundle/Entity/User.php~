@@ -150,6 +150,21 @@ class User extends BaseUser
      */
     private $userTrainings;
 
+    /**
+     * @Assert\Regex(
+     *  pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{6,}/",
+     *  message="Le mot de passe doit contenir au moins 6 caractères, une majuscule, une minuscule et un chiffre."
+     * )
+     */
+    protected $plainPassword;
+
+    /**
+     * @ORM\OneToOne(targetEntity="WKT\UserBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     * @Assert\Valid()
+     */
+    private $image;
+
     public function __construct()
     {
         parent::__construct();
@@ -446,4 +461,63 @@ class User extends BaseUser
         return $this->userArticlesRead;
     }
 
+    /**
+     * Add userTraining
+     *
+     * @param \WKT\UserBundle\Entity\UserTraining $userTraining
+     *
+     * @return User
+     */
+    public function addUserTraining(\WKT\UserBundle\Entity\UserTraining $userTraining)
+    {
+        $this->userTrainings[] = $userTraining;
+
+        $userTraining->setUser($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove userTraining
+     *
+     * @param \WKT\UserBundle\Entity\UserTraining $userTraining
+     */
+    public function removeUserTraining(\WKT\UserBundle\Entity\UserTraining $userTraining)
+    {
+        $this->userTrainings->removeElement($userTraining);
+    }
+
+    /**
+     * Get userTrainings
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUserTrainings()
+    {
+        return $this->userTrainings;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \WKT\UserBundle\Entity\Image $image
+     *
+     * @return User
+     */
+    public function setImage(\WKT\UserBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \WKT\UserBundle\Entity\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
 }

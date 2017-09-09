@@ -4,3 +4,25 @@
 {% block textFormulaire %}
     Modification de la formation {{training.title}}
 {% endblock %}
+{% block miniature %}
+    <div class="col-xs-12">
+    	<div class="col-sm-4">
+    		<div class="thumbnail">
+    		    {% if training.image is empty %}
+    		        <p class="text-center"><small><em>Aucune image enregistrée</em></small></p>
+    		    {% else %}
+    		        <img src="{{ asset(training.image.webPath) }}" alt="{{ training.image.alt }}">
+    		    {% endif %}
+    		</div>
+    	</div>
+    	<div class="col-sm-8">
+    		<div class="form-group">
+    		  {{ form_label(form.image, "Choisissez votre miniature") }}
+    		  {{ form_errors(form.image) }}
+    		  {{ form_widget(form.image.file, {'attr': {'class': 'form-control'}}) }}
+    		  <p class="help-block"><small><em>Limite 20 Mo</em></small></p>
+    		  <p class="help-block"><small><em>Formats autorisés : PNG/JPEG/JPG/GIF</em></small></p>
+    		</div>
+    	</div>
+    </div>
+{% endblock %}

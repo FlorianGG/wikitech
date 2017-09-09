@@ -52,9 +52,9 @@ class TrainingController extends Controller
 			$em->persist($training);
 			$em->flush();
 
-			$request->getSession()->getFlashBag()->add('notice', 'La formation a bien été crée');
+			$request->getSession()->getFlashBag()->add('notice', 'La formation  ' . $training->getTitle() . ' a bien été crée 🤗');
 
-			return $this->redirectToRoute('wkt_platform_view', array('id' => $training->getId(), 'slugTraining' => $training->getSlug()));
+			return $this->redirectToRoute('wkt_platform_add');
 		}
 
 		return $this->render('WKTPlatformBundle:Training:add.html.twig', array(
@@ -76,9 +76,9 @@ class TrainingController extends Controller
 			$em->persist($training);
 			$em->flush();
 
-			$request->getSession()->getFlashBag()->add('notice', 'La formation a bien été crée');
+			$request->getSession()->getFlashBag()->add('notice', 'La formation ' . $training->getTitle() . ' a bien été modifiée 🤓');
 
-			return $this->redirectToRoute('wkt_platform_view', array('id' => $training->getId(), 'slugTraining' => $training->getSlug()));
+			return $this->redirectToRoute('wkt_platform_add');
 		}
 
 		return $this->render('WKTPlatformBundle:Training:edit.html.twig', array(

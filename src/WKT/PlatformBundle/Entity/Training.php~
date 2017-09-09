@@ -4,6 +4,7 @@ namespace WKT\PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Training
@@ -28,6 +29,14 @@ class Training
      * @ORM\Column(name="title", type="string", length=255, unique=true)
      */
     private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="homeText", type="string", length=255)
+     * @Assert\Length(min = 2, max = 149, minMessage = "La phrase d'intro doit être au minimum de {{ limit }} caractères", maxMessage = "La phrase d'intro doit être au maximum de {{ limit }} caractères")
+     */
+    private $homeText;
 
     /**
      * @var string
@@ -66,10 +75,17 @@ class Training
      */
     private $userTrainings;
 
+    /**
+     * @ORM\OneToOne(targetEntity="WKT\PlatformBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     * @Assert\Valid()
+     */
+    private $image;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime;
-        $this->draft = false;
+        $this->draft = true;
     }
 
     /**
@@ -272,5 +288,29 @@ class Training
     public function getUserTrainings()
     {
         return $this->userTrainings;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \WKT\PlatformBundle\Entity\Image $image
+     *
+     * @return Training
+     */
+    public function setImage(\WKT\PlatformBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \WKT\PlatformBundle\Entity\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }
