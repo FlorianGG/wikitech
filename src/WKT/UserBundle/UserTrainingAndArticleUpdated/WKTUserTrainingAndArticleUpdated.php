@@ -15,7 +15,7 @@ class WKTUserTrainingAndArticleUpdated
 	{ //Son constructeur avec l'entity manager en paramètre
 	        $this->em = $em;
 	}
-
+	
 	public function changeAttributeUpdated(Article $article, bool $booleen)
 	{
 		$userArticlesRead = $this->em->getRepository('WKTUserBundle:UserArticleRead')->findBy(array('article' => $article));

@@ -36,8 +36,6 @@ class LinkController extends Controller
 			$em->persist($link);
 			$em->flush();
 			
-			$request->getSession()->getFlashBag()->add('notice', 'Votre modification a été enregistrée');
-			
 			return new JsonResponse(array('id' => $link->getId(), 'social' => $link->getSocial()->getLogo(), 'title' => $link->getTitle(), 'url' => $link->getUrl()), 200);
 		}
 	    

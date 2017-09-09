@@ -32,8 +32,9 @@
 			    		    	{% if training.draft %}
 									<a href="{{path('wkt_platform_draft', {'id': training.id, 'boolean': 0 })}}" class="btn btn-primary btn-xs">Publier</a>
 									{% else %}
-									<a href="{{path('wkt_platform_draft', {'id': training.id, 'boolean': 1 })}}" class="btn btn-primary btn-xs">Brouillon</a>    
+									<a href="{{path('wkt_platform_draft', {'id': training.id, 'boolean': 1 })}}" class="btn btn-info btn-xs">Brouillon</a>    
 			    		    	{% endif %}
+			    		    	<a href="{{ path('wkt_platform_article_modified_add_new_article', {'id': training.id}) }}" class="btn btn-success btn-xs">Ajouter Article</a>
 			    		    </td>
 			    		</tr>
 			    	{% endfor %}
@@ -42,7 +43,10 @@
 		    	{% endif %}
 		    		</div>
 		    		<div class="panel-footer">
-		    			<p class="text-center"><a href="{{path('wkt_platform_add')}}" class="btn btn-success">Ajouter une formation</a></p>
+		    			{% if training is defined %}
+							<p class="text-center"><a href="{{path('wkt_platform_add')}}" class="btn btn-success">Ajouter une formation</a></p>
+		    			{% endif %}
+		    			<p class="text-center"><a href="{{path('wkt_platform_part_delete_without_article')}}" class="btn btn-danger">Purger les parties vides</a></p>
 		    		</div>
 		    	</div>
 			</div>

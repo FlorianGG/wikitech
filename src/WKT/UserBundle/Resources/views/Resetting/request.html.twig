@@ -1,0 +1,20 @@
+{% extends "@FOSUser/layout.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block fos_user_content %}
+	<div class="jumbotron">
+		<h1>Mot de passe oublié</h1>
+	</div>
+	<div class="well">
+		<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="form-inline fos_user_resetting_request">
+			<div class="form-group" id="firstname">
+			  <label class="control-label " for="username">{{ 'resetting.request.username'|trans }} : </label>
+			  <input class="form-control" type="text" id="username" name="username" required="required" />
+			</div>
+		    <div>
+		        <input type="submit" class="btn btn-primary" value="{{ 'resetting.request.submit'|trans }}" />
+		    </div>
+		</form>
+	</div>
+	
+{% endblock fos_user_content %}
+

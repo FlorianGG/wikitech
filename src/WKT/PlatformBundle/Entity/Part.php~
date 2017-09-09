@@ -3,6 +3,7 @@
 namespace WKT\PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Part
@@ -52,6 +53,14 @@ class Part
      * @ORM\Column(name="isEnabled", type="boolean", nullable=true)
      */
     private $isEnabled;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetime")
+     * @Assert\DateTime()
+     */
+    private $createdAt;
 
     /**
      * Constructor

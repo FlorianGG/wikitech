@@ -68,58 +68,22 @@ class ArticleModifiedController extends Controller
 			$form = $this->container->get('wkt_platform.generate_form')->generateFormArticleValidationWithoutPart($article, $training);
 		}
 		
-
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-			$article
-				->setTitle($articleModified->getTitle())
-				->setIntroduction($articleModified->getIntroduction())
-				->setContent($articleModified->getContent())
-				->setModifiedAt(new \DateTime)
-				->setOrderInPart($articleModified->getOrderInPart())
-				->setPart($articleModified->getPart());
-
-			//on vérifie si la partie de l'article a un status IsEnabled true sinon on l'active
-			if (!$article->getPart()->getIsEnabled()) {
-				$article->getPart()->setIsEnabled(true);
-			}
-
-			// on change dans l'article le statut IsModifying à false
-			$article->setIsModifying(false);
-
-			// on change le statut IsValidate pour le commit
-			$commits[0]->setIsValidate(true);
-
-			$UserTrainingArticleService = $this->container->get('wkt_user.user_training_article_updated');
-
-			if (!is_null($article->getId())) {
-				// on change modified de tous les UserArticleRead  de cet article à true
-				$UserTrainingArticleService->changeAttributeUpdated($article, true);
-			}
 			
-			// on change finished de tous les UserTraining de cet article à false
-			$UserTrainingArticleService->changeAttributeFinished($training);
-			//on change updated de tous les UserTraining liés à cet article
-			$UserTrainingArticleService->changeAttributeUpdatedinUserTraining($training);
-
-			
-			if (!is_null($commits[0]->getUser())) {
-				//on attribut les points du dernier commit de l'articleModified à son User
-				$user = $commits[0]->getUser();
-				$multiplicateur = $form->get('coefScore')->getData();
-				$score = $user->getNbPoint() + ( $commits[0]->getScore() * $multiplicateur );
-				$user->setNbPoint($score);
-				$em->persist($user);
-				$commits[0]->setScore($commits[0]->getScore() * $multiplicateur);
-			}
-			$em->persist($commits[0]);
-			$em->persist($article);
-			$em->flush();
+			//fonction factorisée qui set les attributs d'article avec les valeur de articleModified, 
+			// vérifie si la partie de l'article est activée sinon on l'active, 
+			// change dans l'article le statut IsModifying à false si il n'y a pas d'autre articleModified pour cet article,
+			// change le statut isValidate à true du dernier commit de cette articleModified,
+			// change l'attribut modified de tous les UserArticleRead de cet article à true
+			// change l'attribut finished de tous les UserTraining de cet article à false
+			// on change l'attribut updated de tous les UserTraining liés à cet article
+			// persist article et commit[O] et flush
+			$this->validationFunction($article, $articleModified, $training, $form);
 
 			$request->getSession()->getFlashBag()->add('notice', 'Le nouvel article a bien remplacé l\'ancien 😄');
 
 			return $this->redirectToRoute('wkt_platform_commit_index');
 		}
-
 
 		return $this->render('WKTPlatformBundle:ArticleModified:validation.html.twig', array(
 			'form' => $form->createView(),
@@ -219,15 +183,12 @@ class ArticleModifiedController extends Controller
 			// on change dans l'article le statut IsModifying à true
 			$article->setIsModifying(true);
 
-			$em = $this->getDoctrine()->getManager();
 			$em->persist($articleModified);
 			$em->persist($commit);
 			$em->persist($article);
 			$em->flush();
 
-			$request->getSession()->getFlashBag()->add('notice', 'Votre modification a été enregistrée');
-
-			return $this->redirectToRoute('wkt_platform_article_modified_view', array('id' => $articleModified->getId()));
+			return $this->validationForAdmin($request, $article, $articleModified, $article->getPart()->getTraining());
 		}
 
 		  return $this->render('WKTPlatformBundle:ArticleModified:add.html.twig', array(
@@ -292,9 +253,7 @@ class ArticleModifiedController extends Controller
 			$em->persist($commit);
 			$em->flush();
 
-			$request->getSession()->getFlashBag()->add('notice', 'Votre modification a été enregistrée');
-
-			return $this->redirectToRoute('wkt_platform_article_modified_view', array('id' => $articleModified->getId()));
+			return $this->validationForAdmin($request, $articleModified->getArticle(), $articleModified);
 
 		}
 		return $this->render('WKTPlatformBundle:ArticleModified:edit.html.twig', array(
@@ -340,9 +299,7 @@ class ArticleModifiedController extends Controller
 			$em->persist($commit);
 			$em->flush();
 
-			$request->getSession()->getFlashBag()->add('notice', 'Merci pour votre contribution 🤗 . Votre proposition de page a bien été enregistrée. Elle sera visible après validation par WikiTech');
-
-			return $this->redirectToRoute('wkt_platform_view', array('id' => $training->getId(), 'slugTraining' => $training->getSlug()));
+			return $this->validationForAdmin($request, new Article, $articleModified, $training);
 		}
 
 	  return $this->render('WKTPlatformBundle:ArticleModified:addNewArticle.html.twig', array(
@@ -421,6 +378,120 @@ class ArticleModifiedController extends Controller
 		}
 
 		return $commit;
+
+	}
+
+	//factorisation de la fonction qui attribue les points du dernier commit 
+	// de l'articleModified à son user
+	private function addPointsToUser($commits, $form = null )
+	{
+		$em = $this->getDoctrine()->getManager();
+
+		if (!is_null($commits[0]->getUser())) {
+			//on attribut les points du dernier commit de l'articleModified à son User
+			$user = $commits[0]->getUser();
+			if (!is_null($form)) {
+				$multiplicateur = $form->get('coefScore')->getData();
+				$score = $user->getNbPoint() + ( $commits[0]->getScore() * $multiplicateur );
+				$commits[0]->setScore($commits[0]->getScore() * $multiplicateur);
+			}else{
+				$score = $user->getNbPoint() + $commits[0]->getScore();
+				$commits[0]->setScore($commits[0]->getScore());
+			}
+			
+			$user->setNbPoint($score);
+			$em->persist($user);
+		}
+	}
+
+	private function updateUserArticleReadAndUserTrainingAttributes(Article $article, Training $training)
+	{
+		$UserTrainingArticleService = $this->container->get('wkt_user.user_training_article_updated');
+		// on change l'attribut modified de tous les UserArticleRead de cet article à true
+		if (!is_null($article->getId())) {
+			$UserTrainingArticleService->changeAttributeUpdated($article, true);
+		}
+		// on change finished de tous les UserTraining de cet article à false
+		$UserTrainingArticleService->changeAttributeFinished($training);
+		//on change updated de tous les UserTraining liés à cet article
+		$UserTrainingArticleService->changeAttributeUpdatedinUserTraining($training);
+	}
+
+	private function validationForAdmin(Request $request, Article $article, ArticleModified $articleModified, Training $training = null)
+	{
+		if ($this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+			//fonction factorisée qui set les attributs d'article avec les valeur de articleModified, 
+			// vérifie si la partie de l'article est activée sinon on l'active, 
+			// change dans l'article le statut IsModifying à false si il n'y a pas d'autre articleModified pour cet article,
+			// change le statut isValidate à true du dernier commit de cette articleModified,
+			// change l'attribut modified de tous les UserArticleRead de cet article à true
+			// change l'attribut finished de tous les UserTraining de cet article à false
+			// on change l'attribut updated de tous les UserTraining liés à cet article
+			// persist article et commit[O] et flush
+			if (is_null($training)) {
+				$training = $article->getPart()->getTraining();
+				
+			}
+			$this->validationFunction($article, $articleModified, $training);
+
+			$request->getSession()->getFlashBag()->add('notice', 'Votre modification a bien été enregistrée et publiée car vous êtes un admin 😎');
+			return $this->redirectToRoute('wkt_platform_article_view', array('id' => $article->getId(), 'slugTraining' => $training->getSlug(), 'slugArticle' => $article->getSlug()));
+		}
+
+		if (is_null($articleModified->getArticle())) {
+			$request->getSession()->getFlashBag()->add('notice', 'Merci pour votre contribution 🤗 . Votre proposition de page a bien été enregistrée. Elle sera visible après validation par WikiTech');
+
+			return $this->redirectToRoute('wkt_platform_view', array('id' => $training->getId(), 'slugTraining' => $training->getSlug()));
+		}
+		$request->getSession()->getFlashBag()->add('notice', 'Votre modification a été enregistrée');
+
+		return $this->redirectToRoute('wkt_platform_article_modified_view', array('id' => $articleModified->getId()));
+	}
+
+	//factorisation des étapes de validations
+	private function validationFunction(Article $article, ArticleModified $articleModified, Training $training, $form = null)
+	{
+		$commits = $this->returnCommits($articleModified);
+
+		$em = $this->getDoctrine()->getManager();
+
+		// on set les attributs de l'article avec la valeur de l'articleModified
+		$article->setTitle($articleModified->getTitle())->setIntroduction($articleModified->getIntroduction())
+			->setContent($articleModified->getContent())->setModifiedAt(new \DateTime)->setOrderInPart($articleModified
+			->getOrderInPart())->setPart($articleModified->getPart());
+
+		if (!is_null($articleModified->getVideo())) {
+			$video = $articleModified->getVideo();
+			$article->setVideo($video);
+		}
+
+		//on vérifie si la partie de l'article a un status IsEnabled true sinon on l'active
+		if (!$article->getPart()->getIsEnabled()) {
+			$article->getPart()->setIsEnabled(true);
+		}
+
+		// on verifie si cet articleModified est le seul pour cet article
+		$articleModifieds = $em->getRepository('WKTPlatformBundle:ArticleModified')->findBy(array('article' => $article));
+		if (sizeof($articleModifieds) === 1) {
+			// on change dans l'article le statut IsModifying à false
+			// si il n'y a pas d'autre articleModified pour cet article
+			$article->setIsModifying(false);
+		}
+
+		// on change le statut IsValidate pour le commit
+		$commits[0]->setIsValidate(true);
+
+		// on change l'attribut modified de tous les UserArticleRead de cet article à true
+		// on change finished de tous les UserTraining de cet article à false
+		// on change updated de tous les UserTraining liés à cet article
+		$this->updateUserArticleReadAndUserTrainingAttributes($article, $training);
+
+		// fonction qui attribue les points du dernier commit de l'articleModified à son user
+		$this->addPointsToUser($commits, $form);
+
+		$em->persist($commits[0]);
+		$em->persist($article);
+		$em->flush();
 
 	}
 

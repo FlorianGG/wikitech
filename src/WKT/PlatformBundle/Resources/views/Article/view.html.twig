@@ -3,9 +3,9 @@
 {% block addArticle %}
     {% if is_granted('ROLE_USER') %}
         {% if is_granted('ROLE_ADMIN') %}
-            <a class="btn btn-success btn-lg col-xs-12" href="{{ path('wkt_platform_article_add', {'id': article.part.training.id}) }}">Ajouter un article</a>
+            <a class="btn btn-success btn-lg col-xs-12" href="{{ path('wkt_platform_article_modified_add_new_article', {'id': article.part.training.id}) }}">Créer un nouvel article</a>
         {% else %}
-            <a class="btn btn-success btn-lg col-xs-12" href="{{ path('wkt_platform_article_modified_add_new_article', {'id': article.part.training.id}) }}">Ajouter un article</a>
+            <a class="btn btn-success btn-lg col-xs-12" href="{{ path('wkt_platform_article_modified_add_new_article', {'id': article.part.training.id}) }}">Proposer un article</a>
         {% endif %}  
     {% endif %}
 {% endblock %}
@@ -24,11 +24,10 @@
                 </div>
                 <div class="col-xs-2" style="margin-top: 40px; margin-bottom: 10px;">
                     {% if is_granted('ROLE_ADMIN') %}
-                    <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_edit', {'id': article.id}) }}">Modifier</a>
+                    <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}">Modification instantanée</a>
                     {% else %}
                         {% if article.isModifying %}
-                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#isModifying">
-                              Modifier</button>
+                            <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}">Modifier </a>
                         {% else %}
                             <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}">Modifier</a>
                         {% endif %}
@@ -44,7 +43,7 @@
                 </div>
                 <div class="col-xs-2" style="margin-top: 20px; margin-bottom: 10px;">
                     {% if is_granted('ROLE_ADMIN') %}
-                    <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_edit', {'id': article.id}) }}#wkt_platformbundle_articlemodified_introduction">Modifier</a>
+                    <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_introduction">Modification instantanée</a>
                     {% else %}
                         {% if article.isModifying %}
                             <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#isModifying">
@@ -67,7 +66,7 @@
                 </div>
                 <div class="col-xs-2" style="margin-top: 20px; margin-bottom: 10px;">
                     {% if is_granted('ROLE_ADMIN') %}
-                    <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_edit', {'id': article.id}) }}#wkt_platformbundle_articlemodified_content">Modifier</a>
+                    <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_content">Modification instantanée</a>
                     {% else %}
                         {% if article.isModifying %}
                             <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#isModifying">
@@ -89,7 +88,7 @@
                     </div>
                     <div class="col-xs-2" style="margin-top: 20px; margin-bottom: 10px;">
                         {% if is_granted('ROLE_ADMIN') %}
-                        <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_edit', {'id': article.id}) }}#wkt_platformbundle_articlemodified_video">Modifier</a>
+                        <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_video">Modification instantanée</a>
                         {% else %}
                             {% if article.isModifying %}
                                 <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#isModifying">

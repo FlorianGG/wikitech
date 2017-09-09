@@ -35,5 +35,15 @@ class CommitRepository extends \Doctrine\ORM\EntityRepository
 			->getResult();
 	}
 
+	public function getCommitsValidateWithUser()
+	{
+		return $this->createQueryBuilder('c')
+			->where('c.user IS NOT null')
+			->andWhere('c.isValidate = :isValidate')
+				->setParameter('isValidate', true)
+			->getQuery()
+			->getResult();
+	}
+
 
 }

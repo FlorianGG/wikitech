@@ -75,4 +75,30 @@ class WKTConfidenceScore
 		return $commitsByTraining;
 	}
 
+	public function getContributionScoreByTraining(Training $training)
+	{
+		$commits= $this->em->getRepository('WKTPlatformBundle:Commit')->getCommitsValidateWithUser();
+
+		if (is_null($commits)) {
+			return null;
+		}
+
+		$commitsByTraining = [];
+		foreach ($commits as $commit) {
+			$commitTraining = $commit->getArticleModified()->getPart()->getTraining();
+			if ($training->getTitle() === $commitTraining->getTitle()) {
+				if (!array_key_exists($commit->getUser()->getUsername(), $commitsByTraining)) {
+					$commitsByTraining[$commit->getUser()->getUserName()] = array(
+						'user' => $commit->getUser(),
+						'score' => $commit->getScore());
+				}else{
+					$commitsByTraining[$commit->getUser()->getUserName()] = array(
+						'user' => $commit->getUser(),
+						'score' => $commitsByTraining[$commit->getUser()->getUserName()]['score'] + $commit->getScore());
+				}
+			}
+		}
+		return $commitsByTraining;
+	}
+
 }

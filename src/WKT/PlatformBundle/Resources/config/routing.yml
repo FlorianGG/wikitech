@@ -55,12 +55,19 @@ wkt_platform_article_edit:
     requirements:
         id: \d+ 
 
+# Part
 wkt_platform_part_add_ajax:
-    path: /path/add/{id}
+    path: /part/add/{id}
     defaults:
         _controller: WKTPlatformBundle:Part:addWithAjax
     requirements:
         id: \d+  
+
+wkt_platform_part_delete_without_article:
+    path: /admin/part/delete_without_article
+    defaults:
+        _controller: WKTPlatformBundle:Part:deletePartWithoutArticle
+
 
 # Article Modified
 wkt_platform_article_modified_add:

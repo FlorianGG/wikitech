@@ -8,13 +8,13 @@
 	<div class="form-group form-group-sm col-sm-3">
 		{{ form_errors(form.title) }}
 		<div>
-		  	{{ form_widget(form.title, {'attr': {'class': 'form-control', 'style': 'width: 100%;'}}) }}
+		  	{{ form_widget(form.title, {'attr': {'class': 'form-control', 'placeholder': 'Nom du lien', 'style': 'width: 100%;'}}) }}
 		</div>
 	</div>
 	<div class="form-group form-group-sm col-sm-4">
 		{{ form_errors(form.url) }}
 		<div>
-		  	{{ form_widget(form.url, {'attr': {'class': 'form-control', 'style': 'width: 100%;'}}) }}
+		  	{{ form_widget(form.url, {'attr': {'class': 'form-control', 'placeholder': 'Url du lien', 'style': 'width: 100%;'}}) }}
 		</div>
 	</div>
 	<div class="col-sm-2 col-xs-12">

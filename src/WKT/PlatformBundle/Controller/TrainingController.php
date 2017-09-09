@@ -31,9 +31,11 @@ class TrainingController extends Controller
 		$trainingRepository = $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:Training');
 
 		$training = $trainingRepository->find($id);
+		$top = $this->container->get('wkt_user.confidence_score')->getContributionScoreByTraining($training);
 
 		return $this->render('WKTPlatformBundle:Training:view.html.twig', array(
-			'training' => $training,));
+			'training' => $training,
+			'top' => $top,));
 	}
 
 	public function addAction(Request $request)

@@ -33,5 +33,37 @@ class PartController extends Controller
 
 	}
 
+	public function deletePartWithoutArticleAction(Request $request)
+	{
+		$em = $this->getDoctrine()->getManager();
+		$parts = $em->getRepository('WKTPlatformBundle:Part')->findAll();
+		$partsDeleted = 0;
+		$today = new \DateTime;
+
+
+
+		foreach ($parts as $part) {
+			if (sizeof($part->getArticles()) === 0 && $part->getCreatedAt()->add(new \DateInterval('P1D')) < $today) {
+				$em->remove($part);
+				$partsDeleted++;
+			}
+		}
+
+		$em->flush();
+
+		if ($partsDeleted === 0) {
+			$request->getSession()->getFlashBag()->add('notice', 'Aucune partie ne devait être supprimée 😜');
+		}elseif($partsDeleted === 1){
+			$request->getSession()->getFlashBag()->add('notice', 'Une partie a été supprimée 😝');
+		}else{
+			$request->getSession()->getFlashBag()->add('notice', $partsDeleted . ' parties ont été supprimées 😝🤗');
+		}
+
+		
+
+		return $this->redirectToRoute('wkt_platform_add');
+
+	}
+
 
 }

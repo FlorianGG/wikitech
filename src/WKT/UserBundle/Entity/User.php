@@ -150,6 +150,14 @@ class User extends BaseUser
      */
     private $userTrainings;
 
+    /**
+     * @Assert\Regex(
+     *  pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{6,}/",
+     *  message="Le mot de passe doit contenir au moins 6 caractères, une majuscule, une minuscule et un chiffre."
+     * )
+     */
+    protected $plainPassword;
+
     public function __construct()
     {
         parent::__construct();

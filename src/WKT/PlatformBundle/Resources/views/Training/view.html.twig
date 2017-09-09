@@ -7,7 +7,7 @@
 		<p><a class="btn btn-primary btn-lg" href="">Commencer le cours !</a> 
         {% if is_granted('ROLE_USER') %}
             {% if is_granted('ROLE_ADMIN') %}
-                <strong>OU</strong> <a class="btn btn-success btn-lg" href="{{ path('wkt_platform_article_add', {'id': training.id}) }}">Ajouter un article</a></p>
+                <strong>OU</strong> <a class="btn btn-success btn-lg" href="{{ path('wkt_platform_article_modified_add_new_article', {'id': training.id}) }}">Créer un nouvel article</a></p>
             {% else %}
                 <strong>OU</strong> <a class="btn btn-success btn-lg" href="{{ path('wkt_platform_article_modified_add_new_article', {'id': training.id}) }}">Proposer un article</a></p>
             {% endif %}
@@ -23,4 +23,34 @@
     {{ include("WKTPlatformBundle:Summary:viewSummary.html.twig") }}
     <hr>
     <p><a class="btn btn-primary btn-lg" href="{{ path('wkt_core_home') }}">Retour à l'accueil</a></p>
+    <br>
+    <div class="panel panel-warning">
+        <div class="panel-heading"><h2>Top Contributeurs <a href="{{path('wkt_core_leaderboard')}}"><span class="label label-warning">Voir tout</span></a></h2></div>
+        <div class="panel-body">
+            {% if top is empty %}
+                <p class="text-center"><small><em>Aucune contribution effectuée sur cette formation</em></small></p>
+            {% else %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Rang</th>
+                            <th>Utilisateur</th>
+                            <th>Score</th>
+                            <th>Profil</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for commit in top %}
+                            <tr>
+                                <td>{{loop.index}}</td>
+                                <td>{{commit.user.firstname}} {{commit.user.lastname}}</td>
+                                <td>{{commit.score}} pts</td>
+                                <td><a class="btn btn-warning btn-xs" href="{{path('wkt_user_view_profile', {'id': commit.user.id})}}">Profil</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>                    
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

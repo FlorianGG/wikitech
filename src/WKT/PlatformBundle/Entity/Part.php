@@ -3,6 +3,7 @@
 namespace WKT\PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Part
@@ -54,11 +55,20 @@ class Part
     private $isEnabled;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetime")
+     * @Assert\DateTime()
+     */
+    private $createdAt;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdAt = new \DateTime;
     }
 
     /**
@@ -200,5 +210,29 @@ class Part
     public function getIsEnabled()
     {
         return $this->isEnabled;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Part
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 }
