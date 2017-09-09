@@ -175,7 +175,7 @@ class Image
         $this->getUploadRootDir(), // Le répertoire de destination
         'avatar'.$this->id.'.'.$this->url   // Le nom du fichier à créer, ici « id.extension »
         );
-        $this->resizeImg($this->getUploadDir().'/avatar'.$this->getId().'.'.$this->getUrl());       
+        $this->resizeImg($this->getUploadDir().'/avatar'.$this->getId().'.'.$this->getUrl(), $this->getUrl());       
     }
     
     /**
@@ -217,8 +217,7 @@ class Image
         return $this->getUploadDir().'/avatar'.$this->getId().'.jpeg';
     }
 
-    protected function resizeImg($image){
-        $extension = pathinfo($_FILES['fos_user_profile_form']['name']['image']['file'])['extension'];
+    protected function resizeImg($image, $extension){
         switch ($extension) {
             case 'jpeg':
                 $source = imagecreatefromjpeg($image); // La photo est la source

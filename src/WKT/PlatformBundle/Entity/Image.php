@@ -4,6 +4,7 @@ namespace WKT\PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -175,7 +176,7 @@ class Image
         $this->getUploadRootDir(), // Le répertoire de destination
         'miniature'.$this->id.'.'.$this->url   // Le nom du fichier à créer, ici « id.extension »
         );
-        $this->resizeImg($this->getUploadDir().'/miniature'.$this->getId().'.'.$this->getUrl());       
+        $this->resizeImg($this->getUploadDir().'/miniature'.$this->getId().'.'.$this->getUrl(), $this->getUrl());       
     }
  
     /**
@@ -217,8 +218,7 @@ class Image
         return $this->getUploadDir().'/miniature'.$this->getId().'.jpeg';
     }
 
-    protected function resizeImg($image){
-        $extension = pathinfo($_FILES['wkt_platformbundle_training']['name']['image']['file'])['extension'];
+    protected function resizeImg($image, $extension){
         switch ($extension) {
             case 'jpeg':
                 $source = imagecreatefromjpeg($image); // La photo est la source
