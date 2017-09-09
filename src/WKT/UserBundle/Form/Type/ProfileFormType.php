@@ -3,6 +3,7 @@
 namespace WKT\UserBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -43,7 +44,10 @@ class ProfileFormType extends AbstractType
             ->add('country', TextType::class, array(
             'label' => 'Pays de résidence',
             'attr' => array('readonly' => true),
-            'required' => false));
+            'required' => false))
+            ->add('emailHidden', CheckboxType::class, array(
+                'label' => 'Cacher votre email aux autres utilisateurs',
+                'required' => false));
     }
 
     public function getParent()

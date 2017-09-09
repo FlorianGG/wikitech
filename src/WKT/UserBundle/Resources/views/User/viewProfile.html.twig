@@ -56,10 +56,12 @@
 			  <div class="panel-body">
 			    <!-- List group -->
 			    <ul class="list-group">
-			      <li class="list-group-item"><p><strong>Adresse email : </strong> {{ user.email }}</p></li>
-			      <li class="list-group-item"><p><strong>Son entreprise actuelle : </strong> {{ user.company }}</p></li>
-			      <li class="list-group-item"><p><strong>Ville de résidence : </strong> {{ user.locality }}</p></li>
-			      <li class="list-group-item"><p><strong>Pays de résidence : </strong> {{ user.country }}</p></li>
+			    	{% if user.emailHidden == false %}
+						<li class="list-group-item"><p><strong>Adresse email : </strong> {{ user.email }}</p></li>
+			    	{% endif %}
+					<li class="list-group-item"><p><strong>Son entreprise actuelle : </strong> {{ user.company }}</p></li>
+					<li class="list-group-item"><p><strong>Ville de résidence : </strong> {{ user.locality }}</p></li>
+					<li class="list-group-item"><p><strong>Pays de résidence : </strong> {{ user.country }}</p></li>
 			    </ul>
 			  </div>
 			</div>

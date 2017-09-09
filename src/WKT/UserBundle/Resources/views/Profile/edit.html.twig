@@ -64,7 +64,10 @@
 			  <div class="panel-body">
 			    <!-- List group -->
 			    <ul class="list-group">
-			      <li class="list-group-item">{{ form_row(form.email) }}</li>
+			      <li class="list-group-item">
+			      	{{ form_row(form.email) }}
+			      	{{ form_row(form.emailHidden) }}
+			      </li>
 			      <li class="list-group-item">{{ form_row(form.company) }}</li>
 			      <li class="list-group-item">
 			      	<div id="locationField">

@@ -165,12 +165,20 @@ class User extends BaseUser
      */
     private $image;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="emailHidden", type="boolean", nullable=false)
+     */
+    private $emailHidden;
+
     public function __construct()
     {
         parent::__construct();
         $this->nbPoint = 0;
         $this->nbStrike = 0;
-        $this->links = new ArrayCollection;  
+        $this->links = new ArrayCollection; 
+        $this->emailHidden = false; 
     }
 
     /**
@@ -519,5 +527,29 @@ class User extends BaseUser
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Set emailHidden
+     *
+     * @param boolean $emailHidden
+     *
+     * @return User
+     */
+    public function setEmailHidden($emailHidden)
+    {
+        $this->emailHidden = $emailHidden;
+
+        return $this;
+    }
+
+    /**
+     * Get emailHidden
+     *
+     * @return boolean
+     */
+    public function getEmailHidden()
+    {
+        return $this->emailHidden;
     }
 }
