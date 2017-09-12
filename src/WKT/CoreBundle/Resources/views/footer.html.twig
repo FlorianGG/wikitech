@@ -1,45 +1,43 @@
 {# src/WKT/CoreBundle/Resources/views/footer.html.twig #}
 
 <footer>
-	<div class="container text-center">
-	  <hr>
-	  <div class="row">
-	    <div class="col-xs-12">
-	      <div class="col-sm-4">
-	        <ul class="nav nav-pills nav-stacked">
-	          <li><strong>Que pensez-vous de Wikitech ?</strong></li>
-	          <li><a href="#">Découvrez le projet</a></li>
-	          <li><a href="#">Contribuez</a></li>
-	          <li><a href="{{ path('wkt_core_leaderboard') }}">Leaderboard</a></li>
-	        </ul>
-	      </div>
-	      <div class="col-sm-4">
-	        <ul class="nav nav-pills nav-stacked">
-	          <li><strong>Profil</strong></li>
-	          <li><a href="#">Les avantages d’un profil</a></li>
-	          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-	          {% else %}
-	          <li><a href="{{ path('fos_user_registration_register') }}">Créer un profil</a></li>
-	          {% endif %}
-	        </ul>
-	      </div>
-	      <div class="col-sm-4">
-	        <ul class="nav nav-pills nav-stacked">
-	          <li><strong>L'organisation</strong></li>
-	          <li><a href="{{ path('wkt_core_contact_send_email') }}">Nous contacter</a></li>
-	          <li><a href="#">Mentions légales</a></li>
-	          <li><a href="#">Condition d'utilisation</a></li>
-	        </ul>
-	      </div>
-	    </div>
-	  </div>
-	  <hr>
-	    <div class="row">
-	        <div class="col-xs-12">
-	            <ul class="nav nav-pills nav-justified">
-	                <li><a href="#">© 2017 Wikitech.</a></li>
-	            </ul>
-	        </div>
-	    </div>
+	<div class="row">
+	    <section class="standardSection">
+	    	<div class="col-xs-12">
+	    		<div class="row">
+	    		    <div class="col-xs-12">
+	    		    	<h2>Que pensez-vous de Wikitech ?</h2>
+	    		        <p>Ceci est la toute première version du site, pour l’améliorer nous adorerions savoir ce que vous en pensez : <strong>donner votre avis, une idée ou autre.</strong></p>
+	    		    </div>
+	    		</div>
+	    		<div class="ulFooter">
+	    			<ul class="ulFooter1">
+	    			 	<li><strong>Que pensez-vous de Wikitech ?</strong></li>
+	    			 	<li><a href="{{path('wkt_core_project')}}">Découvrez le projet</a></li>
+	    			 	<li><a href="{{ path('wkt_core_contribution') }}">Contribuez</a></li>
+	    			 	<li><a href="{{ path('wkt_core_leaderboard') }}">Leaderboard</a></li>
+	    			</ul>
+	    			
+	    			
+	    			<ul class="ulFooter2">
+	    			 	<li><strong>Profil</strong></li>
+	    			 	<li><a href="{{ path('wkt_core_profil_advantage') }}">Les avantages d’un profil</a></li>
+	    			  {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+	    			  {% else %}
+	    			 	<li><a href="{{ path('fos_user_registration_register') }}">Créer un profil</a></li>
+	    			  {% endif %}
+	    			</ul>
+	    			
+	    			<ul class="ulFooter3">
+	    			 	<li><strong>L'organisation</strong></li>
+	    			 	<li><a href="{{ path('wkt_core_contact_send_email') }}">Nous contacter</a></li>
+	    			 	<li><a href="{{ path('wkt_core_legal') }}">Mentions légales</a></li>
+	    			 	<li><a href="{{ path('wkt_core_cgu') }}">Conditions d'utilisation</a></li>
+	    			</ul>
+	    		</div>
+	    	</div>
+	    </section>
 	</div>
+	
 </footer>
+

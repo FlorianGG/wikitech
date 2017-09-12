@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="19px" viewBox="0 0 21 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>HeatShape@2x</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Homepage" transform="translate(-102.000000, -1200.000000)" fill="#F63069">
+            <g id="Soutenir-le-projet" transform="translate(102.000000, 1143.000000)">
+                <g id="En-détail-Copy" transform="translate(0.000000, 50.000000)">
+                    <path d="M10.4556962,26 C9.90432852,26.0000003 6.69986296,24.0169888 3.82922504,20.6823755 C2.05326357,18.619369 -2.54490191e-10,16.0390427 0,13.0909091 C2.25717301e-10,10.4632736 1.81248829,7 5.58227848,7 C8.73519575,7 10.2322538,10.1274927 10.5443038,10.4480519 C10.7677462,10.1274927 12.2648042,7 15.4177215,7 C19.1875117,7 21,10.4632736 21,13.0909091 C21,15.9792641 18.9903916,18.5145762 17.2503631,20.556245 C14.3435844,23.9669244 11.0139805,25.9999997 10.4556962,26 Z" id="HeatShape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -34,7 +34,7 @@ class Training
      * @var string
      *
      * @ORM\Column(name="homeText", type="string", length=255)
-     * @Assert\Length(min = 2, max = 149, minMessage = "La phrase d'intro doit être au minimum de {{ limit }} caractères", maxMessage = "La phrase d'intro doit être au maximum de {{ limit }} caractères")
+     * @Assert\Length(min = 2, max = 70, minMessage = "La phrase d'intro doit être au minimum de {{ limit }} caractères", maxMessage = "La phrase d'intro doit être au maximum de {{ limit }} caractères")
      */
     private $homeText;
 

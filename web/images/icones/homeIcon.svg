@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="21px" viewBox="0 0 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>Home icon@2x</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Home-icon" fill="#3F4347">
+            <rect id="Rectangle-2" transform="translate(5.872845, 6.612713) rotate(45.000000) translate(-5.872845, -6.612713) " x="4.87284451" y="-0.692743681" width="2" height="14.6109127"></rect>
+            <rect id="Rectangle-2" transform="translate(14.872845, 6.612713) scale(-1, 1) rotate(45.000000) translate(-14.872845, -6.612713) " x="13.8728445" y="-0.692743681" width="2" height="14.6109127"></rect>
+            <rect id="Rectangle-2" x="3" y="12" width="2" height="9"></rect>
+            <rect id="Rectangle-2-Copy-6" x="16" y="12" width="2" height="9"></rect>
+            <rect id="Rectangle-2-Copy-2" x="7" y="14" width="2" height="7"></rect>
+            <rect id="Rectangle-2-Copy-4" x="12" y="14" width="2" height="7"></rect>
+            <rect id="Rectangle-2-Copy" x="5" y="19" width="4" height="2"></rect>
+            <rect id="Rectangle-2-Copy-5" x="13" y="19" width="4" height="2"></rect>
+            <rect id="Rectangle-2-Copy-3" x="8" y="14" width="4" height="2"></rect>
+        </g>
+    </g>
+</svg>

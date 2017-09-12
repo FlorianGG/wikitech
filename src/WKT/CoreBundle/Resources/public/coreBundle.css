@@ -1,0 +1,242 @@
+/*GENERAL*/
+body{
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+}
+
+.content{
+	margin-top: 65px;
+}
+
+h2{
+	color: #161719;
+	font-family: "Open Sans";
+	font-size: 22px;
+	font-weight: 600;
+	line-height: 30px;
+	padding-bottom: 30px;
+}
+h3{
+	color: #161719;
+	font-family: "Open Sans";
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 22px;
+	text-align: center;
+	margin-top: 10px;
+}
+a{
+	color: #3E4246 !important;
+}
+.standardSection{
+	max-width: 840px;
+	margin: 0 auto;
+}
+hr{
+	width: 100%;
+	margin:30px auto 20px auto;
+}
+
+.withoutMargin{
+	margin-top:0 !important;
+}
+
+.withoutPadding{
+	padding: 0 !important;
+}
+
+.btn-success{
+	background-color: #53c378;
+	color: #fff !important;
+}
+
+.btn-primary{
+	background-color: #3BAEF8 !important;
+	color: #fff !important;
+}
+
+/*HEADER*/
+header nav{
+	height: 65px;
+	background-color: #fff !important;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+header nav ul{
+	background-color: #fff;
+	margin-top: 5px !important;
+}
+header nav ul li p{
+	margin-top: 15px;
+	margin-left: 15px;
+}
+.imgLink{
+	width: 21px;
+}
+
+
+.wikitechLogo{
+	width: 100% !important;
+}
+/*FOOTER*/
+footer{
+	height: auto;
+	width: 100%;
+	margin-top: 40px;
+	padding-top: 30px;
+	padding-left: 15px;
+	padding-right: 15px;
+	background-color: #F6F9FA;
+	color: #8C8C8C;
+}
+
+footer a{
+	color: #8C8C8C !important;
+}
+
+footer h2{
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 22px;
+	color: #8C8C8C;
+	padding: 0;
+}
+
+footer li{
+	list-style: none;
+	padding-left: 0;
+}
+.ulFooter{
+	padding: 0;
+	margin-top: 30px;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: no-wrap;
+}
+
+.ulFooter1, .ulFooter3, .ulFooter2{
+	padding-left:0;
+	width: 100%;
+}
+/*HOMEPAGE*/
+	/*BLOC INTRO*/
+.blocIntro{
+	width: 380px;
+	margin: 40px auto 40px auto;
+}
+.blocIntro a{
+	margin-top: 50px;
+	width: 250px;
+	height: 40px;
+	line-height: 28px;
+	border-radius: 8px;
+	border: 0;
+	background-color: #3BAEF8 !important;
+	color: #fff !important;
+}
+
+	/*Vignettes formations*/
+
+.thumbnailHome{
+	background-color: #F6F9FA !important;
+	width: 224px;
+	height: 329px;
+	border-radius: 8px;
+	color: #161719;
+	font-size: 16px;
+	line-height: 22px;
+	text-align: center;
+	margin: 0 auto;
+	
+}
+.thumbnailHome .caption{
+	margin-top: 12px;
+}
+
+
+.thumbnailHome a{
+	text-decoration: none;
+	color: #161719;
+	font-size: 16px;
+	line-height: 22px;
+	text-align: center;
+	border: 0px;
+	margin: 0 14px;
+	width: 180px;
+}
+
+.textCaption{
+	height: 80px;
+	margin: auto 14px;
+	padding: 0px 14px;
+}
+	/*buttonHome*/
+.buttonHome{
+	background-color: #F6F9FA;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 19px;
+	border: 0px;
+	width: 180px;
+	margin-top: 10px;
+}
+
+.buttonHomeCreateUser{
+	color: #F5A623 !important;
+}
+
+.buttonHomeSoutenir{
+	margin-left: 0;
+}
+.colButtonHome{
+	position: relative;
+}
+.buttonHomeTop{
+	position: absolute;
+	right: 0;
+	top: 10px;
+	width: 100px;
+	color: #FFCC00 !important;
+}
+.buttonHomeContact{
+	color: #4935A9 !important;
+}
+
+.buttonHomeSoutenir{
+	color: #F63069 !important;
+}
+
+	/*SOUTENIR PROJET*/
+.paragrapheHeart{
+	margin-top: 20px;
+}
+
+.imgHeart{
+	text-align:right;
+}
+
+	/*TOP*/
+.imgTop{
+	width: 55px;
+	margin-right: 15px;
+}
+/*PROJECT*/
+.blocIntroProject{
+	margin: 40px auto;
+	width: 400px;
+	display: flex;
+	flex-direction: column;
+}
+
+.project{
+	display: flex;
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (max-width:400px) {
+	.ulFooter{
+		flex-wrap: wrap;
+	}
+}
+

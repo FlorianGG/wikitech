@@ -1,150 +1,147 @@
 {# src/WKT/CoreBundle/Resources/views/Core/home.html.twig #}
 {% extends 'WKTCoreBundle:Core:layout.html.twig' %}
 {% block body %}
-    <div class="jumbotron">
-    	<h1>WikiTech</h1> 
-    	<p>Le numérique pour tous, par tous 😁</p>
-    </div>
-    <hr>
-    {% if app.user and trainings is not empty %}
-        <div class="panel panel-success">
-            <div class="panel-heading"><h2>Continuez vos formations</h2></div>
-            <div class="panel-body">
+    <div class="row">
+        <section class="standardSection">
+            <div class="blocIntro">
+                <img class="img-responsive" src="{{asset('images/icones/wikitechHome.svg')}}" alt="Wikitech">
+                <a href="{{path('wkt_core_project')}}" class="btn btn-default col-xs-8 col-xs-offset-2">En savoir plus sur le projet</a>
+            </div>
+        </section>
+    </div>   
+    <div class="row">
+        <section class="standardSection">
+            <div class="col-xs-12">
+                <hr>
+                <h2><img class="imgLink" src="{{ asset('images/icones/livre.svg') }}"> Les formations WikiTech</h2>
+            </div>
+            {% if app.user and trainings is not empty %}
                 {% for training in trainings %}
-                    <div class="col-sm-6 col-md-4">
-                        <div class="thumbnail">
+                    <div class="col-xs-12 col-sm-4 col-sm-offset-0">
+                        <div class="thumbnailHome">
                             {% if training.image is empty %}
                                 <img src="{{asset('images/training.jpeg')}}" alt="Miniature Wikitech">
                             {% else %}
                                 <img src="{{ asset(training.image.webPath) }}" alt="{{ training.image.alt }}">
                             {% endif %}
-
                             <div class="caption">
-                            {% if trainingsBeginned[training.title] is defined %}
-                                {% if trainingsBeginned[training.title].finished %}
-                                    <h3 class=""> {{ training.title }}</h3> <span class="label label-danger">Terminée</span>
-                                    <hr>
-                                    <p> {{ training.homeText }} </p>
-                                    <hr>
-                                    <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', { 'id': training.id, 'slugTraining': training.slug}) }}">Voir la formation</a></p>
-                                {% elseif trainingsBeginned[training.title].updated %}
-                                    <h3 class=""> {{ training.title }}</h3> <span class="label label-warning">Modifications</span>
-                                    <hr>
-                                    <p> {{ training.homeText }} </p>
-                                    <hr>
-                                    <p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_article_view', { 'id': trainingsBeginned[training.title].article.id, 'slugTraining': training.slug, 'slugArticle': trainingsBeginned[training.title].article.slug}) }}">Continuer la formation</a></p>
+                                {% if trainingsBeginned[training.title] is defined %}
+                                    {% if trainingsBeginned[training.title].finished %}
+                                        <h3>{{ training.title }} <img class="imgLink" src="{{ asset('images/icones/finish.svg') }}"></h3>
+                                        <div class="textCaption">
+                                            <p>{{ training.homeText }}</p>
+                                        </div>
+                                        <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', { 'id': training.id, 'slugTraining': training.slug}) }}">Voir</a></p>
+                                    {% elseif trainingsBeginned[training.title].updated %}
+                                        <h3>{{ training.title }}  <img class="imgLink" src="{{ asset('images/icones/edit.svg') }}"></h3>
+                                        <div class="textCaption">
+                                            <p>{{ training.homeText }}</p>
+                                        </div>
+                                        <p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_article_view', { 'id': trainingsBeginned[training.title].article.id, 'slugTraining': training.slug, 'slugArticle': trainingsBeginned[training.title].article.slug}) }}">Continuer</a></p>
+                                    {% else %}
+                                       <h3>{{ training.title }}  <img class="imgLink" src="{{ asset('images/icones/begin.svg') }}"></h3>
+                                        <div class="textCaption">
+                                            <p>{{ training.homeText }}</p>
+                                        </div>
+                                        <p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_article_view', { 'id': trainingsBeginned[training.title].article.id, 'slugTraining': training.slug, 'slugArticle': trainingsBeginned[training.title].article.slug}) }}">Continuer</a></p>
+                                    {% endif %}
                                 {% else %}
-                                    <h3 class=""> {{ training.title }}</h3> <span class="label label-success">En cours</span>
-                                    <hr>
-                                    <p> {{ training.homeText }} </p>
-                                    <hr>
-                                    <p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_article_view', { 'id': trainingsBeginned[training.title].article.id, 'slugTraining': training.slug, 'slugArticle': trainingsBeginned[training.title].article.slug}) }}">Continuer la formation</a></p>
+                                        <h3 class=""> {{ training.title }}</h3>
+                                        <div class="textCaption">
+                                            <p>{{ training.homeText }}</p>
+                                        </div>
+                                        <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', { 'id': training.id, 'slugTraining': training.slug}) }}">Commencer</a></p>
                                 {% endif %}
-                            {% else %}
-                                <h3 class=""> {{ training.title }}</h3>
-                                <br>
-                                <hr>
-                                <p> {{ training.homeText }} </p>
-                                <hr>
-                                <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', { 'id': training.id, 'slugTraining': training.slug}) }}">Commencer la formation</a></p>
-                            {% endif %}
                             </div>
                         </div>
                     </div>
                 {% endfor %}
-            </div>
-        </div>
-	{% else %}
-    	<div class="panel panel-default">
-    		<div class="panel-heading"><h2>Commencer une formation</h2></div>
-    		<div class="panel-body">
-	    	    {% for training in trainings %}
-    	        <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail">
-                        {% if training.image is empty %}
-                             <img src="{{asset('images/training.jpeg')}}" alt="Miniature Wikitech">
-                        {% else %}
-                          <img src="{{ asset(training.image.webPath) }}" alt="{{ training.image.alt }}">
-                        {% endif %}
-
-                        <div class="caption">
-                            <h3 class=""> {{ training.title }}</h3>
-                            <hr>
-                            <p>
-                                {{ training.homeText }} 
-                            </p>
-                            <hr>
-                            <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', { 'id': training.id, 'slugTraining': training.slug}) }}">Voir la formation</a></p>
-            	        	<p class="text-center"><small><em>Crée le {{ training.createdAt|date('d/m/Y') }}</em></small></p>
+            {% else %}
+                {% for training in trainings %}
+                    <div class="col-xs-12 col-sm-4 col-sm-offset-0">
+                        <div class="thumbnailHome">
+                            {% if training.image is empty %}
+                                <img src="{{asset('images/training.jpeg')}}" alt="Miniature Wikitech">
+                            {% else %}
+                                <img src="{{ asset(training.image.webPath) }}" alt="{{ training.image.alt }}">
+                            {% endif %}
+                            <div class="caption">
+                                <h3 class=""> {{ training.title }}</h3>
+                                <div class="textCaption">
+                                    <p>{{ training.homeText }}</p>
+                                </div>
+                                <p class="text-center"><a class="btn btn-default" href="{{ path('wkt_platform_view', { 'id': training.id, 'slugTraining': training.slug}) }}">Démarrer ></a></p>
+                            </div>
                         </div>
                     </div>
-    	        </div>
-    	    {% endfor %} 
-			</div>
-		</div>
-    {% endif %}
-    <hr>
+                {% endfor %} 
+            {% endif %}
+        </section>
+    </div>
     {% if app.user %}
     {% else %}
-        <div class="panel panel-info">
-            <div class="panel-heading"><h2>Créer un profil</h2></div>
-            <div class="panel-body">
-                <p>
-                    Créer un profil vous donne accès à énormément d’avantages. Vous pourriez par exemple savoir quels sont les cours que vous avez suivi ou cummuler des points de contributions pour vos apports.
-                </p>
-                <a class="btn btn-info" href="{{ path('fos_user_registration_register') }}">S'inscrire</a> 
-                <a class="btn btn-default" href="{{ path('fos_user_security_login') }}">Se connecter</a>         
-            </div>
+        <div class="row">
+            <section class="standardSection">
+                <div class="col-xs-12">
+                    <hr>
+                    <h2><img class="imgLink" src="{{ asset('images/icones/addUser.svg') }}"> Créer un profil</h2> 
+                </div>
+
+                <div class="col-xs-12 ">
+                     <p>Créer un profil vous donne accès à énormément d’avantages. Vous pourriez par exemple savoir quels sont les cours que vous avez suivi ou cummuler des points de contributions pour vos apports.</p>
+                </div>
+                <div class="col-xs-12 ">
+                    <a class="btn btn-default col-xs-3 col-xs-offset-2 buttonHome buttonHomeCreateUser" href="{{ path('fos_user_registration_register') }}">S'inscrire</a> 
+                    <a class="btn btn-default col-xs-3 col-xs-offset-2 buttonHome" href="{{ path('wkt_core_profil_advantage') }}">En savoir plus</a>
+                </div>
+            </section>
         </div>
-    <hr>
     {% endif %}
-    <div class="panel panel-danger">
-        <div class="panel-heading"><h2>Soutenir le projet</h2></div>
-        <div class="panel-body">
-            <p>
-                La collaboration est au cœur du projet Wikitech. De la rédaction de cours à un simple partage, de nombreux moyens d’apporter sa contribution existent quelque soit votre degrés d’expertise informatique et de disponibilité.
-            </p>
-            <a class="btn btn-danger" href="#">En savoir plus</a>          
-        </div>
+    <div class="row">
+        <section class="standardSection">
+            <div class="col-xs-12">
+                <hr>
+                <h2><img class="imgLink" src="{{ asset('images/icones/heart.svg') }}"> Soutenir le projet</h2>
+            </div>
+            <div class="col-sm-9 ">
+                <p class="paragrapheHeart">La collaboration est au cœur du projet Wikitech. De la rédaction de cours à un simple partage, de nombreux moyens d’apporter sa contribution existent quelque soit votre degrés d’expertise informatique et de disponibilité.</p>
+            </div>
+            <div class="col-sm-3 imgHeart">
+                <img src="{{ asset('images/icones/heartHand.svg') }}">
+            </div>
+            <div class="col-xs-12 ">
+                <a class="btn btn-default col-xs-3 buttonHome buttonHomeSoutenir" href="{{ path('fos_user_registration_register') }}">En savoir plus</a> 
+            </div>
+        </section>
     </div>
-    <hr>
-    <div class="panel panel-warning">
-        <div class="panel-heading"><h2>Top Contributeurs <a href="{{path('wkt_core_leaderboard')}}"><span class="label label-warning">Voir tout</span></a></h2></div>
-        <div class="panel-body">
-            {% if users is empty %}
-                <p class="text-center"><small><em>Aucun utilisateur enregistré</em></small></p>
-            {% else %}
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Rang</th>
-                            <th>Utilisateur</th>
-                            <th>Score</th>
-                            <th>Profil</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for user in users %}
-                            <tr>
-                                <td>{{loop.index}}</td>
-                                <td>{{user.firstname}} {{user.lastname}}</td>
-                                <td>{{user.nbPoint}} pts</td>
-                                <td><a class="btn btn-warning btn-xs" href="{{path('wkt_user_view_profile', {'id': user.id})}}">Profil</a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>                    
-            {% endif %}
-        </div>
+    <div class="row">
+        <section class="standardSection">
+            <div class="col-xs-12">
+                <hr>
+                <div class="col-xs-8 withoutPadding">
+                    <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/cup.svg') }}"> Top Contributeurs</h2>
+                </div>
+                <div class="colButtonHome col-xs-4 ">
+                    <a class="btn btn-default col-xs-3 buttonHome buttonHomeTop" href="{{path('wkt_core_leaderboard')}}">Voir tout</a> 
+                </div>
+            </div>
+            <div class="col-xs-12 ">
+                {% if users is empty %}
+                    <p class="text-center"><small><em>Aucun utilisateur enregistré</em></small></p>
+                {% else %}
+                    {% for user in users %}
+                        <p>
+                            {% if user.image is not empty %}
+                                <img class="imgTop img-circle" src="{{ asset(user.image.webPath) }}" alt="{{ user.image.alt }}">
+                            {% else %}
+                                <img class="imgTop img-circle" src="{{ asset('images/icones/emptyPicture.svg') }}" alt="User sans photo de profil">
+                            {% endif %}
+                            {{user.firstname}} {{user.lastname}} - {{user.nbPoint}} points
+                        </p>
+                    {% endfor %}                 
+                {% endif %}
+            </div>
+        </section>
     </div>
-    <hr>
-    <div class="panel panel-primary">
-        <div class="panel-heading"><h2>Donnez-nous votre avis</h2></div>
-        <div class="panel-body">
-            <p>
-                Créer un profil vous donne accès à énormément d’avantages. Vous pourriez par exemple savoir quels sont les cours que vous avez suivi ou cummuler des points de contributions pour vos apports.
-            </p>
-            <a class="btn btn-primary" href="{{path('wkt_core_contact_send_email')}}">Faire un retour</a>          
-        </div>
-    </div>
+    {% include('WKTCoreBundle:Core:giveAdvice.html.twig') %}
 {% endblock %}

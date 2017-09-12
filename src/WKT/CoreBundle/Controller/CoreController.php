@@ -73,4 +73,30 @@ class CoreController extends Controller
 			'users' => $users,));
 
 	}
+
+
+	public function contributionAction()
+	{
+		return $this->render('WKTCoreBundle:Core:contribution.html.twig');
+	}
+
+	public function projectAction()
+	{
+		return $this->render('WKTCoreBundle:Core:project.html.twig');
+	}
+
+	public function cguAction()
+	{
+		return $this->render('WKTCoreBundle:Core:cgu.html.twig');
+	}
+
+	public function legalAction()
+	{
+		return $this->render('WKTCoreBundle:Core:legal.html.twig');
+	}
+
+	public function profilAdvantageAction()
+	{
+		return $this->render('WKTCoreBundle:Core:profilAdvantage.html.twig');
+	}
 }

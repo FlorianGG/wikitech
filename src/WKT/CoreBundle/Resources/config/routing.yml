@@ -9,3 +9,23 @@ wkt_core_contact_send_email:
 wkt_core_leaderboard:
     path:     /leaderboard
     defaults: { _controller: WKTCoreBundle:Core:leaderboard }
+
+wkt_core_project:
+    path:     /project
+    defaults: { _controller: WKTCoreBundle:Core:project }
+
+wkt_core_cgu:
+    path:     /condition_d_utilisation
+    defaults: { _controller: WKTCoreBundle:Core:cgu }
+
+wkt_core_legal:
+    path:     /mentions_legales
+    defaults: { _controller: WKTCoreBundle:Core:legal }
+
+wkt_core_profil_advantage:
+    path:     /avantages_d_un_profil
+    defaults: { _controller: WKTCoreBundle:Core:profilAdvantage }
+
+wkt_core_contribution:
+    path:     /les_contributions
+    defaults: { _controller: WKTCoreBundle:Core:contribution }
