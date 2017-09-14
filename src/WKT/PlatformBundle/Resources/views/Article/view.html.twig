@@ -1,151 +1,116 @@
 {% extends 'WKTPlatformBundle:Article:layout.html.twig' %}
 
-{% block addArticle %}
-    {% if is_granted('ROLE_USER') %}
-        {% if is_granted('ROLE_ADMIN') %}
-            <a class="btn btn-success btn-lg col-xs-12" href="{{ path('wkt_platform_article_modified_add_new_article', {'id': article.part.training.id}) }}">Créer un nouvel article</a>
-        {% else %}
-            <a class="btn btn-success btn-lg col-xs-12" href="{{ path('wkt_platform_article_modified_add_new_article', {'id': article.part.training.id}) }}">Proposer un article</a>
-        {% endif %}  
-    {% endif %}
-{% endblock %}
-
-
 {% block summaryInTraining %}
-   {% include"WKTPlatformBundle:Summary:viewSummary.html.twig" with {'thisArticle': article} %}
+   {% include "WKTPlatformBundle:Summary:viewSummary.html.twig" with {'thisArticle': article} %}
 {% endblock %}
 {% block articleInTraining %}
-        <div class="col-xs-12">
-            <div class="row">
-                <div class="col-xs-10">
-                    <div class="page-header">
-                      <h1>{{ article.title}}</h1>
-                    </div>
-                </div>
-                <div class="col-xs-2" style="margin-top: 40px; margin-bottom: 10px;">
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}">Modification instantanée</a>
-                    {% else %}
-                        {% if article.isModifying %}
-                            <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}">Modifier </a>
-                        {% else %}
-                            <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}">Modifier</a>
-                        {% endif %}
-                    {% endif %}
-
-                </div>
-
+    <div class="row">
+        <section class="articleSection">
+            <div class="col-xs-12">
+                <h1 class="titleTraining">{{ article.title}}</h1>
             </div>
-
-            <div class="row">
-                <div class="col-xs-10">
-                    <h2>En Bref</h2>
-                </div>
-                <div class="col-xs-2" style="margin-top: 20px; margin-bottom: 10px;">
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_introduction">Modification instantanée</a>
-                    {% else %}
-                        {% if article.isModifying %}
-                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#isModifying">
-                              Modifier</button>
-                        {% else %}
-                            <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_introduction">Modifier</a>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            </div>
-            
-         
-            <div> 
-                {{ article.introduction}}
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-xs-10">
-                    <h2>En Détail</h2>
-                </div>
-                <div class="col-xs-2" style="margin-top: 20px; margin-bottom: 10px;">
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_content">Modification instantanée</a>
-                    {% else %}
-                        {% if article.isModifying %}
-                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#isModifying">
-                              Modifier</button>
-                        {% else %}
-                            <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_content">Modifier</a>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            </div>
-            <div> 
-                {{ article.content|raw}}
-            </div>
-            <hr>
-            {% if article.video.url is defined %}
-                <div class="row">
-                    <div class="col-xs-10">
-                        <h2>En Vidéo</h2>
-                    </div>
-                    <div class="col-xs-2" style="margin-top: 20px; margin-bottom: 10px;">
-                        {% if is_granted('ROLE_ADMIN') %}
-                        <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_video">Modification instantanée</a>
-                        {% else %}
-                            {% if article.isModifying %}
-                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#isModifying">
-                                  Modifier</button>
-                            {% else %}
-                                <a class="btn btn-warning btn-sm" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_video">Modifier</a>
-                            {% endif %}
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="">
-                    <p><strong>Crée par : </strong>{{article.video.author}}</p>
-                </div>
-                <div class="embed-responsive embed-responsive-16by9">
-                  <iframe class="embed-responsive-item" allowfullscreen src="https://www.youtube.com/embed/{{ article.video.url}}"></iframe>
-                </div>
+        </section>
+    </div> 
+    {% include('WKTPlatformBundle:Article:buttonLinkArticle.html.twig') %}
+    <div class="buttonLinkArticle">
+        <p><a class="summaryInArticle" href="#en_Bref" title="">En Bref</a></p>
+        <p><a class="summaryInArticle" href="#en_Detail" title="">En Détail</a></p>
+        <p><a class="summaryInArticle" href="#en_Video" title="">En Video</a></p>   
+    </div>
+    <div id="en_Bref" class="row">
+        <section class="articleSection">
+            <div class="col-xs-12">
                 <hr>
-            {% endif %}
-            <div class="row">
-                {% if app.user %}
-                    {% set break = false %}
-                    {% for articleRead in app.user.userArticlesRead %}
-                       {% if articleRead.article == article and articleRead.updated == false %}
-                        {% set break = true %}
-                        <a class="col-xs-8 col-xs-offset-2 btn btn-danger btn-lg" href="{{ path('wkt_user_cancel_article_is_read', {'id': article.id})}}">Je n'ai pas compris cet article</a>
-                        {% if articleRead.updated %}
-                             <a class="col-xs-8 col-xs-offset-2 btn btn-success btn-lg" href="{{ path('wkt_user_article_is_read', {'id': article.id})}}">J'ai compris et je passe à l'article suivant</a>
-                        {% endif %}
-                       {% endif %}
-                    {% endfor %}
-                    {% if not break %}
-                            <a class="col-xs-8 col-xs-offset-2 btn btn-success btn-lg" href="{{ path('wkt_user_article_is_read', {'id': article.id})}}">J'ai compris et je passe à l'article suivant</a>   
+                <div class="col-xs-8 withoutPadding">
+                    <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/bref.svg') }}"> En bref</h2>
+                </div>
+                <div class=" col-xs-4 ">
+                    {% if article.isModifying %}
+                        <button type="button" class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyBref" data-toggle="modal" data-target="#isModifying">
+                          Modifier</button>
+                    {% else %}
+                        <a class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyBref" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_content">Modifier</a>
                     {% endif %}
-                {% endif %} 
+                </div>
             </div>
-            <br>
-            <div class="row">
-                <nav aria-label="...">
-                  <ul class="pager">
-                    {% if articlePreviousAndFollowing['previous'] %}
-                        <li class="previous"><a href="{{path('wkt_platform_article_view', {'id': articlePreviousAndFollowing.previous.id, 'slugTraining': articlePreviousAndFollowing.previous.part.training.slug, 'slugArticle': articlePreviousAndFollowing.previous.slug})}}">Page Précédente</a></li>
-                    {% endif %}
-                    {% if articlePreviousAndFollowing['following'] %}
-                        <li class="next"><a href="{{path('wkt_platform_article_view', {'id': articlePreviousAndFollowing.following.id, 'slugTraining': articlePreviousAndFollowing.following.part.training.slug, 'slugArticle': articlePreviousAndFollowing.following.slug})}}">Page Suivante</a></li>
-                    {% endif %}
-                  </ul>
-                </nav>
 
+            <div class="col-xs-12 ">
+                  {{ article.introduction}}
             </div>
-                   
+        </section>
+    </div>
+    <div id="en_Detail" class="row">
+        <section class="articleSection">
+            <div class="col-xs-12">
+                <hr>
+                <div class="col-xs-8 withoutPadding">
+                    <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/detail.svg') }}"> En detail</h2>
+                </div>
+                <div class=" col-xs-4 ">
+                    {% if article.isModifying %}
+                        <button type="button" class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyDetail" data-toggle="modal" data-target="#isModifying">
+                          Modifier</button>
+                    {% else %}
+                        <a class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyDetail" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_content">Modifier</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-xs-12 ">
+                  {{ article.content|raw}}
+            </div>
+        </section>
+    </div>
+    <div id="en_Video" class="row">
+        <section class="articleSection">
+            <div class="col-xs-12">
+                <hr>
+                <div class="col-xs-8 withoutPadding">
+                    <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/video.svg') }}"> En video</h2>
+                </div>
+                <div class=" col-xs-4 ">
+                    {% if article.isModifying %}
+                        <button type="button" class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyVideo" data-toggle="modal" data-target="#isModifying">
+                          Modifier</button>
+                    {% else %}
+                        <a class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyVideo" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_content">Modifier</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-xs-12 ">
+                    {% if article.video.url is not defined %}
+                        <div class="buttonLinkArticle">
+                            <p class="noVideo">Aucune vidéo n'est enregistrée sur cet article</p> 
+                        </div>
+                    {% else %}
+                        <div class="embed-responsive embed-responsive-16by9">
+                          <iframe class="embed-responsive-item" allowfullscreen src="https://www.youtube.com/embed/{{ article.video.url}}"></iframe>
+                        </div>
+                        <p><strong>Crée par : </strong>{{article.video.author}}</p>
+                    {% endif %}
+            </div>
+        </section>
+    </div>
+    <hr>
+    {% include('WKTPlatformBundle:Article:buttonLinkArticle.html.twig') %}
+    {% if articlePreviousAndFollowing['previous'] %}
+        <div class="buttonLinkArticle">
+        
+            <a class="linkValidateArticle" href="{{path('wkt_platform_article_view', {'id': articlePreviousAndFollowing.previous.id, 'slugTraining': articlePreviousAndFollowing.previous.part.training.slug, 'slugArticle': articlePreviousAndFollowing.previous.slug})}}"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Cours précédent : {{articlePreviousAndFollowing.previous.title}} </a>  
         </div>
+    {% endif %} 
+    {% if articlePreviousAndFollowing['following'] %}
+        <div class="buttonLinkArticle">
+            <a class="linkValidateArticle" href="{{path('wkt_platform_article_view', {'id': articlePreviousAndFollowing.following.id, 'slugTraining': articlePreviousAndFollowing.following.part.training.slug, 'slugArticle': articlePreviousAndFollowing.following.slug})}}">Cours suivant : {{articlePreviousAndFollowing.following.title}} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+        </div>
+    {% endif %}
           <!-- Modal -->
         <div class="modal fade" id="isModifying" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title text-center" id="myModalLabel">⚠️ Attention ⚠️</h4>
+                        <h4 class="modal-title text-center" id="myModalLabel">Attention {% if app.user %}{{app.user.firstname}}{% endif %}</h4>
                     </div>
                     <div class="modal-body">
                         <p class="text-center">Cette article fait déjà l'objet d'une ou plusieurs modifications en attentes de validation.</p>

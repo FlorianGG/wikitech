@@ -1,25 +1,15 @@
 {% if commits is empty %}
 {% else %}
-    <div class="panel panel-default">
+    <div class="panel panel-default listCommits">
         <div class="panel-heading">
             <h3 class="panel-title">Dernières modifications</h3>
-            <small><em>Du plus ancien au plus récent</em></small>
         </div>
         <div class="panel-body">
             {% for commit in commits|reverse %}
-                {% if commit is empty %}
-                    <p><strong>Commit n°{{ loop.index }} :</strong></p>
-                    <p><small><em>L'utilisateur n'a pas donné d'explication</em></small></p>
-                {% else %}
-                    <p><strong>Commit n°{{ loop.index }} :</strong><small> {{commit.typeOfModification.type}}</small></p>
-                    <p>{{commit.content}}</p>
-                    <p><small><em>Crée par : 
-                        {% if commit.user is empty %}
-                            Un utilisateur qui souhaite garder l'anonymat 👤
-                        {% else %}
-                            {{commit.user.firstname}} {{commit.user.lastname}} le {{commit.createdAt|date("d/m/Y")}}
-                        {% endif %}
-                    </em></small></p>
+                {% if commit is not empty %}
+                    <p><strong><small>Commit n°{{ loop.index }} :</small></strong><small> {{commit.typeOfModification.type}}</small>
+                    <small><em> par {% if commit.user is empty %}Anonyme 👤{% else %}{{commit.user.firstname}} {{commit.user.lastname}} le {{commit.createdAt|date("d/m/Y")}}{% endif %}</em></small></p>
+                    <p><small><em>{{commit.content}}</em></small></p>
                 {% endif %}
             {% endfor %}
         </div>

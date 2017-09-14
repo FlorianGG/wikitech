@@ -1,17 +1,14 @@
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-sm" role="document">
     	<div class="modal-content">
-            <div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title text-center" id="myModalLabel">Merci</h4>
-				<p class="text-center">Pour votre contribution</p>
-            </div>
             <div class="modal-body">
+            	<h2 class="text-center">Merci</h2>
+            	<p class="text-center">Pour votre contribution</p>
 				<p class="text-center">Une dernière chose pour nous aider. Dîtes nous ce que vous avez fait :</p>
 				<div class="form-group">
 					{{ form_errors(form.commit.typeOfModification) }}
 					<div class="col-sm-12">
-						{{ form_widget(form.commit.typeOfModification) }}
+						{{ form_widget(form.commit.typeOfModification, {'attr': {'class': 'radioType'}}) }}
 					</div>
 				</div>
 				<div class="form-group">
@@ -21,9 +18,9 @@
 					</div>
 				</div>
             </div>
-            <div class="modal-footer">
-              {{ form_widget(form.save, { 'label': 'Valider', 'attr': {'class': ' col-xs-12 btn btn-success'}}) }}
+            <div class="modal-footer">	
+				{{ form_widget(form.save, { 'label': 'Valider', 'attr': {'class': ' col-xs-12 btn btn-primary'}}) }}
         	</div>
-    	</div>
+		</div>
 	</div>
 </div>

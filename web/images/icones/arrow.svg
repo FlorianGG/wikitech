@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon - Course - Couleur Copy 4@2x</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="Icon---Course---Couleur-Copy-4" stroke="#A7AFB7">
+            <g id="Flèche-bas" transform="translate(4.000000, 6.000000)">
+                <path d="M0.5,0.5 L4.5,4.5" id="Line"></path>
+                <path d="M3.5,0.5 L7.5,4.5" id="Line-Copy" transform="translate(5.500000, 2.500000) scale(-1, 1) translate(-5.500000, -2.500000) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

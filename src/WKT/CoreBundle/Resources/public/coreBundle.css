@@ -2,15 +2,17 @@
 body{
 	font-family: 'Open Sans', sans-serif;
 	font-size: 16px;
+	color: #3E4246;
+	hyphens: auto;
 }
 
 .content{
 	margin-top: 65px;
+	padding-left: 1px !important;
+	padding-right: 1px !important;
 }
-
 h2{
 	color: #161719;
-	font-family: "Open Sans";
 	font-size: 22px;
 	font-weight: 600;
 	line-height: 30px;
@@ -18,7 +20,6 @@ h2{
 }
 h3{
 	color: #161719;
-	font-family: "Open Sans";
 	font-size: 16px;
 	font-weight: 600;
 	line-height: 22px;
@@ -27,6 +28,11 @@ h3{
 }
 a{
 	color: #3E4246 !important;
+	text-decoration: none !important;
+}
+
+li{
+	list-style: none;
 }
 .standardSection{
 	max-width: 840px;
@@ -48,12 +54,55 @@ hr{
 .btn-success{
 	background-color: #53c378;
 	color: #fff !important;
+	border: 0;
 }
 
 .btn-primary{
 	background-color: #3BAEF8 !important;
 	color: #fff !important;
+	border: 0;
 }
+
+.btn-danger{
+	color: #fff !important;
+	border: 0;
+}
+
+.listCommits{
+	margin-top: 20px;
+}
+
+.labelVideo{
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 30px;
+	padding-bottom: 10px;
+}
+
+.modal-body h2{
+	padding-bottom: 0;
+}
+
+.modal-body p{
+	font-size: 16px;
+	line-height: 22px;
+}
+
+.modal-body [type="radio"]:not(:checked), .modal-body [type="radio"]:checked{
+	display:none;
+}
+
+.modal-body label{
+	border: 1px solid #EDEBEB;
+	border-radius: 8px;
+	width: 100%;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	padding-left: 0;
+
+}
+
 
 /*HEADER*/
 header nav{
@@ -104,7 +153,6 @@ footer h2{
 }
 
 footer li{
-	list-style: none;
 	padding-left: 0;
 }
 .ulFooter{
@@ -179,7 +227,6 @@ footer li{
 	line-height: 19px;
 	border: 0px;
 	width: 180px;
-	margin-top: 10px;
 }
 
 .buttonHomeCreateUser{
@@ -195,7 +242,7 @@ footer li{
 .buttonHomeTop{
 	position: absolute;
 	right: 0;
-	top: 10px;
+	top: 0;
 	width: 100px;
 	color: #FFCC00 !important;
 }
@@ -221,7 +268,7 @@ footer li{
 	width: 55px;
 	margin-right: 15px;
 }
-/*PROJECT*/
+/*PAGE STATIC*/
 .blocIntroProject{
 	margin: 40px auto;
 	width: 400px;
@@ -233,10 +280,311 @@ footer li{
 	display: flex;
 }
 
+/*SUMMARY*/
+.summary{
+	border-radius: 8px;
+	background-color: #F6F9FA;
+	min-height: 200px;
+	font-size: 13px;
+	line-height: 18px;
+	padding: 0;
+}
+
+.summary ul:first-child{
+	padding: 30px;
+}
+
+.summary hr{
+	margin: 13px 0;
+}
+
+.imgSummary{
+	width: 15px;
+}
+
+.titleSummary{
+	font-weight: 600 !important;
+}
+.liArticle{
+	margin: 10px !important;
+}
+
+/*TRAINING*/
+.titleTraining{
+	color: #161719;
+	font-size: 30px;
+	font-weight: bold;
+	line-height: 38px;
+}
+
+.paragrapheAfterTitle{
+	margin-top: 15px;
+	margin-bottom: 25px;
+}
+
+.linkProfile:hover{
+	color: #FFCC00 !important;
+}
+
+.bottomButton, .bottomButtonWhite{
+	margin-top: 15px;
+}
+.bottomButtonWhite{
+	margin-bottom: 20px;
+}
+/*ARTICLE*/
+.articleSection{
+	max-width: 600px;
+	margin: 0 auto;
+}
+.flexbody, .flexbodyWhite{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.flexbodyWhite{
+	background-color: #F6F9FA;
+}
+.bodyLeft, .bodyLeftWhite{
+	background-color: #F6F9FA;
+	margin-bottom: -40px;
+	position: relative;
+	width: 320px;
+}
+.bodyLeftWhite{
+	background-color: #fff;
+}
+.bodyRight, .bodyRightWhite{
+	margin: auto;
+	max-width: 600px !important;
+}
+.bodyRightWhite{
+    opacity: 0.3;
+}
+.linkSummary{
+	text-align: center;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 15px;
+}
+.linkSummary hr{
+	margin: 20px auto 0 auto;
+	width: 260px;	
+}
+
+.linkSummary a{
+	color: #9DA3A7 !important;
+}
+.linkSummary a:hover{
+	font-size: 14px;
+}
+.addArticle{
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 50px;
+	width: 100%;
+	border-top-style: solid;
+    border-top-width: 1px;
+    border-top-color: #EDEBEB;
+	border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #EDEBEB;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #3E4246 !important;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 17px;
+}
+.addArticle:hover{
+	font-size: 13px;
+}
+.addArticle img{
+	margin-right: 7px;
+}
+
+.buttonLinkArticle{
+	border-radius: 8px;
+	background-color: #F6F9FA;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	padding: 5px 30px;
+	min-height: 40px;
+	width: 100%;
+
+}
+.linkValidateArticle{
+	color: #3BAEF8 !important;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 30px;
+}
+
+.noVideo{
+	margin: 0;
+	line-height: 30px;
+}
+
+.linkValidateArticle:hover{
+	font-size: 15px;
+}
+
+.buttonLinkArticle img{
+	margin-right: 7px;
+}
+
+.summaryInArticle {
+	font-weight: 600;
+	font-size: 13px;
+	line-height: 18px;
+}
+
+.buttonArticleModifyBref{
+	color: #F3356B !important;
+}
+
+.buttonArticleModifyDetail{
+	color: #53c378 !important;
+}
+
+.buttonArticleModifyVideo{
+	color: #42AFF5 !important;
+}
+
+/*ARTICLE MODIFIED*/
+.listArticlesModified{
+	margin: 40px 30px;
+}
+
+.zoneNoVideo{
+	margin-top: 0 !important;
+}
+	/*Add Part*/
+.addPart{
+	width: 280px;
+	margin: 20px auto;
+}
+
+.addArticleFields{
+	width: 100%;
+}
+
+.addPart, .addPart .panel-heading{
+	border-color: #F5F5F5 !important;
+	box-shadow: none;
+}
+
+.addPart .badge{
+	background-color: #3BAEF8!important;
+	height: 30px;
+	width: 30px;
+	border-radius: 30px;
+	margin-right: 10px;
+}
+
+.addPart h2, .addPart .badge{
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 22px;
+	text-align: center;
+}
+
+.addPart .panel-body{
+	font-size: 14px;
+	line-height: 19px;
+}
+.addPart  .panel-title{
+	padding: 0;
+	margin: 20px auto;
+}
+
+
+.buttonAddPart{
+	display: block;
+	height: 40px;
+	width: 280px;
+	border-radius: 8px;
+	background-color: #F5F5F5;
+	margin: 0 auto 20px auto;
+	line-height: 40px;
+	text-align: center;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.formGroupPart{
+	width: 280px;
+	margin: 10px auto;
+}
+
+.formGroupPart [type="text"], .formGroupPart select{
+	background-color: #F5F5F5;
+	border-radius: 8px;
+	box-shadow: none;
+	border: none;
+	color: #999 !important;
+}
+
+.formPart{
+	margin-bottom: 20px;
+}
+
+.insertPart{
+	height: 40px;
+	width: 280px;
+	margin: 0 20px;
+}
+.editSummary{
+	width: 280px !important;
+	margin: 0 auto;
+
+}
+.editSummary h2{
+	font-size: 14px;
+	font-weight: 600;
+	margin: 10px auto;
+	padding: 0;
+}
+
+.editSummary label{
+	font-size: 14px;
+}
+
+
+
+
+
 /* Small devices (tablets, 768px and up) */
 @media (max-width:400px) {
 	.ulFooter{
 		flex-wrap: wrap;
+	}
+}
+
+@media (max-width:768px) {
+	.secondButton{
+		margin-top: 15px;
+	}
+	.bodyRight, .bodyRightWhite{
+		width: 90%;
+	}
+}
+
+@media (max-width:950px) {
+	.flexbody, .flexbodyWhite{
+		flex-direction: column;
+		align-items: space-between;
+		max-width: 100%;
+	}
+	.bodyLeft, .bodyLeftWhite{
+		max-width: 600px;
+		min-width: 80%;
+		margin: 0 auto;
+	}
+	.addArticle{
+		position: relative;
 	}
 }
 

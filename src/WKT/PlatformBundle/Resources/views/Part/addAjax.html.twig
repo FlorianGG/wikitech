@@ -1,19 +1,18 @@
-<div class="panel panel-default">
+<div class="panel panel-default addPart">
   <div class="panel-heading">
-    <h3 class="panel-title"> <span class="badge">1</span> Choisissez où va votre page</h3>
+    <h2 class="panel-title"> <span class="badge">1</span> Choisissez où va votre page</h2>
   </div>
   <div class="panel-body">
-    <p class="text-center">Par défaut votre page s'ajoute à la fin d'une partie. Pour modifier sa position, cliquez sur la page avant laquelle vous voulez insérer la vôtre. Si vous voulez d'abord créer une nouvelle partie, cliquez sur le bouton "Créer une nouvelle partie"</p>
+    <p class="text-center">Pour cela cliquez sur la page au dessus de laquelle vous voulez insérer la vôtre. Si vous voulez d’abord créer une nouvelle partie, cliquez sur le bouton « Créer une nouvelle partie »</p>
   </div>
 </div>
-<a id="buttonCreatePart" class=" col-xs-12 btn btn-default btn-lg" href="#">Créer une nouvelle partie</a>
-<form id="formPart" style="display: none" action="{{ path('wkt_platform_part_add_ajax', {'id': training.id})}}" method="post">
-  <div class="form-group">
+<a id="buttonCreatePart" class="buttonAddPart" href="#">Créer une nouvelle partie</a>
+<form class="formPart" id="formPart" style="display: none" action="{{ path('wkt_platform_part_add_ajax', {'id': training.id})}}" method="post">
+  <div class="form-group formGroupPart">
     <label for="partTitle"> </label>
     <input type="text" class="form-control" id="partTitle"  name="title" placeholder="Saisissez le nom de la partie" required>
   </div>
-  <div class="form-group">
-    <label for="partOrderInTraining">Choisissez avant quelle partie créer la vôtre</label>
+  <div class="form-group formGroupPart">
     <select id="partOrderInTraining" class="form-control">
       {% if summary is empty %}
           <option value="1" selected>Ajouter une première partie</option>
@@ -30,6 +29,7 @@
       </optgroup>
       {% endif %}
     </select>
+    <p class="help-block"><small>Choisissez avant quelle partie créer la vôtre</small></p>
   </div>
-  <button type="submit" class="col-xs-12 btn btn-primary btn-lg">Créer la partie</button>
+  <button type="submit" class="btn btn-primary insertPart">Insérer la page dans cette partie</button>
 </form>

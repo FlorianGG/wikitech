@@ -1,21 +1,22 @@
 {# src/WKT/PlatformBundle/Resources/views/ArticleModified/add.html.twig #}
 
-{% extends 'WKTPlatformBundle:ArticleModified:layout.html.twig' %}
+{% extends 'WKTCoreBundle:Core:layoutWhite.html.twig' %}
 
 {% block bodyLeft %}
-   <div class="row">
 		{{ include("WKTPlatformBundle:Part:addAjax.html.twig") }}
-   </div>
-   <br>
-   <br>
-   <div class="row">
+    <div class="linkSummary">
+         <p>SOMMAIRE</p>
+         <hr>
+    </div>
 		{{ include("WKTPlatformBundle:Summary:editSummary.html.twig") }}
-    <div id="alertAddPart" style="display:none;" class="alert alert-success" role="alert"><p class="text-center">Votre partie a bien été crée. Votre article sera automatiquement ajouté à cette dernière 🤓</p></div>
-   </div>
+    <div id="alertAddPart" style="display:none;" class="alert alert-success" role="alert">
+      <p class="text-center">Votre partie a bien été crée. Votre article sera automatiquement ajouté à cette dernière 🤓</p>
+    </div>
 {% endblock %}
 
 {% block bodyRight %}
     {{ include("WKTPlatformBundle::formAddArticleAndArticleModified.html.twig") }}
+    {{ tinymce_init() }}
 {% endblock %}
 
 {% block javascripts %}

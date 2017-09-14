@@ -4,6 +4,7 @@ namespace WKT\PlatformBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,7 +18,8 @@ class ArticleModifiedType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('introduction')
+            ->add('introduction', TextareaType::class, array(
+                'attr' => array('rows' => '5')))
             ->add('content')
             ->add('video', VideoType::class, array(
                 'required' => false))

@@ -2,50 +2,36 @@
 
 {% extends 'WKTCoreBundle:Core:layout.html.twig' %}
 {% block bodyLeft %}
-    <div class="row">
-    {% if is_granted('ROLE_USER') %}
-        {% if is_granted('ROLE_ADMIN') %}
-            <a class="btn btn-success btn-lg col-xs-12" href="{{ path('wkt_platform_article_add', {'id': articleModified.part.training.id}) }}">Ajouter un article</a>
-        {% else %}
-            <a class="btn btn-success btn-lg col-xs-12" href="{% block addArticle %}{% endblock %}">Proposer un article</a>
-        {% endif %}  
-    {% endif %}
-    </div>
-    <br>
     {% set currentArticleModified = app.request.attributes.get('_route_params')['id'] %}
-    {% block listArticlesModified %}
-        <div class="row">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="text-center panel-title">{% block introListArticleModified %}Ci-dessous la liste des modifications existantes pour cet article :{% endblock %}</h3>
-              </div>
-                {% if articlesModified is empty %}
-                    <div class="panel-body">
-                        <p class="text-center"><small><em>Vous pouvez également créer une nouvelle modification</em></small></p>
-                        <p><a class="center-block btn btn-default btn-xs" href="{{ path('wkt_platform_article_modified_add', {'id': articleModified.article.id}) }}">Créer une nouvelle modification</a></p>
-                    </div>
-                    {% else %}
-                    <div class="panel-body">
-                        {% for articleModified in articlesModified %}
-                            <p><a class="center-block btn {% if currentArticleModified == articleModified.id %}btn-primary {% else %}
-                                btn-default{% endif %}" href="{% block urlArticleModified %}{% endblock %}">{{ articleModified.title }}</a></p>
-                        {% endfor %}
-                    </div>
-                    <div class="panel-footer">
-                        <p class="text-center"><small><em>Vous pouvez également créer une nouvelle modification</em></small></p>
-                        <p><a class="center-block btn btn-default btn-xs" href="{{ path('wkt_platform_article_modified_add', {'id': articleModified.article.id}) }}">Créer une nouvelle modification</a></p>
-                    </div>
+    <div class="listArticlesModified">
+        {% if articlesModified is empty %}
+            <p class="text-center">Il n'existe encore aucune modification pour cet article</p>
+        {% else %}
+             <p class="text-center">Choisissez la version sur laquelle vous préférez travailler :</p>
 
-                {% endif %}
-            </div>
-        </div>
-    {{tinymce_init()}}
-    {% endblock %}
+             {% for articleModified in articlesModified %}
+                 <a class="center-block btn {% if currentArticleModified == articleModified.id %}btn-primary {% else %}
+                     btn-default{% endif %}" href="{{ path('wkt_platform_article_modified_view', {'id': articleModified.id}) }}">Version modifiée {{loop.index}}</a>
+             {% endfor %}
+        {% endif %}
+        <hr>
+        <p class="text-center">Vous pouvez également créer une nouvelle version</p>
+        <a class="center-block btn btn-success" href="{{ path('wkt_platform_article_modified_add', {'id': articleModified.article.id}) }}">Nouvelle version</a>
+    </div>
+    {% include('WKTPlatformBundle:ArticleModified:buttonAdd.html.twig') %}
 {% endblock %}
 {% block bodyRight %}
     {% block articleModified %}
-        {{ include("WKTPlatformBundle:Commit:listCommits.html.twig") }}
-    {% endblock %} 
+        {% if commits is defined %}
+            {{ include("WKTPlatformBundle:Commit:listCommits.html.twig") }}
+        {% endif %}
+    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+  {{parent()}}
+  {% javascripts 'bundles/wktplatform/checkVideoInArticleModified.js' 'bundles/wktplatform/radioModal.js'%} 
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
 {% endblock %}
 
 

@@ -1,67 +1,50 @@
 {# src/WKT/PlatformBundle/Resources/views/Training/summary.html.twig #}
 
-{# Ce template n'hérite de personne, tout comme le template inclus avec {{ include() }}. #}
-<div class="row">
+<div class="col-xs-12 summary">
 	{% if summary is empty %}
-		<h2>Aucun article n'est enregistré sur cette formation</h2>
+	<p class="lead text-center">Aucun article n'est enregistré sur cette formation</p>
 	{% else %}
-	<ul class="nav nav-pills nav-stacked">
+	<ul>
 		{% for part in summary %}
-			{% if part.Part.entity.isEnabled %}
-				{% if app.user %}
-					{% set loopArticle = part.Article|length %}
-					{% set loopArticleRead = 0 %}
+		    {% if part.Part.entity.isEnabled %}
+		    	{% if app.user %}
+		    		{% set loopArticle = part.Article|length %}
+		    		{% set loopArticleRead = 0 %}
 
-					{% if part.Article is defined %}
-						{% for article in part.Article %}
-					    	{% if app.user.userArticlesRead is empty %}
-							{% else %}
-							   {% for articleRead in app.user.userArticlesRead %}
-							    	{% if articleRead.article == article.entityArticle and articleRead.updated == false %}
-										{% set loopArticleRead = loopArticleRead + 1 %}
-							        {% endif %}
-							   {% endfor %}
-					    	{% endif %}
-						{% endfor %}
-				{% endif %}
-			{% endif %}
-			<li role="presentation">
-				<div class="panel panel-default">
-				    <div class="panel-heading" role="tab" id="heading{{loop.index}}">
-				    	<h4 class="panel-title">
-				    		<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{loop.index}}" aria-expanded="false" aria-controls="collapse{{loop.index}}">{{ part.Part.entity.title }} {% if app.user %}<span class="badge">{{loopArticleRead}}/{{loopArticle}}</span>{% endif %}</a>
-				    	</h4>
-				    </div>
-				    <div id="collapse{{loop.index}}" class="panel-collapse collapse {% if app.request.attributes.get('thisArticle').part is defined and  part.Part.entity.id == app.request.attributes.get('thisArticle').part.id %}in {% elseif app.request.attributes.get('open') is defined and app.request.attributes.get('open') %}in{% endif %}" role="tabpanel" aria-labelledby="heading{{loop.index}}">
-				    	<div class="panel-body">
-							{% if part.Article is defined %}
-								{% for article in part.Article %}
-								    <ul class="nav nav-pills nav-stacked">
-								    	<li {% if request.attributes.get("_route") == 'wkt_platform_article_view' and  request.attributes.get('_route_params')['id'] == article.entityArticle.id %} class="active" {% endif %} role="presentation"><a href=" {{ path('wkt_platform_article_view', { 'id': article.entityArticle.id , 'slugTraining': part.Part.entity.training.slug, 'slugArticle': article.entityArticle.slug})}}">
-								    	{% if app.user %}
-									    	{% if app.user.userArticlesRead is empty %}
-											{% else %}
-											   {% for articleRead in app.user.userArticlesRead %}
-											    	{% if articleRead.article == article.entityArticle %}
-											    		{% if articleRead.updated %}
-											    			<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-											    		{% else %}
-											    			<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
-											    		{% endif %}
-											        {% endif %}
-											   {% endfor %}
-									    	{% endif %}
-								    	{% endif %}
-								    	{{ article.entityArticle.title }}</a></li>
-								    </ul>
-								{% endfor %}
-							{% endif %}
-				        </div>
-				    </div>
-				</div>
-			</li>
-			{% endif %}
+		    		{% if part.Article is defined %}
+		    			{% for article in part.Article %}
+		    		    	{% if app.user.userArticlesRead is empty %}
+		    				{% else %}
+		    				   {% for articleRead in app.user.userArticlesRead %}
+		    				    	{% if articleRead.article == article.entityArticle and articleRead.updated == false %}
+		    							{% set loopArticleRead = loopArticleRead + 1 %}
+		    				        {% endif %}
+		    				   {% endfor %}
+		    		    	{% endif %}
+		    			{% endfor %}
+		    		{% endif %}
+		    	{% endif %}
+		    {% endif %}
+		    <li>
+		    	{% if part.Part.entity.isEnabled %}
+					<a class="titleSummary" data-toggle="collapse" href="#collapse{{loop.index}}" aria-expanded="false" aria-controls="#collapse{{loop.index}}">
+						<img class="imgSummary" src="{{ asset('images/icones/arrow.svg') }}"> {{ part.Part.entity.title }} {% if app.user %}<span style="float: right; text-align: right">{{loopArticleRead}}/{{loopArticle}}</span>{% endif %}</a>
+					<ul class="collapse {% if app.request.attributes.get('thisArticle').part is defined and  part.Part.entity.id == app.request.attributes.get('thisArticle').part.id %}in {% elseif app.request.attributes.get('open') is defined and app.request.attributes.get('open') %}in{% endif %}" id="collapse{{loop.index}}">
+						{% if part.Article is defined %}
+							{% for article in part.Article %}
+								{% include('WKTPlatformBundle:Training:articlePerPart.html.twig')%}
+							{% endfor %}
+						{% endif %}
+					</ul>
+					{% if not loop.last %}
+						<hr>
+					{% endif %}
+		    	{% endif %}
+		    </li>
 		{% endfor %}
 	</ul>
 	{% endif %}
 </div>
+
+
+	

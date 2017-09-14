@@ -1,0 +1,12 @@
+{# src/WKT/CoreBundle/Resources/views/Core/layoutWhite.html.twig #}
+{% extends 'WKTCoreBundle::layout.html.twig' %}
+{% block body %}
+	<div id="flexbodyWhite" class="flexbodyWhite">
+        <aside id="bodyLeftWhite" class="bodyLeftWhite">
+    		{% block bodyLeft %}{% endblock %}
+        </aside>
+		<div id="bodyRightWhite" class="bodyRightWhite">
+			{% block bodyRight %}{% endblock %}
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% if is_granted('ROLE_USER') %}
+	<div class="addArticle">
+		{% if article is defined %}
+			{% set id = article.part.training.id %}
+		{% else %}
+		    {% set id = articleModified.part.training.id %}
+		{% endif %}
+	    
+	    <a class="text-center"href="{{ path('wkt_platform_article_modified_add_new_article', {'id': id}) }}"> <img class="imgSummary" src="{{ asset('images/icones/+.svg') }}">AJOUTER UN ARTICLE</a>
+	</div>
+{% endif %}

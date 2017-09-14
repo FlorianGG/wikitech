@@ -1,77 +1,93 @@
+<div class="panel panel-default addPart addArticleFields">
+  <div class="panel-heading">
+    <h2 class="panel-title"> <span class="badge">2</span> Ajouter du contenu à la page</h2>
+  </div>
+</div>
 <fieldset id="fieldsetDisabled" disabled>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title"> <span class="badge">2</span> {% if articleEdit is defined %}Modifier l'article {% else %}Créer un article
-          {% endif %}</h3>
+  {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+    <div id="formGroupPart" class="row">
+        <section class="articleSection">
+            <div class="col-xs-12">
+                <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/title.svg') }}"> Partie choisie</h2>
+                {{ form_errors(form.part) }}
+                {{ form_widget(form.part, {'attr': {'class': 'form-control', 'style': 'display:none;'}}) }}
+                <input id="inputPartReadOnly" class="form-control" type="text" placeholder="{% if articleEdit is defined %} {{articleEdit.part.title }}{% endif %}" readonly>
+            </div>
+        </section>
     </div>
-  </div>
-  <div class="well">
-    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
-      <div id="formGroupPart" class="form-group">
-        {{ form_label(form.part, "Partie choisie", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-        {{ form_errors(form.part) }}
-        <div class="col-sm-10">
-          {{ form_widget(form.part, {'attr': {'class': 'form-control', 'style': 'display:none;'}}) }}
-          <input id="inputPartReadOnly" class="form-control" type="text" placeholder="{% if articleEdit is defined %} {{articleEdit.part.title }}{% endif %}" readonly>
+    <div class="row">
+      <section class="articleSection">
+          <div class="col-xs-12">
+              <hr>
+              <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/title.svg') }}"> Titre de l'article</h2>
+              {{ form_errors(form.title) }}
+              {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+          </div>
+      </section>
+    </div>
+    <div id="en_Bref" class="row">
+        <section class="articleSection">
+            <div class="col-xs-12">
+                <hr>
+                <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/bref.svg') }}"> En bref</h2>
+            </div>
+
+            <div class="col-xs-12 ">
+                {{ form_errors(form.introduction) }}
+                {{ form_widget(form.introduction, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </section>
+    </div>
+    <div id="en_Detail" class="row">
+        <section class="articleSection">
+            <div class="col-xs-12">
+                <hr>
+                <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/detail.svg') }}"> En detail</h2>
+            </div>
+
+            <div class="col-xs-12">
+              {{ form_errors(form.content) }}
+              {{ form_widget(form.content, {'attr': {'class': 'tinymce form-control'}}) }}
+            </div>
+        </section>
+    </div>
+    <div id="en_Video" class="row">
+        <section class="articleSection">
+            <div class="col-xs-12">
+                <hr>
+                <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/video.svg') }}"> En video</h2>
+            </div>
+            <div class="col-xs-12">
+              <p class="text-center"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Attention <i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong></p>
+              <p class="text-center">Par soucis de compatibilité, seul les liens Youtube sont acceptés. Merci pour votre compréhension</p>
+            </div>
+            <div class="col-xs-12">
+                {{ form_label(form.video.url, "Url de la video", {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_errors(form.video.url) }}
+                {{ form_widget(form.video.url, {'attr': {'class': 'form-control'}}) }}   
+            </div>
+            <div class="col-xs-12">
+                {{ form_label(form.video.author, "Auteur de la video", {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_errors(form.video.author) }}
+                {{ form_widget(form.video.author, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </section>
+        <div style="display: none;" id="alertVideo" class="alert alert-danger">
+            <p class="text-center">Merci d'ajouter une url valide et un nom d'auteur pour chaque vidéo</p>
         </div>
-      </div>
-
-    <div class="form-group">
-      {{ form_label(form.title, "Titre de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-      {{ form_errors(form.title) }}
-      <div class="col-sm-10">
-        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
-      </div>
     </div>
-    <div class="form-group">
-      {{ form_label(form.introduction, "Introduction de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-      {{ form_errors(form.introduction) }}
-      <div class="col-sm-10">
-        {{ form_widget(form.introduction, {'attr': {'class': 'form-control'}}) }}
-      </div>
+    <div class="row">
+        <section class="articleSection">
+            <hr>
+            <div class="col-xs-12 bottomButtonWhite">
+                {{ form_widget(form.save, { 'label': 'Sauvegarder', 'attr': {'class': 'btn btn-success col-xs-4 col-xs-offset-4'}}) }}
+            </div>
+        </section>
     </div>
-    <div class="form-group">
-      {{ form_label(form.content, "Contenu de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-      {{ form_errors(form.content) }}
-      <div class="col-sm-10">
-        {{ form_widget(form.content, {'attr': {'class': 'tinymce form-control'}}) }}
-      </div>
-    </div>
-    <div class="form-group">
-      {{ form_label(form.video, "Video de l'article", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-    </div>
-    <div class="alert alert-warning" role="alert">
-    <p class="text-center"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Attention ! <i class="fa fa-exclamation-triangle" aria-hidden="true"></i></strong></p>
-    <p class="text-center">Par soucis de compatibilité, seul les liens Youtube sont acceptés. Merci pour votre compréhension</p></div>
-    <div class="form-group">
-      {{ form_label(form.video.url, "Url de la video", {'label_attr': {'class': 'col-sm-2 col-sm-offset-1 control-label'}}) }}
-      <div class="col-sm-9">
-        {{ form_errors(form.video.url) }}
-        {% if articleEdit is defined and articleEdit.video.url is defined%}
-          {{ form_widget(form.video.url, {'attr': {'class': 'form-control', 'value': 'https://www.youtube.com/embed/' ~ articleEdit.video.url}}) }}
-        {% else %}
-          {{ form_widget(form.video.url, {'attr': {'class': 'form-control'}}) }}   
-        {% endif %}
-        
-      </div> 
-    </div>
-    <div class="form-group">
-      {{ form_label(form.video.author, "Auteur de la video", {'label_attr': {'class': 'col-sm-2 col-sm-offset-1 control-label'}}) }}
-      <div class="col-sm-9">
-        {{ form_errors(form.video.author) }}
-        {{ form_widget(form.video.author, {'attr': {'class': 'form-control'}}) }}
-      </div>
-    </div>
-    {{ form_widget(form.save, { 'label': 'Sauvegarder le nouvel article', 'attr': {'class': 'btn btn-success btn-lg'}}) }}
-
-  </div>
-
-    {# Génération automatique des champs pas encore écrits.
-       Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
-       et tous les champs cachés (type « hidden »). #}
-    {{ form_rest(form) }}
-
-    {# Fermeture de la balise <form> du formulaire HTML #}
-    {{ form_end(form) }}
+   
+  {{ form_rest(form) }}
+  {{ form_end(form) }}
 </fieldset>
-{{ tinymce_init() }}
+
+
+

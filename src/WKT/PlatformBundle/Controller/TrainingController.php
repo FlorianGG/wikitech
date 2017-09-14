@@ -28,14 +28,28 @@ class TrainingController extends Controller
 
 	public function viewAction($id)
 	{
-		$trainingRepository = $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:Training');
+		$em = $this->getDoctrine()->getManager();
+		$trainingRepository = $em->getRepository('WKTPlatformBundle:Training');
 
 		$training = $trainingRepository->find($id);
 		$top = $this->container->get('wkt_user.confidence_score')->getContributionScoreByTraining($training);
-
+		$articles= $this->container->get('wkt_platform.summary')->getArticlesByTraining($training);
+		if (!empty($articles)) {
+			$firstArticleNotRead = $articles[0];
+		}else{
+			$firstArticleNotRead = null;
+		}
+		if ($this->getUser()) {
+			$userTraining = $em->getRepository('WKTUserBundle:UserTraining')->getUserTrainingByUserAndTraining($this->getUser(), $training);
+			if (!is_null($userTraining)) {
+				$firstArticleNotRead = $this->container->get('wkt_user.training_is_finished')->getFirstArticleNotRead($userTraining);
+			}
+			
+		}
 		return $this->render('WKTPlatformBundle:Training:view.html.twig', array(
 			'training' => $training,
-			'top' => $top,));
+			'top' => $top,
+			'articleNotRead' => $firstArticleNotRead));
 	}
 
 	public function addAction(Request $request)

@@ -1,7 +1,8 @@
 $( document ).ready(function() {
   var $buttonCreatePart =  $('#buttonCreatePart');
   var $formPart = $('#formPart');
-  $buttonCreatePart.click(function(){
+  $buttonCreatePart.click(function(e){
+      e.preventDefault();
       $formPart.toggle();
       if ($buttonCreatePart.text() === 'Sélectionner une partie existante') {
         $buttonCreatePart.text('Créer une nouvelle partie');
@@ -27,6 +28,9 @@ $( document ).ready(function() {
              $('#addArticleSummary').hide();
              $formPart.hide();
              $('#fieldsetDisabled').prop('disabled', false);
+             $('#bodyRightWhite').css('opacity','1');
+             $('#flexbodyWhite').css('background-color', '#fff');
+             $('#bodyLeftWhite').css('background-color', '#fafafa');
              $('#alertAddPart').show();
              $('#inputPartReadOnly').show();
              $('#inputPartReadOnly').attr('placeholder', $part.title);
@@ -41,7 +45,7 @@ $( document ).ready(function() {
       });
   });
   //Event qui gère de remplir l'attribut value de OrderInPart
-  $('#articleOrderInPart div div label input').click(function(event) {
+  $('#articleOrderInPart div label input').click(function(event) {
      var $orderInPart = $(this).attr('value');
      var $partValue = $(this).nextAll('input:first').attr('value');
      $('#form_part option[value=' + $partValue + ']').prop('selected', true);
@@ -49,6 +53,9 @@ $( document ).ready(function() {
      $placeholder = $('#form_part option[value=' + $partValue + ']').text();
      $('#inputPartReadOnly').attr('placeholder', $placeholder);
      $('#fieldsetDisabled').prop('disabled', false);
+     $('#bodyRightWhite').css('opacity','1');
+     $('#flexbodyWhite').css('background-color', '#fff');
+     $('#bodyLeftWhite').css('background-color', '#fafafa');
      $('#form_orderInPart').attr('value', $orderInPart);
   });
 });

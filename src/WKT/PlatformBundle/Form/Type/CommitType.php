@@ -4,6 +4,7 @@ namespace WKT\PlatformBundle\Form\Type;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use WKT\PlatformBundle\Repository\TypeOfModificationRepository;
@@ -16,7 +17,8 @@ class CommitType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('content')
+            ->add('content', TextareaType::class, array(
+                'attr' => array('rows' => '4')))
             ->add('typeOfModification', EntityType::class, array(
                 'class' => 'WKTPlatformBundle:TypeOfModification',
                 'choice_label' => 'type',

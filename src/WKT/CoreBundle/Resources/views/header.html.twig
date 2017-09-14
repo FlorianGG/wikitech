@@ -18,7 +18,7 @@
               <li><p><img class="imgLink" src="{{ asset('images/icones/homeIcon.svg') }}"> <a href="{{ path('wkt_core_home') }}"><span class="textLink">Accueil</span></a><p></li>
               {% if is_granted("ROLE_ADMIN") %}
               <li role="presentation" class="dropdown">
-                <p><a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administration <span class="caret"></span></a></p>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administration <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ path('wkt_platform_commit_index') }}">Gestions des contributions</a></li>
                     <li><a href="{{ path('wkt_platform_add') }}">Gestion des formations</a></li>

@@ -1,0 +1,92 @@
+{# src/WKT/PlatformBundle/Resources/views/ArticleModified/layout.html.twig #}
+
+{% extends 'WKTPlatformBundle:ArticleModified:layout.html.twig' %}
+{% block articleModified %}
+	{{ parent() }}
+    {% block formStart %}{% endblock %}    
+    <div class="row">
+        <section class="articleSection">
+            <div class="col-xs-12">
+                <h1 class="withoutMargin titleTraining"><img class="imgLink" src="{{ asset('images/icones/title.svg') }}"> {{ articleModified.article.title}}</h1>
+                <br>
+                {% block formTitle %}{% endblock %}
+            </div>
+        </section>
+    </div>
+    <div id="en_Bref" class="row">
+        <section class="articleSection">
+            <div class="col-xs-12">
+                <hr>
+                <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/bref.svg') }}"> En bref</h2>
+            </div>
+
+            <div class="col-xs-12 ">
+                {% block formIntroduction %}{% endblock %}
+            </div>
+        </section>
+    </div>
+    <div id="en_Detail" class="row">
+        <section class="articleSection">
+            <div class="col-xs-12">
+                <hr>
+                <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/detail.svg') }}"> En detail</h2>
+            </div>
+
+            <div class="col-xs-12 ">
+                {% block formContent %}{% endblock %}
+            </div>
+        </section>
+    </div>
+    <div id="en_Video" class="row">
+        <section class="articleSection">
+            <div class="col-xs-12">
+                <hr>
+                <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/video.svg') }}"> En video</h2>
+            </div>
+
+            <div class="col-xs-12 ">
+                {% if articleModified.video is empty %}
+                    <div class="buttonLinkArticle zoneNoVideo">
+                        <p class="noVideo">Aucune vidéo n'est enregistrée sur cet article</p> 
+                    </div>
+                {% else %}
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" allowfullscreen src="https://www.youtube.com/embed/{{ articleModified.video.url}}"></iframe>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-xs-12">
+                {% block videoUrlLabel %}{% endblock %}
+                {% if articleModified.video is empty %}
+                    {% block videoUrlEmpty %}{% endblock %}
+                {% else %}
+                    {% block videoUrlNotEmpty %}{% endblock %}
+                {% endif %}
+            </div>
+            <div class="col-xs-12">
+                {% block videoAuthorLabel %}{% endblock %}
+                {% if articleModified.video is empty %}
+                    {% block videoAuthorEmpty %}{% endblock %}
+                {% else %}
+                    {% block videoAuthorNotEmpty %}{% endblock %}    
+                {% endif %}
+            </div>
+        </section>
+        <div style="display: none;" id="alertVideo" class="alert alert-danger">
+            <p class="text-center">Merci d'ajouter une url valide et un nom d'auteur pour chaque vidéo</p>
+        </div>
+    </div>
+    <div class="row">
+        <section class="articleSection">
+            <hr>
+            <div class="col-xs-12 bottomButton">
+                <a id="buttonForModal" type="button" class="col-xs-3 col-xs-offset-2 btn btn-success" data-toggle="modal" data-target="#myModal">
+                  Valider</a>
+                <a class="col-xs-3 col-xs-offset-2 btn btn-danger" href="{{ path('wkt_platform_article_view', {'id': articleModified.article.id, 'slugTraining': articleModified.article.part.training.slug, 'slugArticle': articleModified.article.slug }) }}">Annuler</a>
+            </div>
+        </section>
+    </div>
+    {% block modal %}{% endblock %}
+    {% block formEnd %}{% endblock %}
+    {{tinymce_init()}} 
+{% endblock %}
