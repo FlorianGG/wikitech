@@ -1,5 +1,7 @@
 {% extends "@FOSUser/layout.html.twig" %}
-
+{% block h2Profile %}
+    <h2 class=""><img class="imgLink" src="{{ asset('images/icones/login.svg') }}"> Bienvenue sur notre portail de connection</h2>
+{% endblock %}
 {% block fos_user_content %}
     {% trans_default_domain 'FOSUserBundle' %}
 
@@ -25,9 +27,9 @@
 			<input type="checkbox" id="remember_me" name="_remember_me" value="on" />
 			<label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
 		</div>
-		<button type="submit" class="btn btn-default" id="_submit">{{ 'security.login.submit'|trans }}</button>
+		<button type="submit" class="btn btn-primary" id="_submit">{{ 'security.login.submit'|trans }}</button>
 		<div class="row">
-			<a class="btn link" href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
+			<a class="btn link passwordForget" href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
 		</div>	
 	</form>      
 {% endblock fos_user_content %}

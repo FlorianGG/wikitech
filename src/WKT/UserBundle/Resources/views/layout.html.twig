@@ -4,11 +4,29 @@
 {% extends "WKTCoreBundle:Core:layout.html.twig" %}
 
 {# Dans notre layout, il faut définir le block body #}
-  {% block bodyLeft %}
+{% block body %}
+	<div class="blocProfile">
+		<div class="row">
+		    <section class="standardSection">
+		        <div class="blocIntroProfile">
+		            <img class="img-responsive" src="{{asset('images/icones/wikitechHome.svg')}}" alt="Wikitech">
+		        </div>
+		    </section>
+		</div>
+		<div class="row">
+		    <section class="standardSection">
+		    	<div class="col-xs-12">
+		    		<hr>
+		    		{% block h2Profile %}{% endblock %}
+		    	</div>
 
-  {% endblock %}
-  {% block bodyRight %}
-      {% block fos_user_content %}    
-      {% endblock %}
-  {% endblock %}
+		        <div class="col-xs-12">
+		        	{% block fos_user_content %}{% endblock %}
+		        </div> 
+		    </section>
+		</div> 
+	</div>	
+{% endblock %}
+      
+
 

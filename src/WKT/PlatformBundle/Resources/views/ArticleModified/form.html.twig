@@ -7,7 +7,7 @@
     <div class="row">
         <section class="articleSection">
             <div class="col-xs-12">
-                <h1 class="withoutMargin titleTraining"><img class="imgLink" src="{{ asset('images/icones/title.svg') }}"> {{ articleModified.article.title}}</h1>
+                <h1 class="titleTraining"><img class="imgLink" src="{{ asset('images/icones/title.svg') }}"> {{ articleModified.article.title}}</h1>
                 <br>
                 {% block formTitle %}{% endblock %}
             </div>
@@ -78,7 +78,9 @@
     </div>
     <div class="row">
         <section class="articleSection">
-            <hr>
+            <div class="col-xs-12">
+                <hr>
+            </div>
             <div class="col-xs-12 bottomButton">
                 <a id="buttonForModal" type="button" class="col-xs-3 col-xs-offset-2 btn btn-success" data-toggle="modal" data-target="#myModal">
                   Valider</a>

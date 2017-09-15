@@ -1,11 +1,11 @@
 {% extends "@FOSUser/layout.html.twig" %}
 
 {% trans_default_domain 'FOSUserBundle' %}
-
+{% block h2Profile %}
+    <h2 class=""><img class="imgLink" src="{{ asset('images/icones/search.svg') }}"> Mot de passe oublié</h2>
+{% endblock %}
 {% block fos_user_content %}
-	<div class="well well-lg">
-		<p>
-		{{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
-		</p>
-	</div>
+	<p>{{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}</p>
+	<hr>
+	<a class="btn btn-primary col-xs-4 col-xs-offset-4" href="{{ path('wkt_core_home') }}">Page d'accueil</a> 
 {% endblock %}

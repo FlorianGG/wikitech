@@ -29,7 +29,7 @@
                         <button type="button" class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyBref" data-toggle="modal" data-target="#isModifying">
                           Modifier</button>
                     {% else %}
-                        <a class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyBref" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_content">Modifier</a>
+                        <a class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyBref" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}">Modifier</a>
                     {% endif %}
                 </div>
             </div>
@@ -51,7 +51,7 @@
                         <button type="button" class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyDetail" data-toggle="modal" data-target="#isModifying">
                           Modifier</button>
                     {% else %}
-                        <a class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyDetail" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_content">Modifier</a>
+                        <a class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyDetail" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#en_Detail">Modifier</a>
                     {% endif %}
                 </div>
             </div>
@@ -73,7 +73,7 @@
                         <button type="button" class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyVideo" data-toggle="modal" data-target="#isModifying">
                           Modifier</button>
                     {% else %}
-                        <a class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyVideo" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#wkt_platformbundle_articlemodified_content">Modifier</a>
+                        <a class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyVideo" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#en_Video">Modifier</a>
                     {% endif %}
                 </div>
             </div>
@@ -119,7 +119,7 @@
                         <p class="text-center">Nous vous conseillons de jeter un oeil aux différentes versions, quelqu'un a peut-être déjà fait ce que vous voulez</p>
                     </div>
                     <div class="modal-footer">
-                            <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_article_modified_edit', {'id': idArticleModified}) }}#wkt_platformbundle_articlemodified_title">J'ai compris</a></p>
+                            <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_article_modified_edit', {'id': idArticleModified}) }}">J'ai compris</a></p>
 
                     </div>
                 </div>

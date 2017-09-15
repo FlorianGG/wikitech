@@ -61,15 +61,15 @@ class WKTConfidenceScore
 
 		$commitsByTraining = [];
 		foreach ($commits as $commit) {
-			$training = $commit->getArticleModified()->getPart()->getTraining()->getTitle();
-			if (!array_key_exists($training, $commitsByTraining)) {
-				$commitsByTraining[$training] = array(
+			$training = $commit->getArticleModified()->getPart()->getTraining();
+			if (!array_key_exists($training->getTitle(), $commitsByTraining)) {
+				$commitsByTraining[$training->getTitle()] = array(
 					'training' => $training,
 					'score' => $commit->getScore());
 			}else{
-				$commitsByTraining[$training] = array(
+				$commitsByTraining[$training->getTitle()] = array(
 					'training' => $training,
-					'score' => $commitsByTraining[$training]['score'] + $commit->getScore());
+					'score' => $commitsByTraining[$training->getTitle()]['score'] + $commit->getScore());
 			}
 		}
 		return $commitsByTraining;

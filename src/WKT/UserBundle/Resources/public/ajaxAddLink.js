@@ -1,6 +1,7 @@
 $( document ).ready(function() {
-	var idUrl = $('#links li span').last().attr('id');
-	var url = $('#links li span').last().attr('data-href');
+	var idUrl = $('#links p span').last().attr('id');
+	var url = $('#links p span').last().attr('data-href');
+  console.log(url);
 	var $linkForm =  $('#linkForm');
   var lastLink = '';
 	$linkForm.submit(function(e){
@@ -17,8 +18,8 @@ $( document ).ready(function() {
   	    data: formData,
   	    success: function(data) { // je récupère la réponse du fichier PHP
           var lastLink = '#' + data['id'];
-	  	    var newLink = '<li id="liWithId' + data['id'] + '" class="list-group-item"><a href="' + data['url'] + '"><i class="' + data['social']
-           + '"></i> ' + data['title'] + '</a></li>';
+	  	    var newLink = '<p id="liWithId' + data['id'] + '"><a href="' + data['url'] + '"><i class=" logoLink ' + data['social']
+           + '"></i> ' + data['name'] + ' : ' + data['title'] + '</a></p>';
 	  	    $('#links').append(newLink);
           $('#wkt_userbundle_link_title').val('');
           $('#wkt_userbundle_link_url').val('');

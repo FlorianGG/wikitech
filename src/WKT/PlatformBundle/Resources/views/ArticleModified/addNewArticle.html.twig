@@ -1,4 +1,4 @@
-{# src/WKT/PlatformBundle/Resources/views/ArticleModified/add.html.twig #}
+{# src/WKT/PlatformBundle/Resources/views/ArticleModified/addNewArticle.html.twig #}
 
 {% extends 'WKTCoreBundle:Core:layoutWhite.html.twig' %}
 
@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block bodyRight %}
-    {{ include("WKTPlatformBundle::formAddArticleAndArticleModified.html.twig") }}
+    {{ include("WKTPlatformBundle:ArticleModified:formNewArticleModified.html.twig") }}
     {{ tinymce_init() }}
 {% endblock %}
 

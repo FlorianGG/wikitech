@@ -36,8 +36,10 @@ $(document).ready(function() {
             $('#password1').removeClass().addClass('form-group has-info');
             $('#password2').removeClass().addClass('form-group has-info');
         } else {
-            // If password is ok
+            // If password is ok 
             $('#passwordStrength').removeClass().addClass('alert alert-info').html('Vote mot de passe fait au moins 6 caractères. Pensez à rajouter des majuscules, chiffres ou caractères speciaux pour renforcer la sécurité 😎');
+            $('#password1').removeClass().addClass('form-group has-success');
+            $('#password2').removeClass().addClass('form-group has-success');
         }
  
         return true;
@@ -68,16 +70,14 @@ $(document).ready(function() {
   });
 
   $('#fos_user_registration_form_email').on('keyup', function(e) {
-        var emailRegex = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9_]{2,}\.[a-zA-Z]{2,4}$");
 
-  	if(emailRegex.test($('#fos_user_registration_form_email').val()) === false){
-        	$('#email').removeClass().addClass('form-group has-error');
-        	$('#helpEmail').removeClass().addClass('help-block').html('L\'adresse email n\'est pas valide');
-
-    	}else{
-    		$('#email').removeClass().addClass('form-group has-success');
-    		$('#helpEmail').removeClass().addClass().html('');
-    	}
+  	if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($('#fos_user_registration_form_email').val())){
+        $('#email').removeClass().addClass('form-group has-success');
+        $('#helpEmail').removeClass().addClass().html('');
+    }else{
+    		$('#email').removeClass().addClass('form-group has-error');
+        $('#helpEmail').removeClass().addClass('help-block').html('L\'adresse email n\'est pas valide');
+    }
   });
 
 });

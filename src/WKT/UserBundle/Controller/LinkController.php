@@ -36,7 +36,7 @@ class LinkController extends Controller
 			$em->persist($link);
 			$em->flush();
 			
-			return new JsonResponse(array('id' => $link->getId(), 'social' => $link->getSocial()->getLogo(), 'title' => $link->getTitle(), 'url' => $link->getUrl()), 200);
+			return new JsonResponse(array('name' => $link->getSocial()->getName(), 'id' => $link->getId(), 'social' => $link->getSocial()->getLogo(), 'title' => $link->getTitle(), 'url' => $link->getUrl()), 200);
 		}
 	    
 	    return $this->render('WKTUserBundle:Link:add.html.twig', array(
@@ -73,8 +73,6 @@ class LinkController extends Controller
 	      'form' => $form->createView(),
 	    ));
 	}
-
-
 
 	public function deleteAction(Request $request, Link $id)
 	{

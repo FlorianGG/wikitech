@@ -8,8 +8,7 @@ body{
 
 .content{
 	margin-top: 65px;
-	padding-left: 1px !important;
-	padding-right: 1px !important;
+	width: 100%;
 }
 h2{
 	color: #161719;
@@ -33,6 +32,14 @@ a{
 
 li{
 	list-style: none;
+}
+
+.list-unstyled{
+	color: #D9534F;
+	text-align: center;
+	background-color: #F2DEDE;
+	padding: 10px;
+	border-radius: 5px;
 }
 .standardSection{
 	max-width: 840px;
@@ -63,9 +70,34 @@ hr{
 	border: 0;
 }
 
+.btn-warning{
+	background-color: #FFCC00 !important;
+	color: #3E4246 !important;
+	border: 0;
+}
+
+.btn-default{
+	background-color: #F5F5F5 !important;
+	border: 0;
+}
+
 .btn-danger{
 	color: #fff !important;
 	border: 0;
+}
+
+.btn-primary:hover{
+	background-color: #1E90FF !important;
+
+}
+
+.btn-warning:hover{
+	background-color: #FFD700 !important;
+}
+
+.btn-default:hover, .buttonProfileModifierBodyLeft:hover{
+	background-color: #3E4246 !important;
+	color: #fff !important;
 }
 
 .listCommits{
@@ -134,10 +166,11 @@ footer{
 	width: 100%;
 	margin-top: 40px;
 	padding-top: 30px;
-	padding-left: 15px;
 	padding-right: 15px;
+	padding-left: 15px;
 	background-color: #F6F9FA;
 	color: #8C8C8C;
+	font-size: 14px;
 }
 
 footer a{
@@ -145,7 +178,7 @@ footer a{
 }
 
 footer h2{
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: 600;
 	line-height: 22px;
 	color: #8C8C8C;
@@ -173,6 +206,7 @@ footer li{
 	width: 380px;
 	margin: 40px auto 40px auto;
 }
+
 .blocIntro a{
 	margin-top: 50px;
 	width: 250px;
@@ -189,15 +223,21 @@ footer li{
 .thumbnailHome{
 	background-color: #F6F9FA !important;
 	width: 224px;
-	height: 329px;
+	height: 360px;
 	border-radius: 8px;
 	color: #161719;
 	font-size: 16px;
 	line-height: 22px;
 	text-align: center;
-	margin: 0 auto;
-	
+	margin: 0 auto;	
 }
+
+.miniatureHome{
+	border-radius: 8px 8px 0 0;
+	width: 224px;
+	max-height: 150px; 
+}
+
 .thumbnailHome .caption{
 	margin-top: 12px;
 }
@@ -215,8 +255,8 @@ footer li{
 }
 
 .textCaption{
-	height: 80px;
-	margin: auto 14px;
+	height: 100px;
+	margin: 20px 14px 5px 14px;
 	padding: 0px 14px;
 }
 	/*buttonHome*/
@@ -226,32 +266,30 @@ footer li{
 	font-weight: 600;
 	line-height: 19px;
 	border: 0px;
-	width: 180px;
 }
 
 .buttonHomeCreateUser{
 	color: #F5A623 !important;
 }
 
-.buttonHomeSoutenir{
-	margin-left: 0;
-}
 .colButtonHome{
 	position: relative;
 }
-.buttonHomeTop{
+.buttonHomeTop, .buttonProfileModifierBodyRightInfo, .buttonProfileModifierBodyRightLink{
 	position: absolute;
 	right: 0;
 	top: 0;
-	width: 100px;
+	width: auto;
 	color: #FFCC00 !important;
 }
 .buttonHomeContact{
 	color: #4935A9 !important;
+	margin-top: 10px;
 }
 
 .buttonHomeSoutenir{
 	color: #F63069 !important;
+	margin-top: 30px;
 }
 
 	/*SOUTENIR PROJET*/
@@ -266,6 +304,7 @@ footer li{
 	/*TOP*/
 .imgTop{
 	width: 55px;
+	height: 55px;
 	margin-right: 15px;
 }
 /*PAGE STATIC*/
@@ -341,6 +380,8 @@ footer li{
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+	margin-right: -20px;
+	margin-left: -20px;
 }
 .flexbodyWhite{
 	background-color: #F6F9FA;
@@ -355,7 +396,7 @@ footer li{
 	background-color: #fff;
 }
 .bodyRight, .bodyRightWhite{
-	margin: auto;
+	margin: 20px auto;
 	max-width: 600px !important;
 }
 .bodyRightWhite{
@@ -501,7 +542,7 @@ footer li{
 }
 
 
-.buttonAddPart{
+.buttonAddPart, .buttonProfileModifierBodyLeft{
 	display: block;
 	height: 40px;
 	width: 280px;
@@ -512,6 +553,10 @@ footer li{
 	text-align: center;
 	font-size: 14px;
 	font-weight: 600;
+}
+
+.buttonAddPart:hover{
+	background-color: #EEE;
 }
 
 .formGroupPart{
@@ -551,10 +596,77 @@ footer li{
 .editSummary label{
 	font-size: 14px;
 }
+/*PROFILE*/
+.blocProfile{
+	padding: 5px;
+}
+.blocIntroProfile{
+	width: 380px;
+	height: 100px;
+	margin: 20px auto;
+}
 
+.passwordForget{
+	margin-top: 10px !important;
+}
+	/*SHOW*/
+.imgProfile{
+	margin-top: 20px;
+	width: 140px;
+}
 
+.bodyLeftProfile h3{
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 24px;
+}
 
+.buttonProfileModifierBodyLeft{
+	margin-top: 23px;
+	background-color: #fff;
+}
 
+.buttonProfileModifierBodyRightInfo{
+	color: #3BAEF8!important;
+}
+
+.buttonProfileModifierBodyRightLink{
+	color: #53c378!important;
+}
+
+.imgLinkProfile{
+	width: 16px;
+	margin-right: 8px;
+}
+
+.logoLink{
+	margin-right: 10px;
+	font-size: 18px;
+}
+
+#linkForm{
+	display: none;
+	margin-top: 20px;
+}
+.butonResetField{
+	background-color: #D9534F;
+}
+
+.bodyRightEditProfile{
+	margin-top: 10px !important;
+}
+
+.titleFormGoogle, .alertProfileModifier{
+	font-size: 16px;
+	line-height: 22px;
+	font-weight: 400;
+	margin-top: 10px;
+}
+
+.alertProfileModifier{
+	font-size: 14px;
+	line-height: 22px;
+}
 
 /* Small devices (tablets, 768px and up) */
 @media (max-width:400px) {
@@ -567,20 +679,27 @@ footer li{
 	.secondButton{
 		margin-top: 15px;
 	}
-	.bodyRight, .bodyRightWhite{
-		width: 90%;
+
+
+	.imgHeart{
+		text-align:center;
+	}
+
+	.thumbnailHome{
+		margin: 0 auto 10px auto;
 	}
 }
 
 @media (max-width:950px) {
 	.flexbody, .flexbodyWhite{
 		flex-direction: column;
-		align-items: space-between;
+		align-items: right;
 		max-width: 100%;
+		margin: auto;
 	}
 	.bodyLeft, .bodyLeftWhite{
 		max-width: 600px;
-		min-width: 80%;
+		min-width: 100%;
 		margin: 0 auto;
 	}
 	.addArticle{

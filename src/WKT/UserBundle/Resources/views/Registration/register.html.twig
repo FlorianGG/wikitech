@@ -1,47 +1,43 @@
 {% extends "@FOSUser/layout.html.twig" %}
 
 {% trans_default_domain 'FOSUserBundle' %}
-
+{% block h2Profile %}
+    <h2 class=""><img class="imgLink" src="{{ asset('images/icones/register.svg') }}"> Bienvenue chez Wikitech</h2>
+{% endblock %}
 {% block fos_user_content %}
-	<div class="jumbotron">
-		<h1>Bienvenue chez Wikitech</h1>
+	{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': ' fos_user_registration_register'}}) }}
+	<div class="form-group" id="firstname">
+	  {{ form_label(form.firstname, "Prénom", {'label_attr': {'class': 'control-label'}}) }}
+	  {{ form_errors(form.firstname) }}
+	  {{ form_widget(form.firstname, {'attr': {'class': 'form-control', 'aria-describedby': 'helpFirstname'}}) }}
+	  <span id="helpFirstname" class=""></span>
 	</div>
-	<div class="well">
-		{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'form-horizontal fos_user_registration_register'}}) }}
-		<div class="form-group" id="firstname">
-		  {{ form_label(form.firstname, "Prénom", {'label_attr': {'class': 'control-label'}}) }}
-		  {{ form_errors(form.firstname) }}
-		  {{ form_widget(form.firstname, {'attr': {'class': 'form-control', 'aria-describedby': 'helpFirstname'}}) }}
-		  <span id="helpFirstname" class=""></span>
-		</div>
-		<div class="form-group" id="lastname">
-		  {{ form_label(form.lastname, "Nom", {'label_attr': {'class': 'control-label'}}) }}
-		  {{ form_errors(form.lastname) }}
-		  {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
-		  <span id="helpLastname" class=""></span>
-		</div>
-		<div class="form-group" id="email">
-		  {{ form_label(form.email, "Adresse email", {'label_attr': {'class': 'control-label'}}) }}
-		  {{ form_errors(form.email) }}
-		  {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-		  <span id="helpEmail" class=""></span>
-		</div>
-		<div class="form-group" id="password1">
-		  {{ form_label(form.plainPassword.first, "Mot de passe", {'label_attr': {'class': 'control-label'}}) }}
-		  {{ form_errors(form.plainPassword.first) }}
-		  {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
-		</div>
-		<div class="form-group" id="password2">
-		  {{ form_label(form.plainPassword.second, "Retaper votre mot de passe", {'label_attr': {'class': 'control-label'}}) }}
-		  {{ form_errors(form.plainPassword.second) }}
-		  {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
-		</div>
+	<div class="form-group" id="lastname">
+	  {{ form_label(form.lastname, "Nom", {'label_attr': {'class': 'control-label'}}) }}
+	  {{ form_errors(form.lastname) }}
+	  {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+	  <span id="helpLastname" class=""></span>
 	</div>
-	    {{ form_rest(form) }}
-	    <p><div class="" id="passwordStrength"></div></p>
-        <button id="buttonRegister" class="btn btn-success" type="submit">Enregistrer</button>
+	<div class="form-group" id="email">
+	  {{ form_label(form.email, "Adresse email", {'label_attr': {'class': 'control-label'}}) }}
+	  {{ form_errors(form.email) }}
+	  {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+	  <span id="helpEmail" class=""></span>
+	</div>
+	<div class="form-group" id="password1">
+	  {{ form_label(form.plainPassword.first, "Mot de passe", {'label_attr': {'class': 'control-label'}}) }}
+	  {{ form_errors(form.plainPassword.first) }}
+	  {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+	</div>
+	<div class="form-group" id="password2">
+	  {{ form_label(form.plainPassword.second, "Retaper votre mot de passe", {'label_attr': {'class': 'control-label'}}) }}
+	  {{ form_errors(form.plainPassword.second) }}
+	  {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+	</div>
+    {{ form_rest(form) }}
+    <p><div class="" id="passwordStrength"></div></p>
+    <button id="buttonRegister" class="btn btn-primary" type="submit">Enregistrer</button>
 	{{ form_end(form) }}
-    
 {% endblock fos_user_content %}
 {% block javascripts %}
   {{parent()}}

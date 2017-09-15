@@ -1,13 +1,17 @@
 {% extends "@FOSUser/layout.html.twig" %}
 
 {% trans_default_domain 'FOSUserBundle' %}
-
+{% block h2Profile %}
+    <h2 class=""><img class="imgLink" src="{{ asset('images/icones/register.svg') }}"> Confirmation d'enregistrement</h2>
+{% endblock %}
 {% block fos_user_content %}
-	<div class="well well-lg">
-		<p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+
+	    <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+	    <hr>
+	        <a class="btn btn-primary col-xs-3 col-xs-offset-2 col-sm-3 col-sm-offset-2" href="{{ path('wkt_core_home') }}">Page d'accueil</a> 
+	        <a class="btn btn-warning col-xs-3 col-xs-offset-2 col-sm-3 col-sm-offset-2" href="{{ path('fos_user_profile_show') }}">Votre profil</a>
 		{% if targetUrl %}
 		<p><a href="{{path('wkt_core_home')}}">Retour à la page d'accueil</a></p>
-		{% endif %}
-	</div>
+		{% endif %} 
 
 {% endblock fos_user_content %}

@@ -1,79 +1,98 @@
 {% extends "@FOSUser/Profile/layout.html.twig" %}
 
 {% block fos_user_content %}
-	    <div class="col-sm-3">
-			<div class="panel panel-default">
-			  <!-- Default panel contents -->
-			  <div class="panel-heading">
-				<div class="col-xs-12">
-					{% if app.user.image is not empty %}
-						<p class="text-center"><img class="img-circle" src="{{ asset(app.user.image.webPath) }}" alt="{{ app.user.image.alt }}"></p>    
-					{% endif %}
-				</div>
-			  	<h4 class="text-center">{{ user.firstname }} {{ user.lastname }} <a style="background-color: #F0AD4E;" class="badge btn" href="{{path('fos_user_profile_edit')}}#editInfo">Modifier</a></h4>
-			  	{% if user.additionalName is empty %}
-			  	{% else %}
-			  	    <h4 class="text-center">{{ user.additionalName }}</h4>
-			  	{% endif %}
-			  </div>
-			  <div class="panel-body">
-			    <h4 class="text-center">Vos points de contribution</h4>
-			    <p class="text-center">{{ user.nbPoint }} pts</p>
-			  </div>
-			  <div class="panel-footer">
-			    <h4 class="text-center">Votre biographie</h4>
-			    {% if user.biography is empty %}
-					<p class="text-center"><small><em>Votre biographie est vide...</em></small></p>
-				{% else %}
-					<p class="text-center"><small><em>{{ user.biography}}</em></small> </p>
-			    {% endif %}
+	    <div class="bodyLeft bodyLeftProfile">
+	    	<div class="col-xs-12">
+	    		{% if app.user.image is not empty %}
+	    			<p class="text-center"><img class="img-circle imgProfile" src="{{ asset(app.user.image.webPath) }}" alt="{{ app.user.image.alt }}"></p>  
+	    		{% else %}
+	    			<p class="text-center"><img class="imgProfile img-circle" src="{{ asset('images/icones/emptyPicture.svg') }}" alt="User sans photo de profil"></p>
+	    		{% endif %}
+	    		<h3 class="text-center">{{ user.firstname }} {{ user.lastname }} {% if user.additionalName is not empty %} {{ user.additionalName }} {% endif %}</h3>
+	    		<p class="text-center">{{ user.nbPoint }} points</p>
+    		    {% if user.biography is empty %}
+    				<p class="text-center"><small><em>Votre biographie est vide...</em></small></p>
+    			{% else %}
+    				<p class="text-left"><small><em>{{ user.biography}}</em></small> </p>
+    		    {% endif %}
+    		    <a class="buttonProfileModifierBodyLeft" href="{{path('fos_user_profile_edit')}}">Modifier</a>
 
-			  </div>
-
-			</div>
-			<hr>
-			<a class="col-xs-12 btn btn-default" href="{{path('fos_user_change_password')}}">Modifier votre mot de passe</a>
+	    	</div>
 	    </div>
-		<div class="col-sm-9">
-			<div class="panel panel-default">
-			  <div class="panel-heading">
-			    <h3 class="panel-title">Détails de vos contributions</h3>
-			  </div>
-			  <div class="panel-body">
-			  	{% if score is empty %}
-					<p class="text-center"><small><em>Aucune contribution réalisée</em></small> </p>
-				{% else %}
-				    <ul class="list-group">
-				    	{% for training in score %}
-				    	    <li class="list-group-item">{{training.training}} - {{training.score}} pts</li>
-				    	{% endfor %}
-				    </ul>
-			  	{% endif %}
-			  </div>
-			</div>
-			<div class="panel panel-default">
-			  <div class="panel-heading">
-			    <h3 class="panel-title">Mes informations <a style="background-color: #F0AD4E;" class="badge btn" href="{{path('fos_user_profile_edit')}}#editInfo">Modifier</a></h3>
-			  </div>
-			  <div class="panel-body">
-			    <!-- List group -->
-			    <ul class="list-group">
-			      <li class="list-group-item"><p><strong>Adresse email : </strong> {{ user.email }}</p></li>
-			      <li class="list-group-item"><p><strong>Votre entreprise actuelle : </strong> {{ user.company }}</p></li>
-			      <li class="list-group-item"><p><strong>Ville de résidence : </strong> {{ user.locality }}</p></li>
-			      <li class="list-group-item"><p><strong>Pays de résidence : </strong> {{ user.country }}</p></li>
-			    </ul>
-			  </div>
-			</div>
-			<div class="panel panel-default">
-			  <div class="panel-heading">
-			    <h3 class="panel-title">Mes Liens <a style="background-color: #F0AD4E;" class="badge btn" href="{{path('fos_user_profile_edit')}}#editLien">Modifier</a></h3>
-			  </div>
-			  	{% include 'WKTUserBundle:Link:indexByUser.html.twig'%}
-			</div>
-		</div>
-
-
+	    <div class="bodyRight">
+	    	<div class="row">
+	    	    <section class="articleSection">
+	    	        <div class="col-xs-12">
+	    	            <div class="col-xs-8 withoutPadding">
+	    	                <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/cup.svg') }}"> Mes contributions</h2>
+	    	            </div>
+	    	            <div class="colButtonHome col-xs-4 ">
+	    	                <a class="btn btn-default col-xs-3 buttonHome buttonHomeTop" href="{{path('wkt_core_contribution')}}">En savoir plus</a> 
+	    	            </div>
+	    	        </div>
+	    	        <div class="col-xs-12 ">
+	    	            {% if score is empty %}
+	    	                <p class="text-center"><small><em>Aucune contribution réalisée</em></small></p>
+	    	            {% else %}
+	    	                {% for training in score %}
+	    	                    <p>
+	    	                        {% if training.training.image is not empty %}
+	    	                            <img class="imgTop img-circle" src="{{ asset(training.training.image.webPath) }}" alt="{{ training.training.image.alt }}">
+	    	                        {% else %}
+	    	                            <img class="imgTop img-circle" src="{{ asset('images/training.jpeg') }}" alt="Formation sans miniature">
+	    	                        {% endif %}
+	    	                       	{{training.training.title}} - {{training.score}} points
+	    	                    </p>
+	    	                {% endfor %}                 
+	    	            {% endif %}
+	    	        </div>
+	    	    </section>
+	    	</div>
+	    	<div class="row">
+	    	    <section class="articleSection">
+	    	        <div class="col-xs-12">
+	    	        	<hr>
+	    	            <div class="col-xs-8 withoutPadding">
+	    	                <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/info.svg') }}"> Mes informations</h2>
+	    	            </div>
+	    	            <div class="colButtonHome col-xs-4 ">
+	    	                <a class="btn btn-default col-xs-3 buttonHome buttonProfileModifierBodyRightInfo" href="{{path('fos_user_profile_edit')}}">Modifier</a> 
+	    	            </div>
+	    	        </div>
+	    	        <div class="col-xs-12 ">
+	    	        	<p><img class="imgLinkProfile" src="{{ asset('images/icones/localisation.svg') }}"> Localisation : 
+	    	        		{% if user.country is empty and user.country is empty %}
+	    	        			<small><em>Quelque part dans la galaxie</em></small>
+	    	        		{% endif %}
+	    	        		{{ user.locality }}
+	    	        		{% if user.country is empty or user.country is empty %}
+	    	        		{% else %}
+	    	        		 - 
+	    	        		{% endif %}
+	    	        		{{ user.country }}
+	    	        	</p>
+	    	            <p><img class="imgLinkProfile" src="{{ asset('images/icones/email.svg') }}"> Adresse email : {{ user.email }}</p>
+	    	            <p><img class="imgLinkProfile" src="{{ asset('images/icones/search.svg') }}"> Entreprise actuelle : {{ user.company }}</p>
+	    	        </div>
+	    	    </section>
+	    	</div>
+	    	<div class="row">
+	    	    <section class="articleSection">
+	    	        <div class="col-xs-12">
+	    	        	<hr>
+	    	            <div class="col-xs-8 withoutPadding">
+	    	                <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/link.svg') }}"> Mes liens</h2>
+	    	            </div>
+	    	            <div class="colButtonHome col-xs-4 ">
+	    	                <a class="btn btn-default col-xs-3 buttonHome buttonProfileModifierBodyRightLink" href="{{path('fos_user_profile_edit')}}">Modifier</a> 
+	    	            </div>
+	    	        </div>
+	    	        <div class="col-xs-12 ">
+	    	        	{% include 'WKTUserBundle:Link:indexByUser.html.twig'%}
+	    	        </div>
+	    	    </section>
+	    	</div>
+	    </div>
 {% endblock fos_user_content %}
 {% block javascripts %}
   {{parent()}}

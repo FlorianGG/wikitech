@@ -1,125 +1,114 @@
-{% extends "@FOSUser/Profile/layout.html.twig" %}
+{% extends 'WKTCoreBundle::layout.html.twig' %}
+{% block body %}
+	<div class="row">
+		{% block fos_user_content %}
+			{% trans_default_domain 'FOSUserBundle' %}
+			{{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+		    <div class="col-xs-12 col-sm-4 col-md-3">
+		    	{% if app.user.image is not empty %}
+	    			<p class="text-center"><img class="img-circle imgProfile" src="{{ asset(app.user.image.webPath) }}" alt="{{ app.user.image.alt }}"></p>  
+	    		{% else %}
+	    			<p class="text-center"><img class="imgProfile img-circle" src="{{ asset('images/icones/emptyPicture.svg') }}" alt="User sans photo de profil"></p>
+	    		{% endif %}
+				<div class="alert alert-warning" role="alert">
+					<p class="text-center alertProfileModifier">Pour un soucis de qualité, préférer une image <strong>carrée</strong> avec une taille <strong>minimale de 140 x 140px</strong></p>
+				</div>
+				 	{{ form_errors(form.image) }}
+				 	{{ form_widget(form.image.file, {'attr': {'class': 'form-control'}}) }}
+				 	<p class="help-block"><small><em>Formats autorisés : PNG/JPEG/JPG/GIF</em></small></p>
+				 	<p class="help-block"><small><em>Limite 20 Mo</em></small></p>
+				<div class="row">
+					<div class="col-xs-6">
+					  	{{ form_errors(form.firstname) }}
+					  	{{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<div class="col-xs-6">
+					  	{{ form_errors(form.lastname) }}
+					    {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<br>
+					<br>
+					<div class="col-xs-12">
+						{{ form_errors(form.additionalName) }}
+					  	{{ form_widget(form.additionalName, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					<br>
+					<br>
 
-{% block fos_user_content %}
-		{% trans_default_domain 'FOSUserBundle' %}
-		{{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
-	    <div class="col-sm-3">
-	    	<div class="panel panel-default">
-	    		<div class="panel-heading">
-	    			<div class="row">
-	    				<h4 class="text-center">Mon identité</h4>
-	    			</div>
-	    			<div class="row">
-	    				<div class="col-xs-12">
-	    					{% if app.user.image is empty %}
-								<p class="text-center"><small><em>Aucun avatar enregistré</em></small></p>
-	    					{% else %}
-	    						<p class="text-center"><img class="img-circle" src="{{ asset(app.user.image.webPath) }}" alt="{{ app.user.image.alt }}"></p>    
-	    					{% endif %}
-	    					<div class="alert alert-warning" role="alert"><p class="text-center">Pour un soucis de qualité, préférer une image <strong>carrée</strong> avec une taille <strong>minimale de 140 x 140px</strong></p></div>
-	    					<div class="form-group">
-	    					  {{ form_label(form.image, "Choisissez votre avatar") }}
-	    					  {{ form_errors(form.image) }}
-	    					  {{ form_widget(form.image.file, {'attr': {'class': 'form-control'}}) }}
-	    					  <p class="help-block"><small><em>Formats autorisés : PNG/JPEG/JPG/GIF</em></small></p>
-	    					  <p class="help-block"><small><em>Limite 20 Mo</em></small></p>
-	    					</div>
-	    				</div>
-	    				<div class="col-xs-6">
-	    				  {{ form_errors(form.firstname) }}
-	    				  {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
-	    				</div>
-	    				<div class="col-xs-6">
-	    				  	{{ form_errors(form.lastname) }}
-	    				    {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
-	    				</div>
-	    				<br>
-						<br>
-						{{ form_label(form.additionalName, "Nom complémentaire", {'label_attr': {'class': 'text-center col-xs-12 control-label'}}) }}
-	    				<div class="col-xs-12">
-	    					{{ form_errors(form.additionalName) }}
-	    				  	{{ form_widget(form.additionalName, {'attr': {'class': 'form-control'}}) }}
-	    				</div>
-	    			</div>
-	    			
-	    		</div>
-	    		<div class="panel-body">
-	    			<div class="form-group">
-	    				{{ form_label(form.biography, "Votre biographie.", {'label_attr': {'class': 'text-left col-xs-12 control-label'}}) }}
-	    				{{ form_errors(form.biography) }}
-	    				<div class="col-xs-12">
-	    			    	{{ form_widget(form.biography, {'attr': {'class': 'form-control'}}) }}
-	    				</div>
-	    			</div>
-	    		</div>
-	    	</div>
-			<hr>
-			<a class="col-xs-12 btn btn-default" href="{{path('fos_user_change_password')}}">Modifier votre mot de passe</a>
-		</div>
-		<div class="col-sm-9">
-			<div id="editInfo" class="panel panel-default">
-			  <div class="panel-heading">
-			    <h3 class="panel-title">Mes informations</h3>
-			  </div>
-			  <div class="panel-body">
-			    <!-- List group -->
-			    <ul class="list-group">
-			      <li class="list-group-item">
-			      	{{ form_row(form.email) }}
-			      	{{ form_row(form.emailHidden) }}
-			      </li>
-			      <li class="list-group-item">{{ form_row(form.company) }}</li>
-			      <li class="list-group-item">
-			      	<div id="locationField">
-			      	     <input id="autocomplete" class="form-control" placeholder="Entrez votre ville de résidence"
-			      	            onFocus="geolocate()" type="text"></input>
-			      	   </div>
-			      </li>
-			      <li class="list-group-item">
-			      	<div class="form-group">
-			      		<label class="control-label control-label" for="fos_user_profile_form_locality">Ville de résidence</label> <span style="background-color: #D9534F;" class="butonResetField badge btn"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
-			      		{{ form_errors(form.locality) }}
-			      		{{ form_widget(form.locality, {'id':'locality', 'attr': {'class': 'form-control'}}) }}
-			      	</div>
-			      </li>
-			      <li class="list-group-item">
-			      	<div class="form-group">
-			      		<label class="control-label control-label" for="fos_user_profile_form_COUNTRY">Pays de résidence</label> <span style="background-color: #D9534F;" class="butonResetField badge btn"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
-			      		{{ form_errors(form.country) }}
-			      		{{ form_widget(form.country, {'id':'country', 'attr': {'class': 'form-control'}}) }}
-			      	</div>
-			      </li>
-			    </ul>
-			  </div>
+					<div class="col-xs-12">
+						{{ form_errors(form.biography, {'attr': {'class': 'alert alert-danger'}}) }}
+					    {{ form_widget(form.biography, {'attr': {'class': 'form-control', 'placeholder': 'Un bref résumé de vous'}}) }}
+					</div>
+				</div>
+				<br>
+			    <a class="btn btn-default col-xs-12" href="{{path('fos_user_change_password')}}">Modifier votre mot de passe</a>
 			</div>
-			{{ form_end(form) }}
-			<div id="editLien" class="panel panel-default">
-			  <div class="panel-heading">
-			    <h3 class="panel-title">Mes Liens</h3>
-			  </div>
-			  <div class="panel-body">
-			  	<ul id="links" class="list-group">
-				    {% include 'WKTUserBundle:Link:indexByUser.html.twig'%}
-			    </ul>
-			    <div class="row">
-			    	<div class="col-xs-12">
-			    		<button id="addLink" class="btn btn-link btn-xs" type="button">Ajouter un lien</button>
-			    	</div>
-			    </div>
-			  	
-			  	<div class="row">
-			  		<form id="linkForm" style="display: none;" action="{{ path('wkt_user_link_add')}}" method="post" class="form-inline">
-			  			{{ render(controller("WKTUserBundle:Link:add")) }}
-			  		</form>
-			  	</div>
+			<div class="col-xs-12 col-sm-8 col-md-9 bodyRightEditProfile">
+				<div class="row">
+				    <section class="articleSection">
+				        <div class="col-xs-12">
+				            <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/info.svg') }}"> Mes informations</h2>
+				        </div>
+				        <div class="col-xs-12 ">
+				        	<p><img class="imgLinkProfile" src="{{ asset('images/icones/email.svg') }}"> Adresse email : </p>
+				        	{{ form_errors(form.email) }}
+				        	{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+							{{ form_row(form.emailHidden) }}
+							<hr>
+							<p><img class="imgLinkProfile" src="{{ asset('images/icones/search.svg') }}"> Entreprise actuelle : </p>
+							{{ form_errors(form.company) }}
+							{{ form_widget(form.company, {'attr': {'class': 'form-control'}}) }}
+							<hr>
+							<p><img class="imgLinkProfile" src="{{ asset('images/icones/localisation.svg') }}"> Localisation : </p>
+							<div id="locationField">
+							     <input id="autocomplete" class="form-control" placeholder="Entrez votre ville de résidence"
+							            onFocus="geolocate()" type="text"></input>
+							</div>
+			        	  	<div class="form-group">
+			        	  		<label class="control-label titleFormGoogle" for="fos_user_profile_form_locality">Ville de résidence</label> <span class="butonResetField badge btn"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+			        	  		{{ form_errors(form.locality) }}
+			        	  		{{ form_widget(form.locality, {'id':'locality', 'attr': {'class': 'form-control'}}) }}
+			        	  	</div>
+			        	  	<div class="form-group">
+			        	  		<label class="control-label titleFormGoogle" for="fos_user_profile_form_COUNTRY">Pays de résidence</label> <span class="butonResetField badge btn"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+			        	  		{{ form_errors(form.country) }}
+			        	  		{{ form_widget(form.country, {'id':'country', 'attr': {'class': 'form-control'}}) }}
+			        	  	</div>
+				        </div>
+				    </section>
+				</div>
+				{{ form_rest(form) }}
+				{{ form_end(form) }}
+				<div class="row">
+				    <section class="articleSection">
+				        <div class="col-xs-12">
+				        	<hr>
+				            <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/link.svg') }}"> Mes liens</h2>
+				        </div>
+				        <div id="links" class="col-xs-12">
+				        	{% include 'WKTUserBundle:Link:indexByUser.html.twig'%}
+				        </div>
+						<div class="col-xs-12">
+							<button id="addLink" class="btn btn-link" type="button">Ajouter un lien</button>
+							<form id="linkForm" action="{{ path('wkt_user_link_add')}}" method="post" class="form-inline">
+								{{ render(controller("WKTUserBundle:Link:add")) }}
+							</form>
+						</div>
+				        <div class="col-xs-12">
+				        	<hr>
+				        	<input class="btn btn-success" type="submit" value="{{ 'profile.edit.submit'|trans }}" />
+				        </div>
+				    </section>
+				</div>
+			</div>
 
-			  </div>
-			</div>
-			<div>
-			    <input class="btn btn-success" type="submit" value="{{ 'profile.edit.submit'|trans }}" />
-			</div>
-		</div>
-{% endblock fos_user_content %}
+
+
+		{% endblock fos_user_content %}
+	</div>
+	
+{% endblock %}
+
 {% block javascripts %}
 	{{parent()}}
 	{{ include("WKTUserBundle:Profile:google.html.twig") }}
