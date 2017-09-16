@@ -2,44 +2,80 @@
 
 {% extends 'WKTCoreBundle:Core:layout.html.twig' %}
 {% block body %}
-	<div class="jumbotron">
-		<h1>LeaderBoard Général</h1> 
+	<div class="row">
+	    <section class="sectionLeaderboard">
+	        <div class="blocIntroProject">
+	            <img class="imgIntroStatic img-responsive" src="{{asset('images/icones/cup.svg')}}" alt="Leaderboard">
+	            <h1>Leaderboard</h1>
+	        </div>
+	    </section>
 	</div>
 	<div class="row">
-		<div class="col-sm-8 col-sm-offset-2">
-			<div class="panel panel-primary">
-			  <div class="panel-heading">Liste des utilisateurs</div>
-			  <div class="panel-body">
-			    {% if users is empty %}
-			    	<p class="text-center"><small><em>Aucun utilisateur enregistré</em></small></p>
-			    {% else %}
-			    	<table class="table">
-			    		<thead>
-							<tr>
-								<th>Rang</th>
-								<th>Utilisateur</th>
-								<th>Score</th>
-								<th>Profil</th>
-							</tr>
-			    		</thead>
-			    		<tbody>
-			    			{% for user in users %}
-				    			<tr>
-				    				<td>{{loop.index}}</td>
-				    				<td>{{user.firstname}} {{user.lastname}}</td>
-				    				<td>{{user.nbPoint}} pts</td>
-				    				<td><td><a class="btn btn-warning btn-xs" href="{{path('wkt_user_view_profile', {'id': user.id})}}">Profil</a></td></td>
-				    			</tr>
-			    			{% endfor %}
-			    		</tbody>
-			    	</table>			        
-			    {% endif %}
-			  </div>
+	    <section class="sectionLeaderboard">
+			<div class="col-xs-12">
+				<div class="buttonLinkArticle">
+					<p class="text-center">Regardez les meilleurs contributeurs du site : </p>
+				    <p class="text-center"><a class="summaryInArticle" href="#general">Leaderboard Général</a></p>
+				    <p class="text-center">Ou consultez les leaderboards par formation : </p>
+				    <p class="text-center summaryInArticle">|
+				    {% for training in topTrainings %}
+				        <a class="summaryInArticle" href="#id{{training.training.title}}">{{training.training.title}} | </a>
+				    {% endfor %}
+				    </p>
+				</div>
 			</div>
-		</div>
+	    </section>
 	</div>
 
-	
-  
-  
+	<div class="row">
+	    <section id="general" class="sectionLeaderboard">
+	        <div class="col-xs-12">
+	            <hr class="hrLeaderboard">
+	            <h2>Leaderboard Général</h2>
+	        </div>
+	        <div class="col-xs-12 ">
+	            {% if users is empty %}
+	                <p class="text-center"><small><em>Aucun utilisateur enregistré</em></small></p>
+	            {% else %}
+	                {% for user in users %}
+	                    <p>
+	                        {% if user.image is not empty %}
+	                            <img class="imgTop img-circle" src="{{ asset(user.image.webPath) }}" alt="{{ user.image.alt }}">
+	                        {% else %}
+	                            <img class="imgTop img-circle" src="{{ asset('images/icones/emptyPicture.svg') }}" alt="User sans photo de profil">
+	                        {% endif %}
+	                        <a class="linkProfile" href="{{path('wkt_user_view_profile', {'id': user.id})}}">{{user.firstname}} {{user.lastname}}</a>  - {{user.nbPoint}} points
+	                    </p>
+	                {% endfor %}                 
+	            {% endif %}
+	        </div>
+	    </section>
+	</div>
+	{% for training in topTrainings %}
+	    <div class="row">
+	        <section id="id{{training.training.title}}" class="sectionLeaderboard">
+	            <div class="col-xs-12">
+	                <hr class="hrLeaderboard">
+	                <h2>Leaderboard {{training.training.title}}</h2>
+	            </div>
+	            <div class="col-xs-12 ">
+	                {% if training.top is empty %}
+	                    <p class="text-center"><small><em>Aucun utilisateur n'a encore contribué</em></small></p>
+	                {% else %}
+	                    {% for user in training.top %}
+	                        <p>
+	                            {% if user.user.image is not empty %}
+	                                <img class="imgTop img-circle" src="{{ asset(user.user.image.webPath) }}" alt="{{ user.user.image.alt }}">
+	                            {% else %}
+	                                <img class="imgTop img-circle" src="{{ asset('images/icones/emptyPicture.svg') }}" alt="User sans photo de profil">
+	                            {% endif %}
+	                            <a class="linkProfile" href="{{path('wkt_user_view_profile', {'id': user.user.id})}}">{{user.user.firstname}} {{user.user.lastname}}</a>  - {{user.score}} points
+	                        </p>
+	                    {% endfor %}                 
+	                {% endif %}
+	            </div>
+	        </section>
+	    </div> 
+	{% endfor %}
+	 
 {% endblock %}

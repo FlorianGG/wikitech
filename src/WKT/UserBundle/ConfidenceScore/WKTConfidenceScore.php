@@ -98,7 +98,13 @@ class WKTConfidenceScore
 				}
 			}
 		}
-		return $commitsByTraining;
+		$arrayToRange = [];
+		foreach ($commitsByTraining as $array) {
+			$arrayToRange[$array['score']] = $array;
+		}
+		asort($arrayToRange);
+
+		return $arrayToRange;
 	}
 
 }

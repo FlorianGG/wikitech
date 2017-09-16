@@ -67,10 +67,22 @@ class CoreController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 
+		$trainings = $em->getRepository('WKTPlatformBundle:Training')->findBy(array('draft' => false));
+		$topTrainings = [];
+		if (!is_null($trainings)) {
+			foreach ($trainings as $training) {
+				$topTrainings[$training->getTitle()] = array(
+					'training' => $training,
+					'top' => $this->container->get('wkt_user.confidence_score')->getContributionScoreByTraining($training),
+				);
+			}
+		}
+		
 		$users = $em->getRepository('WKTUserBundle:User')->findBy(array('enabled' => true), array('nbPoint' => 'DESC'));
 
 		return $this->render('WKTCoreBundle:Core:leaderboard.html.twig', array(
-			'users' => $users,));
+			'users' => $users,
+			'topTrainings' => $topTrainings));
 
 	}
 

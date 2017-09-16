@@ -1,0 +1,8 @@
+{% for title in summaryArticle[1] %}
+    {% set testh3 = '<h3 class="a1">'~ title ~ '</h3>' %}
+    {% if summaryArticle[0][loop.index0] == '<h3 class="a1">'~ title ~ '</h3>' %}
+        <p class="titreArticle1">{{title}}</p>
+    {% else %}
+        <p class="titreArticle2">{{title}}</p>
+    {% endif %}   
+{% endfor %}

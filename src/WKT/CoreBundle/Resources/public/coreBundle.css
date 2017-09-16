@@ -41,7 +41,7 @@ li{
 	padding: 10px;
 	border-radius: 5px;
 }
-.standardSection{
+.standardSection, .sectionLeaderboard{
 	max-width: 840px;
 	margin: 0 auto;
 }
@@ -135,6 +135,19 @@ hr{
 
 }
 
+.titreArticle1, .titreArticle2{
+	color: #3E4246;
+	font-size: 13px;
+	line-height: 18px;
+}
+
+.titreArticle1{
+	padding-left: 20px;
+}
+
+.titreArticle2{
+	padding-left: 40px;
+}
 
 /*HEADER*/
 header nav{
@@ -313,10 +326,19 @@ footer li{
 	width: 400px;
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 }
 
-.project{
-	display: flex;
+.imgIntroStatic{
+	min-width: 150px;
+}
+
+.sectionLeaderboard{
+	padding-top: 30px;
+}
+
+.hrLeaderboard{
+	margin-bottom: 55px;
 }
 
 /*SUMMARY*/
@@ -611,8 +633,8 @@ footer li{
 }
 	/*SHOW*/
 .imgProfile{
-	margin-top: 20px;
 	width: 140px;
+	margin-bottom: 20px;
 }
 
 .bodyLeftProfile h3{
@@ -666,6 +688,25 @@ footer li{
 .alertProfileModifier{
 	font-size: 14px;
 	line-height: 22px;
+}
+
+.remarqueProfileEdit{
+	margin-top: 15px;
+}
+
+.divFormEdit{
+	margin-bottom: 15px !important;
+}
+
+.imgProfileEdit{
+	margin-top: 50px;
+}
+
+.nameProfileEdit{
+	margin-bottom: 50px;
+	font-size: 22px;
+	font-weight: 600;
+	line-height: 30px;
 }
 
 /* Small devices (tablets, 768px and up) */

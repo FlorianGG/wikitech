@@ -1,7 +1,6 @@
 $( document ).ready(function() {
 	var idUrl = $('#links p span').last().attr('id');
 	var url = $('#links p span').last().attr('data-href');
-  console.log(url);
 	var $linkForm =  $('#linkForm');
   var lastLink = '';
 	$linkForm.submit(function(e){
@@ -21,6 +20,7 @@ $( document ).ready(function() {
 	  	    var newLink = '<p id="liWithId' + data['id'] + '"><a href="' + data['url'] + '"><i class=" logoLink ' + data['social']
            + '"></i> ' + data['name'] + ' : ' + data['title'] + '</a></p>';
 	  	    $('#links').append(newLink);
+          $('#noLink').remove();
           $('#wkt_userbundle_link_title').val('');
           $('#wkt_userbundle_link_url').val('');
   	    }       

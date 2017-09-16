@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>{@2x</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-size="19" font-family="OpenSans-Semibold, Open Sans" font-weight="500">
+        <g id="{" fill="#8C8C8C">
+            <text>
+                <tspan x="0.330810547" y="14">{</tspan>
+            </text>
+            <text id="}">
+                <tspan x="11.4746094" y="14">}</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

@@ -39,12 +39,15 @@ class ArticleController extends Controller
 			$articleIfValidate = null;
 		}
 		
+		//on récupère le sommaire de l'article
+		$summaryArticle = $this->container->get('wkt_platform.summary')->summaryArticle($article->getContent());
 
 		return $this->render('WKTPlatformBundle:Article:view.html.twig', array(
 			'article' => $article,
 			'idArticleModified' => $idArticleModified,
 			'articlePreviousAndFollowing' => $articlePreviousAndFollowing,
 			'articleIfValidate' => $articleIfValidate,
+			'summaryArticle' => $summaryArticle,
 			));
 	}
 }

@@ -28,7 +28,7 @@ class ContactType extends AbstractType
             ->add('body', TextareaType::class, array(
                 'label' => 'Contenu de l\'email'))
             ->add('Envoyer', SubmitType::class, array(
-                'attr' => array('class' => 'btn btn-success')));
+                'attr' => array('class' => 'btn btn-primary')));
     }
 
     /**

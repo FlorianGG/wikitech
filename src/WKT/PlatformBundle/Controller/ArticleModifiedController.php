@@ -32,11 +32,14 @@ class ArticleModifiedController extends Controller
 		//on récupère la liste des commits pour cet articleModified
 		$commits = $this->returnCommits($articleModified);
 
-
+		//on récupère le sommaire de l'article
+		$summaryArticle = $this->container->get('wkt_platform.summary')->summaryArticle($articleModified->getContent());
+		
 		return $this->render('WKTPlatformBundle:ArticleModified:view.html.twig', array(
 			'articleModified' => $articleModified,
 			'articlesModified' => $articlesModified,
 			'commits' => $commits,
+			'summaryArticle' =>$summaryArticle,
 			));
 	}
 
@@ -166,7 +169,8 @@ class ArticleModifiedController extends Controller
 		$form   = $this->get('form.factory')->create(ArticleModifiedType::class, $articleModified);
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-
+			//on corrige l'espace généré par tinyMCE dans content
+			$articleModified->setContent($this->deleteSpaceInContent($articleModified));
 			//On récupère les nouvelles valeurs d'articleModified
 			$new = $this->getValues($articleModified);
 
@@ -217,6 +221,8 @@ class ArticleModifiedController extends Controller
 		$form  = $this->get('form.factory')->create(ArticleModifiedType::class, $articleModified);
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+			//on corrige l'espace généré par tinyMCE dans content
+			$articleModified->setContent($this->deleteSpaceInContent($articleModified));
 			//On récupère les nouvelles valeurs d'articleModified
 			$new = $this->getValues($articleModified);
 
@@ -282,6 +288,8 @@ class ArticleModifiedController extends Controller
 		$form = $this->container->get('wkt_platform.generate_form')->generateFormArticleModified($articleModified, $id);
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+			//on corrige l'espace généré par tinyMCE dans content
+			$articleModified->setContent($this->deleteSpaceInContent($articleModified));
 			// on appelle le service qui s'occupe du score et la fonction qui va le générer
 
 			$score = $this->container->get('wkt_platform.score')->getScore($articleModified);
@@ -487,6 +495,12 @@ class ArticleModifiedController extends Controller
 		$em->persist($article);
 		$em->flush();
 
+	}
+
+	private function deleteSpaceInContent(ArticleModified $articleModified){
+		$content = $articleModified->getContent();
+		$pattern = '/&nbsp;/';
+		return preg_replace($pattern, null, $content);
 	}
 
 }

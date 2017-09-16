@@ -1,0 +1,61 @@
+.mce-btn i, .mce-menubtn span{
+	color: #8c8c8c !important;
+}
+
+.mce-container-body, .mce-panel, .mce-panel button{
+	background-color: #F6F9FA !important;
+	border: 1px solid #F6F9FA !important;
+}
+
+
+.mce-open{
+	display: none;
+}
+
+.mce-caret{
+	border-top-color: #8c8c8c !important;
+}
+.accolade{
+	font-family: "Open Sans";
+	color: #FFD700;
+	font-weight: bold;
+	font-size: 16px;
+	line-height: 22px;
+}
+
+
+.remarque{
+	border-radius: 8px;
+	background-color: #F6F9FA;
+	padding: 20px;
+}
+
+.mce-widget button, .mce-btn button{
+	color: #8c8c8c !important;
+}
+
+.mce-widget{
+	border: 0 !important;
+	box-shadow: 0 !important;
+}
+
+.remarqueOblique{
+	color: #007AFF;
+	font-weight: bold;
+}
+
+.a1{
+	text-align: left;
+	font-family: "Open Sans";
+	font-size: 19px;
+	font-weight: bold;
+	line-height: 26px;
+}
+
+.a2{
+	text-align: left;
+	font-family: "Open Sans";
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 22px;
+}

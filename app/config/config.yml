@@ -109,16 +109,37 @@ assetic:
             formatter: 'Leafo\ScssPhp\Formatter\Compressed'
 
 stfalcon_tinymce:
+    tinymce_buttons:
+        titre1: # Id of the first button
+            title: "Titre 1"
+            image: "asset[images/icones/a1.svg]"
+        titre2: # Id of the first button
+            title: "Titre 2"
+            image: "asset[images/icones/a2.svg]"
+        titreX: # Id of the first button
+            title: "Paragraphe"
+            image: "asset[images/icones/ax.svg]"
+        accolade: # Id of the first button
+            title: "Important"
+            image: "asset[images/icones/{}.svg]"
+        comment: # Id of the first button
+            title: "Remarque"
+            image: "asset[images/icones/|R.svg]"
+
     theme:
         # Simple theme: same as default theme
-        simple: 
+        simple:
+            content_css: "asset[bundles/wktcore/tinymce-content.css]"
             height: 200
             relative_urls: false
+            menubar: false
             forced_root_block: false
             force_p_newlines : true
+            force_br_newlines : false
             plugins:
                 - "advlist autolink lists link image charmap print preview hr anchor pagebreak"
                 - "searchreplace wordcount visualblocks visualchars code fullscreen"
                 - "insertdatetime media nonbreaking save table contextmenu directionality"
                 - "emoticons template paste textcolor jbimages"
-            toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link jbimages | forecolor emoticons | code preview"           
+            toolbar1: "titre1 titre2 titreX accolade insertfile bullist numlist comment jbimages emoticons preview"
+

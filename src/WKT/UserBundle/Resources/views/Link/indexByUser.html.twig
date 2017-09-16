@@ -1,8 +1,8 @@
 {% if links is empty %}
-	<p class="text-center"><small><em>Aucun lien ajouté</em></small></p>
+	<p id="noLink" class="text-center"><small><em>Aucun lien ajouté</em></small></p>
 {% else %}
    {% for link in links %}
 
-       <p><a href="{{link.url}}"><i class="logoLink {{link.social.logo}}"></i>  {{link.social.name}} :  {{link.title}}</a> <span data-href="{{path('wkt_user_link_delete', {'id': link.id})}}" style="display: none; background-color: #D9534F;" id="{{link.id}}" class="trash-link badge btn"><i class="fa fa-trash-o" aria-hidden="true"></i></span><p>
+       <p id="liWithId{{link.id}}"><a href="{{link.url}}"><i class="logoLink {{link.social.logo}}"></i>  {{link.social.name}} :  {{link.title}}</a> <span data-href="{{path('wkt_user_link_delete', {'id': link.id})}}" style="display: none; background-color: #D9534F;" id="{{link.id}}" class="trash-link badge btn"><i class="fa fa-trash-o" aria-hidden="true"></i></span><p>
    {% endfor %}
 {% endif %}

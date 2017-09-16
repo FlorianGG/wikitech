@@ -1,112 +1,168 @@
 {% extends 'WKTCoreBundle::layout.html.twig' %}
 {% block body %}
-	<div class="row">
-		{% block fos_user_content %}
-			{% trans_default_domain 'FOSUserBundle' %}
-			{{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
-		    <div class="col-xs-12 col-sm-4 col-md-3">
-		    	{% if app.user.image is not empty %}
-	    			<p class="text-center"><img class="img-circle imgProfile" src="{{ asset(app.user.image.webPath) }}" alt="{{ app.user.image.alt }}"></p>  
-	    		{% else %}
-	    			<p class="text-center"><img class="imgProfile img-circle" src="{{ asset('images/icones/emptyPicture.svg') }}" alt="User sans photo de profil"></p>
-	    		{% endif %}
-				<div class="alert alert-warning" role="alert">
-					<p class="text-center alertProfileModifier">Pour un soucis de qualité, préférer une image <strong>carrée</strong> avec une taille <strong>minimale de 140 x 140px</strong></p>
-				</div>
-				 	{{ form_errors(form.image) }}
-				 	{{ form_widget(form.image.file, {'attr': {'class': 'form-control'}}) }}
-				 	<p class="help-block"><small><em>Formats autorisés : PNG/JPEG/JPG/GIF</em></small></p>
-				 	<p class="help-block"><small><em>Limite 20 Mo</em></small></p>
-				<div class="row">
-					<div class="col-xs-6">
-					  	{{ form_errors(form.firstname) }}
-					  	{{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
-					</div>
-					<div class="col-xs-6">
-					  	{{ form_errors(form.lastname) }}
-					    {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
-					</div>
-					<br>
-					<br>
-					<div class="col-xs-12">
-						{{ form_errors(form.additionalName) }}
-					  	{{ form_widget(form.additionalName, {'attr': {'class': 'form-control'}}) }}
-					</div>
-					<br>
-					<br>
+	{% block fos_user_content %}
+		{% trans_default_domain 'FOSUserBundle' %}
+		{{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+		<div class="col-xs-12">
+	    	{% if app.user.image is not empty %}
+				<p class="text-center"><img class="img-circle imgProfile imgProfileEdit" src="{{ asset(app.user.image.webPath) }}" alt="{{ app.user.image.alt }}"></p>  
+			{% else %}
+				<p class="text-center"><img class="imgProfile img-circle imgProfileEdit" src="{{ asset('images/icones/emptyPicture.svg') }}" alt="User sans photo de profil"></p>
+			{% endif %}
+			<h3 class="nameProfileEdit text-center">{{ app.user.firstname }} {{ app.user.lastname }} {% if app.user.additionalName is not empty %} {{ app.user.additionalName }} {% endif %}</h3>
+			<hr>
 
-					<div class="col-xs-12">
-						{{ form_errors(form.biography, {'attr': {'class': 'alert alert-danger'}}) }}
-					    {{ form_widget(form.biography, {'attr': {'class': 'form-control', 'placeholder': 'Un bref résumé de vous'}}) }}
-					</div>
-				</div>
-				<br>
-			    <a class="btn btn-default col-xs-12" href="{{path('fos_user_change_password')}}">Modifier votre mot de passe</a>
-			</div>
-			<div class="col-xs-12 col-sm-8 col-md-9 bodyRightEditProfile">
-				<div class="row">
-				    <section class="articleSection">
-				        <div class="col-xs-12">
-				            <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/info.svg') }}"> Mes informations</h2>
-				        </div>
-				        <div class="col-xs-12 ">
-				        	<p><img class="imgLinkProfile" src="{{ asset('images/icones/email.svg') }}"> Adresse email : </p>
-				        	{{ form_errors(form.email) }}
-				        	{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-							{{ form_row(form.emailHidden) }}
-							<hr>
-							<p><img class="imgLinkProfile" src="{{ asset('images/icones/search.svg') }}"> Entreprise actuelle : </p>
-							{{ form_errors(form.company) }}
-							{{ form_widget(form.company, {'attr': {'class': 'form-control'}}) }}
-							<hr>
-							<p><img class="imgLinkProfile" src="{{ asset('images/icones/localisation.svg') }}"> Localisation : </p>
-							<div id="locationField">
-							     <input id="autocomplete" class="form-control" placeholder="Entrez votre ville de résidence"
-							            onFocus="geolocate()" type="text"></input>
-							</div>
-			        	  	<div class="form-group">
-			        	  		<label class="control-label titleFormGoogle" for="fos_user_profile_form_locality">Ville de résidence</label> <span class="butonResetField badge btn"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
-			        	  		{{ form_errors(form.locality) }}
-			        	  		{{ form_widget(form.locality, {'id':'locality', 'attr': {'class': 'form-control'}}) }}
-			        	  	</div>
-			        	  	<div class="form-group">
-			        	  		<label class="control-label titleFormGoogle" for="fos_user_profile_form_COUNTRY">Pays de résidence</label> <span class="butonResetField badge btn"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
-			        	  		{{ form_errors(form.country) }}
-			        	  		{{ form_widget(form.country, {'id':'country', 'attr': {'class': 'form-control'}}) }}
-			        	  	</div>
-				        </div>
-				    </section>
-				</div>
-				{{ form_rest(form) }}
-				{{ form_end(form) }}
-				<div class="row">
-				    <section class="articleSection">
-				        <div class="col-xs-12">
-				        	<hr>
-				            <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/link.svg') }}"> Mes liens</h2>
-				        </div>
-				        <div id="links" class="col-xs-12">
-				        	{% include 'WKTUserBundle:Link:indexByUser.html.twig'%}
-				        </div>
-						<div class="col-xs-12">
-							<button id="addLink" class="btn btn-link" type="button">Ajouter un lien</button>
-							<form id="linkForm" action="{{ path('wkt_user_link_add')}}" method="post" class="form-inline">
-								{{ render(controller("WKTUserBundle:Link:add")) }}
-							</form>
+		    <section class="">
+		    	<div class="row">
+		    		<div class="col-xs-12">
+		    		    <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/profilPink.svg') }}"> Mon Profil</h2>
+		    		</div>
+		    	</div>
+		    	<div class="row">
+		    		<div class="col-xs-12 col-sm-3 col-md-2">
+		    			<p>Image : </p>
+		    		</div>
+		    		<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+		    			{{ form_errors(form.image) }}
+		    			{{ form_widget(form.image.file, {'attr': {'class': 'form-control'}}) }}
+		    			<div class='remarque remarqueProfileEdit'>
+		    				<p class='paragrapheTinymce'><span class='remarqueOblique'>|</span> Remarque : Par souci de qualité, préférez une image carré de taille minimale de 140 x 140 px.</p>
+		    				<p class='paragrapheTinymce'>Taille maximale : 20Mo Formats acceptés : gif, jpeg, jpg, png</p>
+		    				<p class='paragrapheTinymce'>Formats acceptés : gif, jpeg, jpg, png</p>
+		    			</div>
+		    		</div>
+		    	</div>
+		    	<div class="row">
+		    		<div class="col-xs-12 col-sm-3 col-md-2">
+		    			<p>Adresse mail : </p>
+		    		</div>
+		    		<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+		    			<input class="form-control" type="text" readonly="readonly" value="{{app.user.email}}">
+		    			<div class='remarque remarqueProfileEdit'>
+		    				<p class='paragrapheTinymce'><span class='remarqueOblique'>|</span> Remarque : L’adresse mail ne peut pas être changée pour l’instant. Nous travaillons sur ce problème.</p>
+		    			</div>
+		    		</div>
+		    	</div>
+		    	<div class="row">
+	    			<div class="col-xs-12 col-sm-3 col-md-2">
+	    				<p>Prénom : </p>
+	    			</div>
+	    			<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+	    				{{ form_errors(form.firstname) }}
+	    		  		{{ form_widget(form.firstname, {'attr': {'class': 'form-control', 'placeholder': 'Exemple : John'}}) }}
+	    			</div>
+		    	</div>
+		    	<div class="row">
+	    			<div class="col-xs-12 col-sm-3 col-md-2">
+	    				<p>Nom : </p>
+	    			</div>
+	    			<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+	    				{{ form_errors(form.lastname) }}
+	    		  		{{ form_widget(form.lastname, {'attr': {'class': 'form-control', 'placeholder': 'Exemple : Doe'}}) }}
+	    			</div>
+		    	</div>
+		    	<div class="row">
+		    		<div class="col-xs-12 col-sm-3 col-md-2">
+		    			<p>Complément : </p>
+		    		</div>
+		    		<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+	    				{{ form_errors(form.additionalName) }}
+	    			  	{{ form_widget(form.additionalName, {'attr': {'class': 'form-control', 'placeholder': 'Exemple : Chevalier au Pancréas'}}) }}
+		    		</div>
+		    	</div>
+		    	<div class="row">
+		    		<div class="col-xs-12 col-sm-3 col-md-2">
+		    			<p>Bio : </p>
+		    		</div>
+		    		<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+		    			{{ form_errors(form.biography, {'attr': {'class': 'alert alert-danger'}}) }}
+		    		    {{ form_widget(form.biography, {'attr': {'class': 'form-control', 'placeholder': 'Une description de vous'}}) }}
+		    		</div>
+		    	</div>
+		    	<div class="row">
+		    		<div class="col-xs-12 col-sm-3 col-md-2">
+		    			<p>Mot de passe : </p>
+		    		</div>
+		    		<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+		    			<a class="btn btn-default col-xs-12" href="{{path('fos_user_change_password')}}">Modifier votre mot de passe</a>
+		    		</div>
+		    	</div>
+		    </section>
+		    <section class="">
+		    	<div class="row">
+		    		<div class="col-xs-12">
+		    			<hr>
+		    		    <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/info.svg') }}"> Mes informations</h2>
+		    		</div>
+		    	</div>
+		    	<div class="row">
+		        	<div class="col-xs-12 col-sm-3 col-md-2">
+		        		<p><img class="imgLinkProfile" src="{{ asset('images/icones/email.svg') }}"> Adresse email : </p>
+		        	</div>
+		        	<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+			        	{{ form_errors(form.email) }}
+			        	{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+						{{ form_row(form.emailHidden) }}
+		        	</div>
+		    	</div>
+		    	<div class="row">
+		        	<div class="col-xs-12 col-sm-3 col-md-2">
+		        		<p><img class="imgLinkProfile" src="{{ asset('images/icones/company.svg') }}"> Entreprise actuelle : </p>
+		        	</div>
+		        	<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+			        	{{ form_errors(form.company) }}
+			        	{{ form_widget(form.company, {'attr': {'class': 'form-control', 'placeholder': 'Exemple : Weyland Corporation'}}) }}
+		        	</div>
+		    	</div>
+		    	<div class="row">
+		        	<div class="col-xs-12 col-sm-3 col-md-2">
+		        		<p><img class="imgLinkProfile" src="{{ asset('images/icones/localisation.svg') }}"> Localisation : </p>
+		        	</div>
+		        	<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+						<div id="locationField">
+						     <input id="autocomplete" class="form-control" placeholder="Entrez votre ville de résidence"
+						            onFocus="geolocate()" type="text"></input>
 						</div>
-				        <div class="col-xs-12">
-				        	<hr>
-				        	<input class="btn btn-success" type="submit" value="{{ 'profile.edit.submit'|trans }}" />
-				        </div>
-				    </section>
+		        	  	<div class="form-group">
+		        	  		<label class="control-label titleFormGoogle" for="fos_user_profile_form_locality">Ville de résidence</label> <span class="butonResetField badge btn"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+		        	  		{{ form_errors(form.locality) }}
+		        	  		{{ form_widget(form.locality, {'id':'locality', 'attr': {'class': 'form-control'}}) }}
+		        	  	</div>
+		        	  	<div class="form-group">
+		        	  		<label class="control-label titleFormGoogle" for="fos_user_profile_form_COUNTRY">Pays de résidence</label> <span class="butonResetField badge btn"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+		        	  		{{ form_errors(form.country) }}
+		        	  		{{ form_widget(form.country, {'id':'country', 'attr': {'class': 'form-control'}}) }}
+		        	  	</div>
+		        	</div>
+		    	</div>
+		    </section>
+			{{ form_rest(form) }}
+			{{ form_end(form) }}
+		    <section class="">
+		    	<div class="row">
+		    		<div class="col-xs-12">
+		    			<hr>
+		    		    <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/link.svg') }}"> Mes liens</h2>
+		    		</div>
+		    	</div>
+				<div class="row">
+			        <div id="links" class="col-xs-12">
+			        	{% include 'WKTUserBundle:Link:indexByUser.html.twig'%}
+			        </div>
+					<div class="col-xs-12">
+						<button id="addLink" class="btn btn-link" type="button">Ajouter un lien</button>
+						<form id="linkForm" action="{{ path('wkt_user_link_add')}}" method="post" class="form-inline">
+							{{ render(controller("WKTUserBundle:Link:add")) }}
+						</form>
+					</div>
 				</div>
-			</div>
+		    </section>
+			<hr>
+			<input class="btn btn-success col-xs-12" type="submit" value="{{ 'profile.edit.submit'|trans }}" />
+		</div>
 
-
-
-		{% endblock fos_user_content %}
-	</div>
-	
+				
+	{% endblock fos_user_content %}
 {% endblock %}
 
 {% block javascripts %}

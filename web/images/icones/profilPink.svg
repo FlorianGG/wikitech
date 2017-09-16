@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon profil@2x</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="12" cy="12" r="12"></circle>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Profil---Modif" transform="translate(-27.000000, -367.000000)">
+            <g id="Mon-profil" transform="translate(27.000000, 363.000000)">
+                <g id="Icon-profil" transform="translate(0.000000, 4.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <circle stroke="#FF2D55" stroke-width="2" cx="12" cy="12" r="11"></circle>
+                    <circle id="Oval" stroke="#FF2D55" stroke-width="2" mask="url(#mask-2)" cx="12" cy="9" r="4"></circle>
+                    <ellipse id="Oval" stroke="#FF2D55" stroke-width="2" mask="url(#mask-2)" cx="12" cy="22" rx="7" ry="6"></ellipse>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

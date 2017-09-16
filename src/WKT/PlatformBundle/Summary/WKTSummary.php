@@ -114,4 +114,12 @@ class WKTSummary
 
 	}
 
+	public function summaryArticle(string $subject)
+	{
+		
+		$pattern = '/<h[34] class="a[12]">(.+)<\/h[34]>/';
+		preg_match_all($pattern, $subject, $matches);
+		return $matches;
+	}
+
 }

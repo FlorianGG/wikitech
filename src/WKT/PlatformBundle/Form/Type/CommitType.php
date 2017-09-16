@@ -18,7 +18,8 @@ class CommitType extends AbstractType
     {
         $builder
             ->add('content', TextareaType::class, array(
-                'attr' => array('rows' => '4')))
+                'attr' => array('rows' => '4'),
+                'required' => false,))
             ->add('typeOfModification', EntityType::class, array(
                 'class' => 'WKTPlatformBundle:TypeOfModification',
                 'choice_label' => 'type',

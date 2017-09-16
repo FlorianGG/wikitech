@@ -1,13 +1,26 @@
 {# src/WKT/CoreBundle/Resources/views/Contact/contact.html.twig #}
 
 {% extends 'WKTCoreBundle:Core:layout.html.twig' %}
-{% block bodyRight %}
-  <div class="jumbotron">
-    <h1>Contact</h1> 
-  </div>
-  <div class="well">
-      {{form(form)}}
-  </div>
-  
-  
+{% block body %}
+	<div class="blocProfile">
+		<div class="row">
+		    <section class="standardSection">
+		        <div class="blocIntroProfile">
+		            <img class="img-responsive" src="{{asset('images/icones/wikitechHome.svg')}}" alt="Wikitech">
+		        </div>
+		    </section>
+		</div>
+		<div class="row">
+		    <section class="standardSection">
+		    	<div class="col-xs-12">
+		    		<hr>
+		    		<h2 class=""><img class="imgLink" src="{{ asset('images/icones/email.svg') }}"> Nous contacter</h2>
+		    	</div>
+
+		        <div class="col-xs-12">
+		        	{{form(form)}}
+		        </div> 
+		    </section>
+		</div> 
+	</div>	
 {% endblock %}

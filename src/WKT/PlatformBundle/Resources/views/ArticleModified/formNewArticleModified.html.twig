@@ -8,7 +8,7 @@
     <div id="formGroupPart" class="row">
         <section class="articleSection">
             <div class="col-xs-12">
-                <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/title.svg') }}"> Partie choisie</h2>
+                <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/part.svg') }}"> Partie choisie</h2>
                 {{ form_errors(form.part) }}
                 {{ form_widget(form.part, {'attr': {'class': 'form-control', 'style': 'display:none;'}}) }}
                 <input id="inputPartReadOnly" class="form-control" type="text" placeholder="{% if articleEdit is defined %} {{articleEdit.part.title }}{% endif %}" readonly>

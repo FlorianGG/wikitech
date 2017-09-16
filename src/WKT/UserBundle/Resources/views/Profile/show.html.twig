@@ -3,6 +3,7 @@
 {% block fos_user_content %}
 	    <div class="bodyLeft bodyLeftProfile">
 	    	<div class="col-xs-12">
+	    		 <h2 class="text-center"><img class="imgLink" src="{{ asset('images/icones/profilPink.svg') }}"> Mon Profil</h2>
 	    		{% if app.user.image is not empty %}
 	    			<p class="text-center"><img class="img-circle imgProfile" src="{{ asset(app.user.image.webPath) }}" alt="{{ app.user.image.alt }}"></p>  
 	    		{% else %}
@@ -72,7 +73,7 @@
 	    	        		{{ user.country }}
 	    	        	</p>
 	    	            <p><img class="imgLinkProfile" src="{{ asset('images/icones/email.svg') }}"> Adresse email : {{ user.email }}</p>
-	    	            <p><img class="imgLinkProfile" src="{{ asset('images/icones/search.svg') }}"> Entreprise actuelle : {{ user.company }}</p>
+	    	            <p><img class="imgLinkProfile" src="{{ asset('images/icones/company.svg') }}"> Entreprise actuelle : {{ user.company }}</p>
 	    	        </div>
 	    	    </section>
 	    	</div>
