@@ -49,7 +49,7 @@
                             {% else %}
                                 <img class="imgTop img-circle" src="{{ asset('images/icones/emptyPicture.svg') }}" alt="User sans photo de profil">
                             {% endif %}
-                            <a class="linkProfile" href="{{path('wkt_user_view_profile', {'id': commit.user.id})}}">{{commit.user.firstname}} {{commit.user.lastname}}</a>  - {{commit.user.nbPoint}} points
+                            <a class="linkProfile" href="{{path('wkt_user_view_profile', {'id': commit.user.id})}}">{{commit.user.firstname}} {{commit.user.lastname}}</a>  - {{commit.score}} points
                         </p>
                     {% endfor %}
                 {% endif %}

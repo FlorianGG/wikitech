@@ -4,10 +4,13 @@
 {% block bodyLeft %}
     {% set currentArticleModified = app.request.attributes.get('_route_params')['id'] %}
     <div class="listArticlesModified">
+        <p class="text-center">Travailler à partir de l'article de base</p>
+        <a class="center-block btn btn-success" href="{{ path('wkt_platform_article_modified_add', {'id': articleModified.article.id}) }}">Article initial</a>
+        <hr>
         {% if articlesModified is empty %}
             <p class="text-center">Il n'existe encore aucune modification pour cet article</p>
         {% else %}
-             <p class="text-center">Choisissez la version sur laquelle vous préférez travailler :</p>
+             <p class="text-center">Ou choisissez la version sur laquelle vous préférez travailler :</p>
 
              {% for articleModified in articlesModified %}
                  <a class="center-block btn {% if currentArticleModified == articleModified.id %}btn-primary {% else %}
@@ -15,8 +18,7 @@
              {% endfor %}
         {% endif %}
         <hr>
-        <p class="text-center">Vous pouvez également créer une nouvelle version</p>
-        <a class="center-block btn btn-success" href="{{ path('wkt_platform_article_modified_add', {'id': articleModified.article.id}) }}">Nouvelle version</a>
+
     </div>
     {% include('WKTPlatformBundle:ArticleModified:buttonAdd.html.twig') %}
 {% endblock %}

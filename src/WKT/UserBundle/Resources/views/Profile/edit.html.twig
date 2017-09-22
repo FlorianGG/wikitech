@@ -3,7 +3,7 @@
 	{% block fos_user_content %}
 		{% trans_default_domain 'FOSUserBundle' %}
 		{{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
-		<div class="col-xs-12">
+		<div class="col-xs-12 col-xs-offset-0 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
 	    	{% if app.user.image is not empty %}
 				<p class="text-center"><img class="img-circle imgProfile imgProfileEdit" src="{{ asset(app.user.image.webPath) }}" alt="{{ app.user.image.alt }}"></p>  
 			{% else %}
@@ -19,10 +19,10 @@
 		    		</div>
 		    	</div>
 		    	<div class="row">
-		    		<div class="col-xs-12 col-sm-3 col-md-2">
+		    		<div class="col-xs-12 col-sm-4 col-md-3">
 		    			<p>Image : </p>
 		    		</div>
-		    		<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+		    		<div class="col-xs-12 col-sm-8 col-md-9 divFormEdit">
 		    			{{ form_errors(form.image) }}
 		    			{{ form_widget(form.image.file, {'attr': {'class': 'form-control'}}) }}
 		    			<div class='remarque remarqueProfileEdit'>
@@ -33,10 +33,10 @@
 		    		</div>
 		    	</div>
 		    	<div class="row">
-		    		<div class="col-xs-12 col-sm-3 col-md-2">
+		    		<div class="col-xs-12 col-sm-4 col-md-3">
 		    			<p>Adresse mail : </p>
 		    		</div>
-		    		<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+		    		<div class="col-xs-12 col-sm-8 col-md-9 divFormEdit">
 		    			<input class="form-control" type="text" readonly="readonly" value="{{app.user.email}}">
 		    			<div class='remarque remarqueProfileEdit'>
 		    				<p class='paragrapheTinymce'><span class='remarqueOblique'>|</span> Remarque : L’adresse mail ne peut pas être changée pour l’instant. Nous travaillons sur ce problème.</p>
@@ -44,46 +44,46 @@
 		    		</div>
 		    	</div>
 		    	<div class="row">
-	    			<div class="col-xs-12 col-sm-3 col-md-2">
+	    			<div class="col-xs-12 col-sm-4 col-md-3">
 	    				<p>Prénom : </p>
 	    			</div>
-	    			<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+	    			<div class="col-xs-12 col-sm-8 col-md-9 divFormEdit">
 	    				{{ form_errors(form.firstname) }}
 	    		  		{{ form_widget(form.firstname, {'attr': {'class': 'form-control', 'placeholder': 'Exemple : John'}}) }}
 	    			</div>
 		    	</div>
 		    	<div class="row">
-	    			<div class="col-xs-12 col-sm-3 col-md-2">
+	    			<div class="col-xs-12 col-sm-4 col-md-3">
 	    				<p>Nom : </p>
 	    			</div>
-	    			<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+	    			<div class="col-xs-12 col-sm-8 col-md-9 divFormEdit">
 	    				{{ form_errors(form.lastname) }}
 	    		  		{{ form_widget(form.lastname, {'attr': {'class': 'form-control', 'placeholder': 'Exemple : Doe'}}) }}
 	    			</div>
 		    	</div>
 		    	<div class="row">
-		    		<div class="col-xs-12 col-sm-3 col-md-2">
+		    		<div class="col-xs-12 col-sm-4 col-md-3">
 		    			<p>Complément : </p>
 		    		</div>
-		    		<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+		    		<div class="col-xs-12 col-sm-8 col-md-9 divFormEdit">
 	    				{{ form_errors(form.additionalName) }}
 	    			  	{{ form_widget(form.additionalName, {'attr': {'class': 'form-control', 'placeholder': 'Exemple : Chevalier au Pancréas'}}) }}
 		    		</div>
 		    	</div>
 		    	<div class="row">
-		    		<div class="col-xs-12 col-sm-3 col-md-2">
+		    		<div class="col-xs-12 col-sm-4 col-md-3">
 		    			<p>Bio : </p>
 		    		</div>
-		    		<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+		    		<div class="col-xs-12 col-sm-8 col-md-9 divFormEdit">
 		    			{{ form_errors(form.biography, {'attr': {'class': 'alert alert-danger'}}) }}
 		    		    {{ form_widget(form.biography, {'attr': {'class': 'form-control', 'placeholder': 'Une description de vous'}}) }}
 		    		</div>
 		    	</div>
 		    	<div class="row">
-		    		<div class="col-xs-12 col-sm-3 col-md-2">
+		    		<div class="col-xs-12 col-sm-4 col-md-3">
 		    			<p>Mot de passe : </p>
 		    		</div>
-		    		<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+		    		<div class="col-xs-12 col-sm-8 col-md-9 divFormEdit">
 		    			<a class="btn btn-default col-xs-12" href="{{path('fos_user_change_password')}}">Modifier votre mot de passe</a>
 		    		</div>
 		    	</div>
@@ -96,29 +96,29 @@
 		    		</div>
 		    	</div>
 		    	<div class="row">
-		        	<div class="col-xs-12 col-sm-3 col-md-2">
+		        	<div class="col-xs-12 col-sm-4 col-md-3">
 		        		<p><img class="imgLinkProfile" src="{{ asset('images/icones/email.svg') }}"> Adresse email : </p>
 		        	</div>
-		        	<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+		        	<div class="col-xs-12 col-sm-8 col-md-9 divFormEdit">
 			        	{{ form_errors(form.email) }}
 			        	{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
 						{{ form_row(form.emailHidden) }}
 		        	</div>
 		    	</div>
 		    	<div class="row">
-		        	<div class="col-xs-12 col-sm-3 col-md-2">
+		        	<div class="col-xs-12 col-sm-4 col-md-3">
 		        		<p><img class="imgLinkProfile" src="{{ asset('images/icones/company.svg') }}"> Entreprise actuelle : </p>
 		        	</div>
-		        	<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+		        	<div class="col-xs-12 col-sm-8 col-md-9 divFormEdit">
 			        	{{ form_errors(form.company) }}
 			        	{{ form_widget(form.company, {'attr': {'class': 'form-control', 'placeholder': 'Exemple : Weyland Corporation'}}) }}
 		        	</div>
 		    	</div>
 		    	<div class="row">
-		        	<div class="col-xs-12 col-sm-3 col-md-2">
+		        	<div class="col-xs-12 col-sm-4 col-md-3">
 		        		<p><img class="imgLinkProfile" src="{{ asset('images/icones/localisation.svg') }}"> Localisation : </p>
 		        	</div>
-		        	<div class="col-xs-12 col-sm-9 col-md-10 divFormEdit">
+		        	<div class="col-xs-12 col-sm-8 col-md-9 divFormEdit">
 						<div id="locationField">
 						     <input id="autocomplete" class="form-control" placeholder="Entrez votre ville de résidence"
 						            onFocus="geolocate()" type="text"></input>

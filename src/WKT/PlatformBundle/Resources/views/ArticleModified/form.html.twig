@@ -25,18 +25,6 @@
             </div>
         </section>
     </div>
-    <div id="en_Detail" class="row">
-        <section class="articleSection">
-            <div class="col-xs-12">
-                <hr>
-                <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/detail.svg') }}"> En detail</h2>
-            </div>
-
-            <div class="col-xs-12 ">
-                {% block formContent %}{% endblock %}
-            </div>
-        </section>
-    </div>
     <div id="en_Video" class="row">
         <section class="articleSection">
             <div class="col-xs-12">
@@ -75,6 +63,18 @@
         <div style="display: none;" id="alertVideo" class="alert alert-danger">
             <p class="text-center">Merci d'ajouter une url valide et un nom d'auteur pour chaque vidéo</p>
         </div>
+    </div>
+    <div id="en_Detail" class="row">
+        <section class="articleSection">
+            <div class="col-xs-12">
+                <hr>
+                <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/detail.svg') }}"> En detail</h2>
+            </div>
+
+            <div class="col-xs-12 ">
+                {% block formContent %}{% endblock %}
+            </div>
+        </section>
     </div>
     <div class="row">
         <section class="articleSection">

@@ -36,29 +36,7 @@
             </div>
 
             <div class="col-xs-12 ">
-                  {{ article.introduction}}
-            </div>
-        </section>
-    </div>
-    <div id="en_Detail" class="row">
-        <section class="articleSection">
-            <div class="col-xs-12">
-                <hr>
-                <div class="col-xs-8 withoutPadding">
-                    <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/detail.svg') }}"> En detail</h2>
-                </div>
-                <div class=" col-xs-4 ">
-                    {% if article.isModifying %}
-                        <button type="button" class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyDetail" data-toggle="modal" data-target="#isModifying">
-                          Modifier</button>
-                    {% else %}
-                        <a class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyDetail" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#en_Detail">Modifier</a>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="col-xs-12 ">
-                  {{ article.content|raw}}
+                  {{ article.introduction|raw}}}
             </div>
         </section>
     </div>
@@ -80,16 +58,37 @@
             </div>
 
             <div class="col-xs-12 ">
-                    {% if article.video.url is not defined %}
-                        <div class="buttonLinkArticle">
-                            <p class="noVideo">Aucune vidéo n'est enregistrée sur cet article</p> 
-                        </div>
+                {% if article.video.url is not defined %}
+                    <div class="buttonLinkArticle">
+                        <p class="noVideo">Aucune vidéo n'est enregistrée sur cet article</p> 
+                    </div>
+                {% else %}
+                    <div class="embed-responsive embed-responsive-16by9">
+                      <iframe class="embed-responsive-item" allowfullscreen src="https://www.youtube.com/embed/{{ article.video.url}}"></iframe>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+    <div id="en_Detail" class="row">
+        <section class="articleSection">
+            <div class="col-xs-12">
+                <hr>
+                <div class="col-xs-8 withoutPadding">
+                    <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/detail.svg') }}"> En detail</h2>
+                </div>
+                <div class=" col-xs-4 ">
+                    {% if article.isModifying %}
+                        <button type="button" class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyDetail" data-toggle="modal" data-target="#isModifying">
+                          Modifier</button>
                     {% else %}
-                        <div class="embed-responsive embed-responsive-16by9">
-                          <iframe class="embed-responsive-item" allowfullscreen src="https://www.youtube.com/embed/{{ article.video.url}}"></iframe>
-                        </div>
-                        <p><strong>Crée par : </strong>{{article.video.author}}</p>
+                        <a class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyDetail" href="{{ path('wkt_platform_article_modified_add', {'id': article.id}) }}#en_Detail">Modifier</a>
                     {% endif %}
+                </div>
+            </div>
+
+            <div class="col-xs-12 contentArticle">
+                  {{ article.content|raw}}
             </div>
         </section>
     </div>

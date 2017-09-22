@@ -347,8 +347,8 @@ class ArticleModifiedController extends Controller
 	//factorisation de la fonction qui récupère tous les articlesModified d'un article
 	private function returnArticlesModifiedArray(ArticleModified $articleModified)
 	{
-		//On récupère la liste des articlesModified pour cet article
-		if (!is_null($articleModified->getArticle())) {
+		//On récupère la liste des articlesModified pour cet article seulement si l'article a un statut isModifying
+		if (!is_null($articleModified->getArticle()) && $articleModified->getArticle()->getIsModifying()) {
 			return $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:ArticleModified')->getArticlesModifiedNotRejectedByArticle($articleModified->getArticle());
 		}
 		

@@ -58,16 +58,17 @@ class Video
      */
     public function setUrl($url)
     {
-        if (strpos( $url,"v=") !== false)
-        {
+        if (strpos( $url,"v=") !== false){
             $key =  substr($url, strpos($url, "v=") + 2, 11);
             $this->url = $key;
-        }
-        elseif(strpos( $url,"embed/") !== false)
-        {
+        }elseif(strpos( $url,"embed/") !== false){
             $key = substr($url, strpos($url, "embed/") + 6, 11);
             $this->url = $key;
+        }elseif (strpos($url,"youtu.be/") !== false) {
+            $key = substr($url, strpos($url, "youtu.be/") + 9, 11);
+            $this->url = $key;
         }
+
 
         return $this;
     }
@@ -120,10 +121,16 @@ class Video
               ->addViolation(); // ceci déclenche l'erreur
         }elseif (strpos( $this->getUrl(),"embed/") !== false) {
             // La règle est violée, on définit l'erreur
-                        $context
-                          ->buildViolation('L\'url enregistrée, n\'est pas une url Youtube valide 😱' ) // message
-                          ->atPath('url')  // attribut de l'objet qui est violé
-                          ->addViolation(); // ceci déclenche l'erreur
+            $context
+              ->buildViolation('L\'url enregistrée, n\'est pas une url Youtube valide 😱' ) // message
+              ->atPath('url')  // attribut de l'objet qui est violé
+              ->addViolation(); // ceci déclenche l'erreur
+        }elseif (strpos($this->getUrl(),"youtu.be/") !== false) {
+            // La règle est violée, on définit l'erreur
+            $context
+              ->buildViolation('L\'url enregistrée, n\'est pas une url Youtube valide 😱' ) // message
+              ->atPath('url')  // attribut de l'objet qui est violé
+              ->addViolation(); // ceci déclenche l'erreur
         }
 
         if (is_null($this->getUrl()) && !is_null($this->getAuthor())) {

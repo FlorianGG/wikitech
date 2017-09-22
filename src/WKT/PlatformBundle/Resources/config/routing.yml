@@ -54,6 +54,13 @@ wkt_platform_part_delete_without_article:
     defaults:
         _controller: WKTPlatformBundle:Part:deletePartWithoutArticle
 
+wkt_platform_part_edit:
+    path: /admin/part/edit/{id}
+    defaults:
+        _controller: WKTPlatformBundle:Part:edit
+    requirements:
+        id: \d+  
+
 
 # Article Modified
 wkt_platform_article_modified_add:

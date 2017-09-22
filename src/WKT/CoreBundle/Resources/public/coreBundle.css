@@ -30,7 +30,7 @@ a{
 	text-decoration: none !important;
 }
 
-li{
+.summaryList, .liArticle, .liFooter{
 	list-style: none;
 }
 
@@ -48,6 +48,10 @@ li{
 hr{
 	width: 100%;
 	margin:30px auto 20px auto;
+}
+
+.sectionVignette{
+	margin:10px auto 20px auto;
 }
 
 .withoutMargin{
@@ -79,6 +83,10 @@ hr{
 .btn-default{
 	background-color: #F5F5F5 !important;
 	border: 0;
+}
+
+.blank{
+	background-color: #FFF !important;
 }
 
 .btn-danger{
@@ -149,6 +157,9 @@ hr{
 	padding-left: 40px;
 }
 
+.testIconePadding{
+	display: inline-block;
+}
 /*HEADER*/
 header nav{
 	height: 65px;
@@ -242,7 +253,7 @@ footer li{
 	font-size: 16px;
 	line-height: 22px;
 	text-align: center;
-	margin: 0 auto;	
+	margin: 0 auto 20px auto;	
 }
 
 .miniatureHome{
@@ -429,6 +440,7 @@ footer li{
 	font-size: 13px;
 	font-weight: 600;
 	line-height: 15px;
+	margin-top: 20px;
 }
 .linkSummary hr{
 	margin: 20px auto 0 auto;
@@ -438,9 +450,7 @@ footer li{
 .linkSummary a{
 	color: #9DA3A7 !important;
 }
-.linkSummary a:hover{
-	font-size: 14px;
-}
+
 .addArticle{
 	position: absolute;
 	left: 0;
@@ -461,13 +471,13 @@ footer li{
 	font-weight: 600;
 	line-height: 17px;
 }
-.addArticle:hover{
-	font-size: 13px;
-}
+
 .addArticle img{
 	margin-right: 7px;
 }
-
+#en_Detail img, #em_Bref img{
+	max-width: 100%;
+}
 .buttonLinkArticle{
 	border-radius: 8px;
 	background-color: #F6F9FA;
@@ -488,10 +498,6 @@ footer li{
 .noVideo{
 	margin: 0;
 	line-height: 30px;
-}
-
-.linkValidateArticle:hover{
-	font-size: 15px;
 }
 
 .buttonLinkArticle img{
@@ -517,6 +523,11 @@ footer li{
 }
 
 /*ARTICLE MODIFIED*/
+
+.contentArticle p:children img{
+	text-align: center;
+}
+
 .listArticlesModified{
 	margin: 40px 30px;
 }

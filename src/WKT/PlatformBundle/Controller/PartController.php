@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WKT\PlatformBundle\Entity\Part;
 use WKT\PlatformBundle\Entity\Training;
+use WKT\PlatformBundle\Form\Type\PartEditType;
 
 
 class PartController extends Controller
@@ -62,6 +63,32 @@ class PartController extends Controller
 		
 
 		return $this->redirectToRoute('wkt_platform_add');
+
+	}
+
+
+	public function editAction(Request $request, Part $part)
+	{
+		$em = $this->getDoctrine()->getManager();
+
+		$part = $em->getRepository('WKTPlatformBundle:Part')->find($part);
+
+		$previousName = $part->getTitle();
+
+		$form  = $this->get('form.factory')->create(PartEditType::class, $part);
+
+		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+			$em->persist($part);
+			$em->flush();
+
+			$request->getSession()->getFlashBag()->add('notice', 'Le nom de la partie ' . $previousName . ' a bien été modifiée en ' . $part->getTitle() . ' 🤓');
+
+			return $this->redirectToRoute('wkt_platform_edit',  array('id' => $part->getTraining()->getId()));
+		}
+
+		return $this->render('WKTPlatformBundle:Part:edit.html.twig', array(
+			'form' => $form->createView(),
+			));
 
 	}
 

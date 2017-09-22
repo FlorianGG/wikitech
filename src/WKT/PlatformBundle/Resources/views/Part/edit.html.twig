@@ -1,0 +1,31 @@
+{# src/WKT/PlatformBundle/Resources/views/Training/layoutAdmin.html.twig #}
+
+{% extends 'WKTCoreBundle:Core:layout.html.twig' %}
+{% block body %}
+		<div class="jumbotron">
+			<h1>Modification d'un partie</h1>  
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-xs-offset-0 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3>Renommer une partie</h3>
+					</div>
+					<div class="panel-body">
+					  	<div class="well">
+					  		{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+					  		<div class="form-group">
+								{{ form_label(form.title, "Titre de l'article") }}
+								{{ form_errors(form.title) }}
+								{{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+					  		</div>
+					  		{{ form_rest(form) }}
+					  		{{ form_end(form) }}
+					  	</div>
+					</div>
+				</div>
+			</div>
+		</div>
+{% endblock %}
+
+

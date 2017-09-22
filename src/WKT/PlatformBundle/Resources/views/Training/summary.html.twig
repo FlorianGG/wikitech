@@ -25,11 +25,11 @@
 		    		{% endif %}
 		    	{% endif %}
 		    {% endif %}
-		    <li>
+		    <li class="summaryList">
 		    	{% if part.Part.entity.isEnabled %}
 					<a class="titleSummary" data-toggle="collapse" href="#collapse{{loop.index}}" aria-expanded="false" aria-controls="#collapse{{loop.index}}">
 						<img class="imgSummary" src="{{ asset('images/icones/arrow.svg') }}"> {{ part.Part.entity.title }} {% if app.user %}<span style="float: right; text-align: right">{{loopArticleRead}}/{{loopArticle}}</span>{% endif %}</a>
-					<ul class="collapse {% if app.request.attributes.get('thisArticle').part is defined and  part.Part.entity.id == app.request.attributes.get('thisArticle').part.id %}in {% elseif app.request.attributes.get('open') is defined and app.request.attributes.get('open') %}in{% endif %}" id="collapse{{loop.index}}">
+					<ul class="collapse in" id="collapse{{loop.index}}">
 						{% if part.Article is defined %}
 							{% for article in part.Article %}
 								{% include('WKTPlatformBundle:Training:articlePerPart.html.twig')%}

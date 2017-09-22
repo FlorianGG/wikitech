@@ -10,7 +10,7 @@
 {% endblock %}
 {% block formIntroduction %}
     {{ form_errors(form.introduction) }}
-    {{ form_widget(form.introduction, {'attr': {'class': 'form-control'}, 'value': articleModified.introduction }) }}
+    {{ form_widget(form.introduction, {'attr': {'class': 'tinymce form-control'}, 'value': articleModified.introduction }) }}
 {% endblock %}
 {% block formContent %}
     {{ form_errors(form.content) }}

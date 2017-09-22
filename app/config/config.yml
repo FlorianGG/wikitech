@@ -129,6 +129,7 @@ stfalcon_tinymce:
     theme:
         # Simple theme: same as default theme
         simple:
+            entity_encoding : raw
             content_css: "asset[bundles/wktcore/tinymce-content.css]"
             height: 200
             relative_urls: false
