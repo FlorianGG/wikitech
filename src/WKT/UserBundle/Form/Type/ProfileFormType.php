@@ -23,6 +23,7 @@ class ProfileFormType extends AbstractType
             'required' => true))
             ->remove('username')
             ->remove('current_password')
+            ->remove('email')
             ->add('image', ImageType::class, array(
                 'required' => false,))
             ->add('lastname', TextType::class, array(

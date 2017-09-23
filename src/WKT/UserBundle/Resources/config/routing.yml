@@ -53,7 +53,7 @@ wkt_user_enabled:
         activate : \d 
 
 wkt_user_view_profile:
-    path: /user/profile/{id}
+    path: /utilisateur/profile/{id}
     defaults:
         _controller: WKTUserBundle:User:viewProfile
     requirements:

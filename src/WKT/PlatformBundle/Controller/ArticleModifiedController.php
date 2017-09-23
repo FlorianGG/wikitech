@@ -178,7 +178,7 @@ class ArticleModifiedController extends Controller
 			if ($this->checkValues($origin, $new)) {
 				$request->getSession()->getFlashBag()->add('alert', 'Votre nouvelle modification n\'a pas été prise en compte car aucun des champs n\'a été modifié');
 
-				return $this->redirectToRoute('wkt_platform_article_view', array('id' => $article->getId(), 'slugTraining' => $article->getPart()->getTraining()->getSlug(), 'slugArticle' => $article->getSlug()));
+				return $this->redirectToRoute('wkt_platform_article_view', array('slugTraining' => $article->getPart()->getTraining()->getSlug(), 'slugArticle' => $article->getSlug()));
 			}
 
 			// On crée le commit relatif à cette création de modification
@@ -436,13 +436,13 @@ class ArticleModifiedController extends Controller
 			$this->validationFunction($article, $articleModified, $training);
 
 			$request->getSession()->getFlashBag()->add('notice', 'Votre modification a bien été enregistrée et publiée car vous êtes un admin 😎');
-			return $this->redirectToRoute('wkt_platform_article_view', array('id' => $article->getId(), 'slugTraining' => $training->getSlug(), 'slugArticle' => $article->getSlug()));
+			return $this->redirectToRoute('wkt_platform_article_view', array('slugTraining' => $training->getSlug(), 'slugArticle' => $article->getSlug()));
 		}
 
 		if (is_null($articleModified->getArticle())) {
 			$request->getSession()->getFlashBag()->add('notice', 'Merci pour votre contribution 🤗 . Votre proposition de page a bien été enregistrée. Elle sera visible après validation par WikiTech');
 
-			return $this->redirectToRoute('wkt_platform_view', array('id' => $training->getId(), 'slugTraining' => $training->getSlug()));
+			return $this->redirectToRoute('wkt_platform_view', array('slugTraining' => $training->getSlug()));
 		}
 		$request->getSession()->getFlashBag()->add('notice', 'Votre modification a été enregistrée');
 

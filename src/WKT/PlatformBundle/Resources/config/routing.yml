@@ -1,7 +1,7 @@
 # src/WKT/PlatformBundle/Ressources/config/routing.yml
 
 wkt_platform_view:
-    path: /formation/{id}/{slugTraining}
+    path: /formation/{slugTraining}
     defaults:
         _controller: WKTPlatformBundle:Training:view
     requirements:
@@ -35,7 +35,7 @@ wkt_platform_draft:
       boolean: \d  
 
 wkt_platform_article_view:
-    path: /formation/{slugTraining}/article/{id}/{slugArticle}
+    path: /formation/{slugTraining}/{slugArticle}
     defaults:
         _controller: WKTPlatformBundle:Article:view
     requirements:
@@ -64,14 +64,14 @@ wkt_platform_part_edit:
 
 # Article Modified
 wkt_platform_article_modified_add:
-    path: /labo/add/{id}
+    path: /labo/contribution/nouvelle_contribution/{id}
     defaults:
         _controller: WKTPlatformBundle:ArticleModified:add
     requirements:
         id: \d+  
 
 wkt_platform_article_modified_view:
-    path: /labo/article_modified/{id}
+    path: /labo/contribution/{id}
     defaults:
         _controller: WKTPlatformBundle:ArticleModified:view
     requirements:
@@ -94,14 +94,14 @@ wkt_platform_article_modified_rejection:
         strike : \d 
 
 wkt_platform_article_modified_edit:
-    path: /labo/edit/{id}
+    path: /labo/contribution/modification_contribution/{id}
     defaults:
         _controller: WKTPlatformBundle:ArticleModified:edit
     requirements:
         id: \d+ 
 
 wkt_platform_article_modified_add_new_article:
-    path: /labo/add_article/{id}
+    path: /labo/contribution/proposition_article/{id}
     defaults:
         _controller: WKTPlatformBundle:ArticleModified:addNewArticle
     requirements:

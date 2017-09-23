@@ -38,6 +38,7 @@
 		    		</div>
 		    		<div class="col-xs-12 col-sm-8 col-md-9 divFormEdit">
 		    			<input class="form-control" type="text" readonly="readonly" value="{{app.user.email}}">
+		    			{{ form_row(form.emailHidden) }}
 		    			<div class='remarque remarqueProfileEdit'>
 		    				<p class='paragrapheTinymce'><span class='remarqueOblique'>|</span> Remarque : L’adresse mail ne peut pas être changée pour l’instant. Nous travaillons sur ce problème.</p>
 		    			</div>
@@ -94,16 +95,6 @@
 		    			<hr>
 		    		    <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/info.svg') }}"> Mes informations</h2>
 		    		</div>
-		    	</div>
-		    	<div class="row">
-		        	<div class="col-xs-12 col-sm-4 col-md-3">
-		        		<p><img class="imgLinkProfile" src="{{ asset('images/icones/email.svg') }}"> Adresse email : </p>
-		        	</div>
-		        	<div class="col-xs-12 col-sm-8 col-md-9 divFormEdit">
-			        	{{ form_errors(form.email) }}
-			        	{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-						{{ form_row(form.emailHidden) }}
-		        	</div>
 		    	</div>
 		    	<div class="row">
 		        	<div class="col-xs-12 col-sm-4 col-md-3">

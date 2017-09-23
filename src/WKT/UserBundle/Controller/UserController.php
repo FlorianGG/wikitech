@@ -117,7 +117,7 @@ class UserController extends Controller
 			//avec un message d'erreur
 			if (is_null($userArticleRead)) {
 				$request->getSession()->getFlashBag()->add('alert', 'Ooops il y a un bug dans la matrice !! 🤔' );
-				return $this->redirectToRoute('wkt_platform_view', array('id'=> $training->getId(), 'slugTraining'=> $training->getSlug()));
+				return $this->redirectToRoute('wkt_platform_view', array('slugTraining'=> $training->getSlug()));
 			}else{
 				$em->remove($userArticleRead);
 				$userTraining = $em->getRepository('WKTUserBundle:UserTraining')->getUserTrainingByUserAndTraining($user,$training);
@@ -132,7 +132,7 @@ class UserController extends Controller
 
 				$request->getSession()->getFlashBag()->add('notice', 'Cet article est de nouveau non-validé ! 🤓' );
 
-				return $this->redirectToRoute('wkt_platform_article_view', array('id' => $article->getId(), 'slugTraining' => $training->getSlug(), 'slugArticle' => $article->getSlug()));
+				return $this->redirectToRoute('wkt_platform_article_view', array('slugTraining' => $training->getSlug(), 'slugArticle' => $article->getSlug()));
 			}
 		}
 	}
@@ -201,9 +201,9 @@ class UserController extends Controller
 			return $this->redirectToRoute('wkt_core_home');
 		}else{
 			if (isset($articles[$nextKey]) && in_array($articles[$nextKey], $testTraningIsFinished)) {
-				return $this->redirectToRoute('wkt_platform_article_view', array('id' => $articles[$nextKey]->getId(), 'slugTraining' => $articles[$nextKey]->getPart()->getTraining()->getSlug(), 'slugArticle' => $articles[$nextKey]->getSlug()));
+				return $this->redirectToRoute('wkt_platform_article_view', array('slugTraining' => $articles[$nextKey]->getPart()->getTraining()->getSlug(), 'slugArticle' => $articles[$nextKey]->getSlug()));
 			}else{
-				return $this->redirectToRoute('wkt_platform_article_view', array('id' => $testTraningIsFinished[0]->getId(), 'slugTraining' => $training->getSlug(), 'slugArticle' => $testTraningIsFinished[0]->getSlug()));
+				return $this->redirectToRoute('wkt_platform_article_view', array('slugTraining' => $training->getSlug(), 'slugArticle' => $testTraningIsFinished[0]->getSlug()));
 			}
 		}
 	}

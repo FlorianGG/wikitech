@@ -12,7 +12,7 @@
                     {% set classAdmin = 'col-sm-3 col-sm-offset-2 col-xs-6 col-xs-offset-3' %}
                     {% set class = 'col-sm-4 col-sm-offset-4 col-xs-6 col-xs-offset-3' %}
                 {% if articleNotRead %}
-                    <a href="{{path('wkt_platform_article_view', {'id': articleNotRead.id, 'slugTraining': training.slug, 'slugArticle': articleNotRead.slug })}}" class="btn btn-primary {% if is_granted('ROLE_ADMIN') %}{{classAdmin}}{% else %}{{class}}{% endif %}">Commencer la formation</a>                   
+                    <a href="{{path('wkt_platform_article_view', {'slugTraining': training.slug, 'slugArticle': articleNotRead.slug })}}" class="btn btn-primary {% if is_granted('ROLE_ADMIN') %}{{classAdmin}}{% else %}{{class}}{% endif %}">Commencer la formation</a>                   
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
                     <a class="btn btn-success col-sm-3 col-sm-offset-2 col-xs-6 col-xs-offset-3 secondButton" href="{{ path('wkt_platform_article_modified_add_new_article', {'id': training.id}) }}">Créer un nouvel article</a>
@@ -64,7 +64,7 @@
 
             <div class="col-xs-12 bottomButton">
                 {% if articleNotRead %}
-                    <a href="{{path('wkt_platform_article_view', {'id': articleNotRead.id, 'slugTraining': training.slug, 'slugArticle': articleNotRead.slug })}}" class="btn btn-primary {% if is_granted('ROLE_USER') %}{{classAdmin}}{% else %}{{class}}{% endif %}">Commencer la formation</a>
+                    <a href="{{path('wkt_platform_article_view', {'slugTraining': training.slug, 'slugArticle': articleNotRead.slug })}}" class="btn btn-primary {% if is_granted('ROLE_USER') %}{{classAdmin}}{% else %}{{class}}{% endif %}">Commencer la formation</a>
 
                 {% endif %}
                 {% if is_granted('ROLE_USER') %}

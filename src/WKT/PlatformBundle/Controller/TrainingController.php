@@ -26,12 +26,12 @@ class TrainingController extends Controller
 			'trainingsBeginned' => $trainingsBeginned));
 	}
 
-	public function viewAction($id)
+	public function viewAction($slugTraining)
 	{
 		$em = $this->getDoctrine()->getManager();
 		$trainingRepository = $em->getRepository('WKTPlatformBundle:Training');
 
-		$training = $trainingRepository->find($id);
+		$training = $trainingRepository->findOneBy(array('slug' => $slugTraining));
 		$top = $this->container->get('wkt_user.confidence_score')->getContributionScoreByTraining($training);
 		$articles= $this->container->get('wkt_platform.summary')->getArticlesByTraining($training);
 		if (!empty($articles)) {

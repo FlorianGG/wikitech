@@ -1,7 +1,7 @@
 {# src/WKT/PlatformBundle/Resources/views/Training/articlePerPart.html.twig #}
 {% set edit = '' %}
 {% set finish = '' %}
-<li class="liArticle" {% if request.attributes.get("_route") == 'wkt_platform_article_view' and  request.attributes.get('_route_params')['id'] == article.entityArticle.id %} class="active" {% endif %}><a href=" {{ path('wkt_platform_article_view', { 'id': article.entityArticle.id , 'slugTraining': part.Part.entity.training.slug, 'slugArticle': article.entityArticle.slug})}}">
+<li class="liArticle" {% if request.attributes.get("_route") == 'wkt_platform_article_view' and  request.attributes.get('_route_params')['slugArticle'] == article.entityArticle.slug %} class="active" {% endif %}><a href=" {{ path('wkt_platform_article_view', {'slugTraining': part.Part.entity.training.slug, 'slugArticle': article.entityArticle.slug})}}">
     {% if app.user and app.user.userArticlesRead is not empty %}
 		{% for articleRead in app.user.userArticlesRead %}
 		    {% if articleRead.article == article.entityArticle %}

@@ -97,12 +97,12 @@
     {% if articlePreviousAndFollowing['previous'] %}
         <div class="buttonLinkArticle">
         
-            <a class="linkValidateArticle" href="{{path('wkt_platform_article_view', {'id': articlePreviousAndFollowing.previous.id, 'slugTraining': articlePreviousAndFollowing.previous.part.training.slug, 'slugArticle': articlePreviousAndFollowing.previous.slug})}}"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Cours précédent : {{articlePreviousAndFollowing.previous.title}} </a>  
+            <a class="linkValidateArticle" href="{{path('wkt_platform_article_view', {'slugTraining': articlePreviousAndFollowing.previous.part.training.slug, 'slugArticle': articlePreviousAndFollowing.previous.slug})}}"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Cours précédent : {{articlePreviousAndFollowing.previous.title}} </a>  
         </div>
     {% endif %} 
     {% if articlePreviousAndFollowing['following'] %}
         <div class="buttonLinkArticle">
-            <a class="linkValidateArticle" href="{{path('wkt_platform_article_view', {'id': articlePreviousAndFollowing.following.id, 'slugTraining': articlePreviousAndFollowing.following.part.training.slug, 'slugArticle': articlePreviousAndFollowing.following.slug})}}">Cours suivant : {{articlePreviousAndFollowing.following.title}} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+            <a class="linkValidateArticle" href="{{path('wkt_platform_article_view', {'slugTraining': articlePreviousAndFollowing.following.part.training.slug, 'slugArticle': articlePreviousAndFollowing.following.slug})}}">Cours suivant : {{articlePreviousAndFollowing.following.title}} <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
         </div>
     {% endif %}
           <!-- Modal -->

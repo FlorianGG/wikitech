@@ -22,19 +22,19 @@
 								<hr>
 								<p> {{ training.introduction }} </p>
 								<hr>
-								<p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', { 'id': training.id, 'slugTraining': training.slug}) }}">Voir la formation</a></p>
+								<p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', { 'slugTraining': training.slug}) }}">Voir la formation</a></p>
 							{% elseif trainingsBeginned[training.title].updated %}
 								<h3 class=""> {{ training.title }}</h3> <span class="label label-warning">Modifications</span>
 								<hr>
 								<p> {{ training.introduction }} </p>
 								<hr>
-								<p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_article_view', { 'id': trainingsBeginned[training.title].article.id, 'slugTraining': training.slug, 'slugArticle': trainingsBeginned[training.title].article.slug}) }}">Continuer la formation</a></p>
+								<p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_article_view', {'slugTraining': training.slug, 'slugArticle': trainingsBeginned[training.title].article.slug}) }}">Continuer la formation</a></p>
 							{% else %}
 								<h3 class=""> {{ training.title }}</h3> <span class="label label-success">En cours</span>
 								<hr>
 								<p> {{ training.introduction }} </p>
 								<hr>
-							    <p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_article_view', { 'id': trainingsBeginned[training.title].article.id, 'slugTraining': training.slug, 'slugArticle': trainingsBeginned[training.title].article.slug}) }}">Continuer la formation</a></p>
+							    <p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_article_view', {'slugTraining': training.slug, 'slugArticle': trainingsBeginned[training.title].article.slug}) }}">Continuer la formation</a></p>
 							{% endif %}
 						{% else %}
 							<h3 class=""> {{ training.title }}</h3>
@@ -42,7 +42,7 @@
 							<hr>
 							<p> {{ training.introduction }} </p>
 							<hr>
-						    <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', { 'id': training.id, 'slugTraining': training.slug}) }}">Commencer la formation</a></p>
+						    <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', {'slugTraining': training.slug}) }}">Commencer la formation</a></p>
 						{% endif %}
 					{% else %}
 						<h3 class=""> {{ training.title }}</h3>
@@ -50,7 +50,7 @@
 						<hr>
 						<p> {{ training.introduction }} </p>
 						<hr>
-					    <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', { 'id': training.id, 'slugTraining': training.slug}) }}">Voir la formation</a></p>
+					    <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', {'slugTraining': training.slug}) }}">Voir la formation</a></p>
 					{% endif %}
 		        	
 		        	<p class="text-center"><small><em>Crée le {{ training.createdAt|date('d/m/Y') }}</em></small></p>

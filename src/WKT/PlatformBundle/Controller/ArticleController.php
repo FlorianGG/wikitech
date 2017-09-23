@@ -11,11 +11,11 @@ use WKT\PlatformBundle\Entity\Article;
 class ArticleController extends Controller
 {
 
-	public function viewAction(Article $id)
+	public function viewAction($slugArticle)
 	{
 		$em = $this->getDoctrine()->getManager();
 		$articleRepository = $em->getRepository('WKTPlatformBundle:Article');
-		$article = $articleRepository->find($id);
+		$article = $articleRepository->findOneBy(array('slug' => $slugArticle));
 
 
 		$idArticleModified = $em->getRepository('WKTPlatformBundle:ArticleModified')->findOneBy(array(

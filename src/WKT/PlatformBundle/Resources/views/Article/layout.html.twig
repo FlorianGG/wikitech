@@ -4,7 +4,7 @@
 {% block bodyLeft %}
     {% block addPart %}{% endblock %}
     <div class="linkSummary">
-         <a href="{{ path('wkt_platform_view', {'id': article.part.training.id, 'slugTraining': article.part.training.slug}) }}">RETOURNER AU SOMMAIRE</a>
+         <a href="{{ path('wkt_platform_view', {'slugTraining': article.part.training.slug}) }}">RETOURNER AU SOMMAIRE</a>
          <hr>
     </div>
     {% block summaryInTraining %}{% endblock %}
