@@ -13,8 +13,6 @@ class CommitController extends Controller
 {
 	public function indexAction(Request $request)
 	{
-		$user = $this->getUser();
-
 		$em = $this->getDoctrine()->getManager();
 		$commits = $em->getRepository('WKTPlatformBundle:Commit')->findBy(array('isValidate' => null), array('id' => 'DESC'));
 

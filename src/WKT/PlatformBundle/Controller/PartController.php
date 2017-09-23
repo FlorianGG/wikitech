@@ -41,8 +41,6 @@ class PartController extends Controller
 		$partsDeleted = 0;
 		$today = new \DateTime;
 
-
-
 		foreach ($parts as $part) {
 			if (sizeof($part->getArticles()) === 0 && $part->getCreatedAt()->add(new \DateInterval('P1D')) < $today) {
 				$em->remove($part);
@@ -60,10 +58,7 @@ class PartController extends Controller
 			$request->getSession()->getFlashBag()->add('notice', $partsDeleted . ' parties ont été supprimées 😝🤗');
 		}
 
-		
-
 		return $this->redirectToRoute('wkt_platform_add');
-
 	}
 
 
@@ -89,7 +84,6 @@ class PartController extends Controller
 		return $this->render('WKTPlatformBundle:Part:edit.html.twig', array(
 			'form' => $form->createView(),
 			));
-
 	}
 
 

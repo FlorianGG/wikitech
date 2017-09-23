@@ -22,45 +22,10 @@ class CoreController extends Controller
 		//on récupère les 3 premiers users au leaderboard général
 		$users = $em->getRepository('WKTUserBundle:User')->findBy(array('enabled' => true), array('nbPoint' => 'DESC'), 3, 0);
 
-		// list de 6 formations aléatoires ou 6 formations aléatoires dans la liste de celles commencées
-		$randTrainings = $this->randTraining($trainings);
 		return $this->render('WKTCoreBundle:Core:home.html.twig', array(
-			'trainings' => $randTrainings,
+			'trainings' => $trainings,
 			'trainingsBeginned' => $trainingsBeginned,
 			'users' => $users));
-	}
-
-	// factorisation fonction qui génère 3 trainings aléatoire
-	private function randTraining($trainings)
-	{
-		$size = sizeof($trainings);
-		if ($size === 0) {
-			return null;
-		}
-		if ($size === 1) {
-			return $trainings[0];
-		}
-
-		$nb = '';
-		if ($size >= 6) {
-			$nb = 6;
-		}else{
-			$nb = $size;
-		}
-		if (is_array($trainings)) {
-			$arrayRandKey = array_rand($trainings, $nb);
-		}else{
-			$arrayRandKey = array_rand($trainings->toArray(), $nb);
-		}
-		
-
-		$arrayRand = [];
-
-		foreach ($arrayRandKey as $key) {
-			$arrayRand[] = $trainings[$key];
-		}
-
-		return $arrayRand;
 	}
 
 	public function leaderboardAction(Request $request)

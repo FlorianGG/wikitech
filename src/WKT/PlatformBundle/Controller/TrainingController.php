@@ -13,25 +13,13 @@ use WKT\PlatformBundle\Form\Type\TrainingType;
 
 class TrainingController extends Controller
 {
-	public function indexAction()
-	{
-		$em = $this->getDoctrine()->getManager();
-		$user = $this->getUser();
-
-		$trainings = $em->getRepository('WKTPlatformBundle:Training')->findBy(array('draft' => false));
-		$userTrainings = $em->getRepository('WKTUserBundle:UserTraining')->findBy(array('user' => $user));
-		$trainingsBeginned = $this->container->get('wkt_user.training_is_finished')->getTrainingsBeginnedStatus($userTrainings);
-		return $this->render('WKTPlatformBundle:Training:index.html.twig', array(
-			'trainings' => $trainings,
-			'trainingsBeginned' => $trainingsBeginned));
-	}
-
-	public function viewAction($slugTraining)
+	public function viewAction(Request $request, $slugTraining)
 	{
 		$em = $this->getDoctrine()->getManager();
 		$trainingRepository = $em->getRepository('WKTPlatformBundle:Training');
 
 		$training = $trainingRepository->findOneBy(array('slug' => $slugTraining));
+
 		$top = $this->container->get('wkt_user.confidence_score')->getContributionScoreByTraining($training);
 		$articles= $this->container->get('wkt_platform.summary')->getArticlesByTraining($training);
 		if (!empty($articles)) {

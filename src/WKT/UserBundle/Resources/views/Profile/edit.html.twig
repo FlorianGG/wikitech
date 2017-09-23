@@ -23,7 +23,7 @@
 		    			<p>Image : </p>
 		    		</div>
 		    		<div class="col-xs-12 col-sm-8 col-md-9 divFormEdit">
-		    			{{ form_errors(form.image) }}
+		    			{{ form_errors(form.image.file) }}
 		    			{{ form_widget(form.image.file, {'attr': {'class': 'form-control'}}) }}
 		    			<div class='remarque remarqueProfileEdit'>
 		    				<p class='paragrapheTinymce'><span class='remarqueOblique'>|</span> Remarque : Par souci de qualité, préférez une image carré de taille minimale de 140 x 140 px.</p>

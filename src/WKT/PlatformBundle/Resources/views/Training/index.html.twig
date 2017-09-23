@@ -1,62 +1,68 @@
-{# src/WKT/PlatformBundle/Resources/views/Training/index.html.twig #}
-
-{% extends 'WKTCoreBundle:Core:layout.html.twig' %}
-{% block bodyLeft %}
-    
-{% endblock %}
-{% block bodyRight %}
-    <h1>Voici la liste des formations</h1>
-    <hr>
-	<div class="row">
-		{% if trainings is empty %}
-			<div class="jumbotron">
-				<h3 class="text-center">Aucune formation encore en ligne 😱</h3>
-			</div>
-		{% else %}
-		    {% for training in trainings %}
-		        <div class="col-sm-4">
-					{% if app.user %}
-						{% if trainingsBeginned[training.title] is defined %}
-							{% if trainingsBeginned[training.title].finished %}
-								<h3 class=""> {{ training.title }}</h3> <span class="label label-danger">Terminée</span>
-								<hr>
-								<p> {{ training.introduction }} </p>
-								<hr>
-								<p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', { 'slugTraining': training.slug}) }}">Voir la formation</a></p>
-							{% elseif trainingsBeginned[training.title].updated %}
-								<h3 class=""> {{ training.title }}</h3> <span class="label label-warning">Modifications</span>
-								<hr>
-								<p> {{ training.introduction }} </p>
-								<hr>
-								<p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_article_view', {'slugTraining': training.slug, 'slugArticle': trainingsBeginned[training.title].article.slug}) }}">Continuer la formation</a></p>
-							{% else %}
-								<h3 class=""> {{ training.title }}</h3> <span class="label label-success">En cours</span>
-								<hr>
-								<p> {{ training.introduction }} </p>
-								<hr>
-							    <p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_article_view', {'slugTraining': training.slug, 'slugArticle': trainingsBeginned[training.title].article.slug}) }}">Continuer la formation</a></p>
-							{% endif %}
-						{% else %}
-							<h3 class=""> {{ training.title }}</h3>
-							<br>
-							<hr>
-							<p> {{ training.introduction }} </p>
-							<hr>
-						    <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', {'slugTraining': training.slug}) }}">Commencer la formation</a></p>
-						{% endif %}
-					{% else %}
-						<h3 class=""> {{ training.title }}</h3>
-						<br>
-						<hr>
-						<p> {{ training.introduction }} </p>
-						<hr>
-					    <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', {'slugTraining': training.slug}) }}">Voir la formation</a></p>
-					{% endif %}
-		        	
-		        	<p class="text-center"><small><em>Crée le {{ training.createdAt|date('d/m/Y') }}</em></small></p>
-		        </div>
-		    {% endfor %}
-		{% endif %}
-	</div>
-{% endblock %}
-
+{% if trainings is empty %}
+<div class="col-xs-12">
+    <div class="buttonLinkArticle">
+        <p class="text-center"><small><em>Aucune formation n'est encore en ligne</em></small></p>
+    </div>
+</div>
+{% endif %}
+{% if app.user and trainings is not empty %}
+    {% for training in trainings %}
+        <div class="col-xs-12 col-sm-4 col-sm-offset-0">
+            <div class="thumbnailHome">
+                {% if training.image is empty %}
+                    <img class="miniatureHome" src="{{asset('images/training.jpeg')}}" alt="Miniature Wikitech">
+                {% else %}
+                    <img class="miniatureHome" src="{{ asset(training.image.webPath) }}" alt="{{ training.image.alt }}">
+                {% endif %}
+                <div class="caption">
+                    {% if trainingsBeginned[training.title] is defined %}
+                        {% if trainingsBeginned[training.title].finished %}
+                            <h3>{{ training.title }} <img class="imgLink" src="{{ asset('images/icones/finish.svg') }}"></h3>
+                            <div class="textCaption">
+                                <p>{{ training.homeText }}</p>
+                            </div>
+                            <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', {'slugTraining': training.slug}) }}">Voir</a></p>
+                        {% elseif trainingsBeginned[training.title].updated %}
+                            <h3>{{ training.title }}  <img class="imgLink" src="{{ asset('images/icones/edit.svg') }}"></h3>
+                            <div class="textCaption">
+                                <p>{{ training.homeText }}</p>
+                            </div>
+                            <p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_article_view', {'slugTraining': training.slug, 'slugArticle': trainingsBeginned[training.title].article.slug}) }}">Continuer</a></p>
+                        {% else %}
+                           <h3>{{ training.title }}  <img class="imgLink" src="{{ asset('images/icones/begin.svg') }}"></h3>
+                            <div class="textCaption">
+                                <p>{{ training.homeText }}</p>
+                            </div>
+                            <p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_article_view', {'slugTraining': training.slug, 'slugArticle': trainingsBeginned[training.title].article.slug}) }}">Continuer</a></p>
+                        {% endif %}
+                    {% else %}
+                            <h3 class=""> {{ training.title }}</h3>
+                            <div class="textCaption">
+                                <p>{{ training.homeText }}</p>
+                            </div>
+                            <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', {'slugTraining': training.slug}) }}">Commencer</a></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    {% for training in trainings %}
+        <div class="col-xs-12 col-sm-4 col-sm-offset-0">
+            <div class="thumbnailHome">
+                {% if training.image is empty %}
+                    <img class="miniatureHome" src="{{asset('images/training.jpeg')}}" alt="Miniature Wikitech">
+                {% else %}
+                    <img class="miniatureHome" src="{{ asset(training.image.webPath) }}" alt="{{ training.image.alt }}">
+                {% endif %}
+                <div class="caption">
+                    <h3 class=""> {{ training.title }}</h3>
+                    <div class="textCaption">
+                        <p>{{ training.homeText }}</p>
+                    </div>
+                    <p class="text-center"><a class="btn blank" href="{{ path('wkt_platform_view', {'slugTraining': training.slug}) }}">Démarrer ></a></p>
+                </div>
+            </div>
+        </div>
+    {% endfor %} 
+{% endif %}

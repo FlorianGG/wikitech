@@ -4,6 +4,8 @@
 namespace WKT\PlatformBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use WKT\PlatformBundle\Entity\Article;
 
 
@@ -11,7 +13,7 @@ use WKT\PlatformBundle\Entity\Article;
 class ArticleController extends Controller
 {
 
-	public function viewAction($slugArticle)
+	public function viewAction(Request $request, $slugArticle)
 	{
 		$em = $this->getDoctrine()->getManager();
 		$articleRepository = $em->getRepository('WKTPlatformBundle:Article');
