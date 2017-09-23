@@ -14,9 +14,9 @@
     {% include('WKTPlatformBundle:Article:buttonLinkArticle.html.twig') %}
     <div class="buttonLinkArticle">
         <p><a class="summaryInArticle" href="#en_Bref" title="">En Bref</a></p>
+        <p><a class="summaryInArticle" href="#en_Video" title="">En Video</a></p>
         <p><a class="summaryInArticle" href="#en_Detail" title="">En Détail</a></p>
         {% include 'WKTPlatformBundle::summaryArticle.html.twig' %}
-        <p><a class="summaryInArticle" href="#en_Video" title="">En Video</a></p>   
     </div>
     <div id="en_Bref" class="row">
         <section class="articleSection">
@@ -36,7 +36,7 @@
             </div>
 
             <div class="col-xs-12 ">
-                  {{ article.introduction|raw}}}
+                  {{ article.introduction|raw}}
             </div>
         </section>
     </div>

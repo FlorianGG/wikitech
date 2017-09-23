@@ -106,7 +106,7 @@ class ArticleModified
     public function __construct()
     {
         $this->createdAt = new \DateTime;
-        $this->isRejected = false;
+        $this->isRejected = null;
     }
 
 

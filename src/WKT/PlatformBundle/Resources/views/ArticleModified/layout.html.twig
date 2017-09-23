@@ -4,18 +4,16 @@
 {% block bodyLeft %}
     {% set currentArticleModified = app.request.attributes.get('_route_params')['id'] %}
     <div class="listArticlesModified">
-        <p class="text-center">Travailler à partir de l'article de base</p>
-        <a class="center-block btn btn-success" href="{{ path('wkt_platform_article_modified_add', {'id': articleModified.article.id}) }}">Article initial</a>
-        <hr>
-        {% if articlesModified is empty %}
+        <p class="text-center">Choisissez la version sur laquelle vous préférez travailler :</p>
+        <p><a class="center-block btn {% if currentArticleModified != articleModified.id %}btn-primary {% else %}
+                   blank{% endif %}" href="{{ path('wkt_platform_article_modified_add', {'id': articleModified.article.id}) }}">Article initial</a></p>
+        {% if articlesModified is empty%}
             <p class="text-center">Il n'existe encore aucune modification pour cet article</p>
         {% else %}
-             <p class="text-center">Ou choisissez la version sur laquelle vous préférez travailler :</p>
-
-             {% for articleModified in articlesModified %}
-                 <a class="center-block btn {% if currentArticleModified == articleModified.id %}btn-primary {% else %}
-                     btn-default{% endif %}" href="{{ path('wkt_platform_article_modified_view', {'id': articleModified.id}) }}">Version modifiée {{loop.index}}</a>
-             {% endfor %}
+           {% for articleModified in articlesModified %}
+              <p><a class="center-block btn {% if currentArticleModified == articleModified.id %}btn-primary {% else %}
+                   blank{% endif %}" href="{{ path('wkt_platform_article_modified_view', {'id': articleModified.id}) }}">Version modifiée {{loop.index}}</a></p>
+           {% endfor %}
         {% endif %}
         <hr>
 

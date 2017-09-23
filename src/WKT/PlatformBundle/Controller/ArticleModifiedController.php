@@ -108,7 +108,7 @@ class ArticleModifiedController extends Controller
 		// on verifie s'il y a d'autres articleModified pour cette l'article
 		// sinon on change le status IsModifying à false
 		if (!is_null($articleModified->getArticle())) {
-			$articlesModified = $repoArticleModified->findBy(array('article' => $articleModified->getArticle()));
+			$articlesModified = $repoArticleModified->getArticlesModifiedNotRejectedByArticle($articleModified->getArticle());
 			if (sizeof($articlesModified) === 1 && $articlesModified[0]->getId() === $articleModified->getId()) {
 				$article = $articleModified->getArticle();
 				$article->setIsModifying(false);
@@ -346,8 +346,7 @@ class ArticleModifiedController extends Controller
 
 	//factorisation de la fonction qui récupère tous les articlesModified d'un article
 	private function returnArticlesModifiedArray(ArticleModified $articleModified)
-	{
-		//On récupère la liste des articlesModified pour cet article seulement si l'article a un statut isModifying
+	{	//On récupère la liste des articlesModified pour cet article seulement si l'article a un statut isModifying
 		if (!is_null($articleModified->getArticle()) && $articleModified->getArticle()->getIsModifying()) {
 			return $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:ArticleModified')->getArticlesModifiedNotRejectedByArticle($articleModified->getArticle());
 		}
@@ -467,13 +466,18 @@ class ArticleModifiedController extends Controller
 			$article->setVideo($video);
 		}
 
+		if ($this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+			//si c'est l'admin qui valide on change l'attribut isRejected à false de l'articleModified
+			$articleModified->setIsRejected(false);
+		}
+
 		//on vérifie si la partie de l'article a un status IsEnabled true sinon on l'active
 		if (!$article->getPart()->getIsEnabled()) {
 			$article->getPart()->setIsEnabled(true);
 		}
 
 		// on verifie si cet articleModified est le seul pour cet article
-		$articleModifieds = $em->getRepository('WKTPlatformBundle:ArticleModified')->findBy(array('article' => $article));
+		$articleModifieds = $em->getRepository('WKTPlatformBundle:ArticleModified')->getArticlesModifiedNotRejectedByArticle($article);
 		if (sizeof($articleModifieds) === 1) {
 			// on change dans l'article le statut IsModifying à false
 			// si il n'y a pas d'autre articleModified pour cet article
