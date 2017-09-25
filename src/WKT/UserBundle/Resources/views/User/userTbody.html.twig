@@ -1,0 +1,19 @@
+<tr {% if user.enabled == 0 %} class="danger" {% endif %}>
+	<td>{{user.username}}</td>
+	<td>{{user.firstname}}</td>
+	<td>{{user.lastname}}</td>
+	<td>{{user.email}}</td>
+	<td>
+		{% include 'WKTUserBundle:User:userTbodyEnabled.html.twig' %}
+	</td>
+	<td>{{user.nbPoint}}</td>
+	<td>
+		{% include 'WKTUserBundle:User:userTbodyConfidenceScore.html.twig' %}
+	</td>
+	<td>
+		{% include 'WKTUserBundle:User:userTbodyRole.html.twig' %}
+	</td>
+	<td>
+		{% include 'WKTUserBundle:User:userTbodyAction.html.twig' %}
+	</td>
+</tr>

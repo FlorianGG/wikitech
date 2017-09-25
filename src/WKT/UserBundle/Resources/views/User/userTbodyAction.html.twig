@@ -1,0 +1,11 @@
+{% if 'ROLE_ADMIN' in user.roles %}
+	<a href="{{path('wkt_user_demote', {'id': user.id})}}" class="btn btn-xs btn-warning">Rétrograder</a>
+{% else %}
+	<a href="{{path('wkt_user_promote', {'id': user.id})}}" class="btn btn-xs btn-success">Promouvoir</a>
+{% endif %}
+{% if user.enabled == 0 %}
+	<a href="{{path('wkt_user_enabled', {'id': user.id, 'activate':1})}}" class="btn btn-xs btn-primary">Activer</a>
+{% else %}
+	<a href="{{path('wkt_user_enabled', {'id': user.id, 'activate':0})}}" class="btn btn-xs btn-danger">Désactiver</a>
+{% endif %}
+<a href="{{path('wkt_user_view_profile', {'id': user.id})}}" class="btn btn-xs btn-info">Profil</a>

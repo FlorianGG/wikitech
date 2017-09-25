@@ -22,51 +22,7 @@
 	    <tbody>
 	    	{% for user in users %}
 	    		{% if user != app.user %}
-		    	    <tr {% if user.enabled == 0 %} class="danger" {% endif %}>
-		    	    	<td>{{user.username}}</td>
-		    	    	<td>{{user.firstname}}</td>
-		    	    	<td>{{user.lastname}}</td>
-		    	    	<td>{{user.email}}</td>
-		    	    	<td>
-							{% if user.enabled == 0 %}
-								non
-							{% else %}
-							 	oui
-							{% endif %}
-		    	    	</td>
-		    	    	<td>{{user.nbPoint}}</td>
-		    	    	<td>
-		    	    		{% if confidenceScores[user.username] == 'first' and user.enabled == 1 %}
-		    	    		  <small>Aucune contribution</small>
-		    	    		{% elseif confidenceScores[user.username] == 'waiting' and user.enabled == 1 %} 
-		    	    		  <small>Toutes les contributions sont en attentes</small>
-		    	    		{% elseif user.enabled == 0 %}
-		    	    		-
-		    	    		{% else %}
-		    	    		  {{confidenceScores[user.username]|number_format(2)}}% 
-		    	    		{% endif %}
-		    	    	</td>
-						<td>
-							{% if 'ROLE_ADMIN' in user.roles %}
-								Administrateur
-							{% else %}
-								Utilisateur
-						    {% endif %}
-						</td>
-		    	    	<td>
-							{% if 'ROLE_ADMIN' in user.roles %}
-								<a href="{{path('wkt_user_demote', {'id': user.id})}}" class="btn btn-xs btn-warning">Rétrograder</a>
-							{% else %}
-								<a href="{{path('wkt_user_promote', {'id': user.id})}}" class="btn btn-xs btn-success">Promouvoir</a>
-						    {% endif %}
-							{% if user.enabled == 0 %}
-								<a href="{{path('wkt_user_enabled', {'id': user.id, 'activate':1})}}" class="btn btn-xs btn-primary">Activer</a>
-							{% else %}
-								<a href="{{path('wkt_user_enabled', {'id': user.id, 'activate':0})}}" class="btn btn-xs btn-danger">Désactiver</a>
-						    {% endif %}
-							<a href="{{path('wkt_user_view_profile', {'id': user.id})}}" class="btn btn-xs btn-info">Profil</a>
-		    	    	</td>
-		    	    </tr>
+		    	    {% include 'WKTUserBundle:User:userTbody.html.twig' %}
 	    		{% endif %}
 	    	{% endfor %}
 	    </tbody>

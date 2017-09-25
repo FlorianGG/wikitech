@@ -1,0 +1,9 @@
+{% if confidenceScores[user.username] == 'first' and user.enabled == 1 %}
+  <small>Aucune contribution</small>
+{% elseif confidenceScores[user.username] == 'waiting' and user.enabled == 1 %} 
+  <small>Toutes les contributions sont en attentes</small>
+{% elseif user.enabled == 0 %}
+-
+{% else %}
+  {{confidenceScores[user.username]|number_format(2)}}% 
+{% endif %}
