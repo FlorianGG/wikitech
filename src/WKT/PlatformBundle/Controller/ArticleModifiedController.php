@@ -152,7 +152,7 @@ class ArticleModifiedController extends Controller
 		$article = $em->getRepository('WKTPlatformBundle:Article')->find($id);
 
 		// on set les attributs de articleModified avec le contenu de l'article
-		$articleModified->setArticle($id)->setTitle($article->getTitle())->setIntroduction(strip_tags($article->getIntroduction()))->setContent($article->getContent())->setUser($this->getUser())->setPart($article->getPart())->setOrderInPart($article->getOrderInPart());
+		$articleModified->setArticle($id)->setTitle($article->getTitle())->setIntroduction($article->getIntroduction())->setContent($article->getContent())->setUser($this->getUser())->setPart($article->getPart())->setOrderInPart($article->getOrderInPart());
 
 		if (!is_null($article->getVideo())) {
 			$video = new Video;
@@ -207,7 +207,6 @@ class ArticleModifiedController extends Controller
 		$em = $this->getDoctrine()->getManager();
 
 		$articleModified = $em->getRepository('WKTPlatformBundle:ArticleModified')->find($id);
-		$articleModified->setIntroduction(strip_tags($articleModified->getIntroduction()));
 
 		//on récupère la liste des articlesModified pour la même page article
 		$articlesModified = $this->returnArticlesModifiedArray($articleModified);

@@ -96,6 +96,7 @@ class Article
     /**
      * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Part", inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
      */
     private $part;
 

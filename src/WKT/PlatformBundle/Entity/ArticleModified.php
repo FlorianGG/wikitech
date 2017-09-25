@@ -26,6 +26,7 @@ class ArticleModified
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\Length(min=5, minMessage="Le titre doit faire au moins {{ limit }} caractères.")
      */
     private $title;
 
@@ -33,6 +34,8 @@ class ArticleModified
      * @var string
      *
      * @ORM\Column(name="introduction", type="text")
+     * @Assert\NotBlank()
+     * @Assert\Length(min=10, minMessage="L'introduction' doit faire au moins {{ limit }} caractères.")
      */
     private $introduction;
 
@@ -40,6 +43,8 @@ class ArticleModified
      * @var string
      *
      * @ORM\Column(name="content", type="text")
+     * @Assert\NotBlank()
+     * @Assert\Length(min=20, minMessage="Le contenu de l'article doit faire au moins {{ limit }} caractères.")
      */
     private $content;
 

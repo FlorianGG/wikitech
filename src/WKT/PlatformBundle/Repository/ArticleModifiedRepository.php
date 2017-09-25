@@ -16,7 +16,7 @@ class ArticleModifiedRepository extends \Doctrine\ORM\EntityRepository
 	{
 		return $this->createQueryBuilder('am')
 			->where('am.article = :article')
-				->setParameter('article', $article)
+				->setParameter('article', $article->getId())
 			->andWhere('am.isRejected IS NULL')
 			->orderBy('am.id', 'DESC')
 			->getQuery()
