@@ -1,0 +1,38 @@
+<div class="col-xs-12 col-sm-4 col-sm-offset-0">
+    <div class="thumbnailHome">
+        {% if training.image is empty %}
+            <img class="miniatureHome" src="{{asset('images/training.jpeg')}}" alt="Miniature Wikitech">
+        {% else %}
+            <img class="miniatureHome" src="{{ asset(training.image.webPath) }}" alt="{{ training.image.alt }}">
+        {% endif %}
+        <div class="caption">
+            {% if trainingsBeginned[training.title] is defined %}
+                {% if trainingsBeginned[training.title].finished %}
+                    <h3>{{ training.title }} <img class="imgLink" src="{{ asset('images/icones/finish.svg') }}"></h3>
+                    <div class="textCaption">
+                        <p>{{ training.homeText }}</p>
+                    </div>
+                    <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', {'slugTraining': training.slug}) }}">Voir</a></p>
+                {% elseif trainingsBeginned[training.title].updated %}
+                    <h3>{{ training.title }}  <img class="imgLink" src="{{ asset('images/icones/edit.svg') }}"></h3>
+                    <div class="textCaption">
+                        <p>{{ training.homeText }}</p>
+                    </div>
+                    <p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_article_view', {'slugTraining': training.slug, 'slugArticle': trainingsBeginned[training.title].article.slug}) }}">Continuer</a></p>
+                {% else %}
+                   <h3>{{ training.title }}  <img class="imgLink" src="{{ asset('images/icones/begin.svg') }}"></h3>
+                    <div class="textCaption">
+                        <p>{{ training.homeText }}</p>
+                    </div>
+                    <p class="text-center"><a class="btn btn-success" href="{{ path('wkt_platform_article_view', {'slugTraining': training.slug, 'slugArticle': trainingsBeginned[training.title].article.slug}) }}">Continuer</a></p>
+                {% endif %}
+            {% else %}
+                    <h3 class=""> {{ training.title }}</h3>
+                    <div class="textCaption">
+                        <p>{{ training.homeText }}</p>
+                    </div>
+                    <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_view', {'slugTraining': training.slug}) }}">Commencer</a></p>
+            {% endif %}
+        </div>
+    </div>
+</div>
