@@ -266,7 +266,7 @@ class ArticleModifiedController extends Controller
 	}
 
 	//factorisation fonction qui valide le précédent commit et attribut la moitiée des points au user qui a créer la modification
-	public function getHalfScore($em, $commit, $commits)
+	private function getHalfScore($em, $commit, $commits)
 	{
 		//On valide le précédent commit
 		// car on part du principe qu'une modification modifiée 

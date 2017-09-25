@@ -111,30 +111,34 @@ class UserController extends Controller
 			// si oui on change la valeur de l'attribut updated
 			$userArticleRead = $em->getRepository('WKTUserBundle:UserArticleRead')->getUserArticleReadByUserAndArticle($user, $article);
 
-			//on verifie que le userArticleRead existe
-			//pour le supprimer
-			//sinon on retourne sur la page de la formation
-			//avec un message d'erreur
+			//on verifie que le userArticleRead existe pour le supprimer
+			//sinon on retourne sur la page de la formation avec un message d'erreur
 			if (is_null($userArticleRead)) {
 				$request->getSession()->getFlashBag()->add('alert', 'Ooops il y a un bug dans la matrice !! 🤔' );
 				return $this->redirectToRoute('wkt_platform_view', array('slugTraining'=> $training->getSlug()));
 			}else{
-				$em->remove($userArticleRead);
-				$userTraining = $em->getRepository('WKTUserBundle:UserTraining')->getUserTrainingByUserAndTraining($user,$training);
-				if ($userTraining->getFinished()) {
-					$userTraining->setFinished(false);
-				}
-				$userArticleReads = $this->container->get('wkt_user.training_is_finished')->getArticlesRead($userTraining);
-				if (sizeof($userArticleReads) === 1) {
-					$em->remove($userTraining);
-				}
-				$em->flush();
+				$this->returnAfterCancellation($em, $userArticleRead, $user, $training);
 
 				$request->getSession()->getFlashBag()->add('notice', 'Cet article est de nouveau non-validé ! 🤓' );
 
 				return $this->redirectToRoute('wkt_platform_article_view', array('slugTraining' => $training->getSlug(), 'slugArticle' => $article->getSlug()));
 			}
 		}
+	}
+
+	//factorisation de la fonction qui invalide la lecture d'un articlle
+	private function returnAfterCancellation($em, UserArticleRead $userArticleRead, User $user, Training $training )
+	{
+		$em->remove($userArticleRead);
+		$userTraining = $em->getRepository('WKTUserBundle:UserTraining')->getUserTrainingByUserAndTraining($user,$training);
+		if ($userTraining->getFinished()) {
+			$userTraining->setFinished(false);
+		}
+		$userArticleReads = $this->container->get('wkt_user.training_is_finished')->getArticlesRead($userTraining);
+		if (sizeof($userArticleReads) === 1) {
+			$em->remove($userTraining);
+		}
+		$em->flush();
 	}
 
 	public function articleIsReadAction(Request $request, Article $id)
@@ -148,26 +152,8 @@ class UserController extends Controller
 		if (!is_null($article)) {
 			//On verifie qu'il existe un userArticleRead
 			// si oui on change la valeur de l'attribut updated
-			$userArticleRead = $em->getRepository('WKTUserBundle:UserArticleRead')->getUserArticleReadByUserAndArticle($user, $article);
-
-			if (is_null($userArticleRead)) {
-				$userArticleRead = new UserArticleRead();
-				$userArticleRead->setUser($user)->setArticle($article);
-				$em->persist($userArticleRead);
-			}else{
-				$userArticleRead->setUpdated(false);
-			}
-
-			$userTraining = $em->getRepository('WKTUserBundle:UserTraining')->getUserTrainingByUserAndTraining($user, $training);
-			if (is_null($userTraining)) {
-				$userTraining = new UserTraining;
-				$userTraining->setUser($user)->setTraining($training);
-				$user->addUserTraining($userTraining);
-			}else{
-				$userTraining->setUpdated(false);
-			}
-			$em->persist($userTraining);
-			$em->flush();			
+			$this->addNewReadArticle($em, $article, $training, $user);
+			
 
 			// On verifie si la formation est terminée
 			// et on retourne la bonne page
@@ -178,6 +164,32 @@ class UserController extends Controller
 		return $this->redirectToRoute('wkt_core_home');
 
 	}
+	//factorisation de la fonction qui ajoute un article comme lu
+	// qui termine une formation si tous les articles sont lus
+	private function addNewReadArticle($em, Article $article, Training $training, User $user)
+	{
+		$userArticleRead = $em->getRepository('WKTUserBundle:UserArticleRead')->getUserArticleReadByUserAndArticle($user, $article);
+
+		if (is_null($userArticleRead)) {
+			$userArticleRead = new UserArticleRead();
+			$userArticleRead->setUser($user)->setArticle($article);
+		}else{
+			$userArticleRead->setUpdated(false);
+		}
+		$em->persist($userArticleRead);
+
+		$userTraining = $em->getRepository('WKTUserBundle:UserTraining')->getUserTrainingByUserAndTraining($user, $training);
+		if (is_null($userTraining)) {
+			$userTraining = new UserTraining;
+			$userTraining->setUser($user)->setTraining($training);
+			$user->addUserTraining($userTraining);
+		}else{
+			$userTraining->setUpdated(false);
+		}
+		$em->persist($userTraining);
+		$em->flush();
+	}
+
 
 	//factorisation fonction qui return sur la bonne page avec le bon message
 	private function returnAfterValidation(Request $request, Training $training, Article $article, User $user)
