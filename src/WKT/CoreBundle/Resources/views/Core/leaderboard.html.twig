@@ -34,13 +34,7 @@
 	            <h2>Leaderboard Général</h2>
 	        </div>
 	        <div class="col-xs-12 ">
-	            {% if users is empty %}
-	                <p class="text-center"><small><em>Aucun utilisateur enregistré</em></small></p>
-	            {% else %}
-	                {% for user in users %}
-						{% include 'WKTCoreBundle:Core:leaderboardImageGeneral.html.twig'%}
-	                {% endfor %}                 
-	            {% endif %}
+	            {% include 'WKTCoreBundle:Core:leaderboardImageGeneral.html.twig'%}
 	        </div>
 	    </section>
 	</div>
@@ -52,13 +46,7 @@
                 <h2>Leaderboard {{training.training.title}}</h2>
             </div>
             <div class="col-xs-12 ">
-                {% if training.top is empty %}
-                    <p class="text-center"><small><em>Aucun utilisateur n'a encore contribué</em></small></p>
-                {% else %}
-                    {% for user in training.top %}
-						{% include 'WKTCoreBundle:Core:leaderboardImageByTraining.html.twig'%}
-                    {% endfor %}                 
-                {% endif %}
+				{% include 'WKTCoreBundle:Core:leaderboardImageByTraining.html.twig'%}
             </div>
         </section>
     </div> 

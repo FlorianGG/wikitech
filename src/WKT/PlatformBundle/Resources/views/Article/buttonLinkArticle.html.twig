@@ -1,14 +1,3 @@
 {% if app.user %}
-    <div class="buttonLinkArticle">   
-        {% set break = false %}
-        {% for articleRead in app.user.userArticlesRead %}
-            {% if articleRead.article == article and articleRead.updated == false %}
-                {% set break = true %}
-                {% include 'WKTPlatformBundle:Article:buttonLinkArticleButton.html.twig' %}
-            {% endif %}
-        {% endfor %}
-        {% if not break %}
-               <a class="linkValidateArticle" href="{{ path('wkt_user_article_is_read', {'id': article.id})}}"><img class="imgSummary" src="{{ asset('images/icones/begin.svg') }}">J'ai compris ce cours</a>   
-        {% endif %}  
-    </div>
+    {% include 'WKTPlatformBundle:Article:buttonLinkArticleLogic.html.twig' %}
 {% endif %} 
