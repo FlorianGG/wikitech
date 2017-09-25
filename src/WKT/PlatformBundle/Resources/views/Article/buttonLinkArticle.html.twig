@@ -4,10 +4,7 @@
         {% for articleRead in app.user.userArticlesRead %}
             {% if articleRead.article == article and articleRead.updated == false %}
                 {% set break = true %}
-                <a class="linkValidateArticle" href="{{ path('wkt_user_cancel_article_is_read', {'id': article.id})}}"><img class="imgSummary" src="{{ asset('images/icones/finish.svg') }}">Je n’ai pas encore compris ce cours</a>
-                {% if articleRead.updated %}
-                    <a class="linkValidateArticle" href="{{ path('wkt_user_article_is_read', {'id': article.id})}}"><img class="imgSummary" src="{{ asset('images/icones/begin.svg') }}">J'ai compris ce cours</a>
-                {% endif %}
+                {% include 'WKTPlatformBundle:Article:buttonLinkArticleButton.html.twig' %}
             {% endif %}
         {% endfor %}
         {% if not break %}
