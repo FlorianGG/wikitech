@@ -64,13 +64,9 @@ class ArticleModifiedController extends Controller
 		//on récupère le sommaire de la formation
 		$training = $articleModified->getPart()->getTraining();
 		$summary = $this->container->get('wkt_platform.summary')->returnSummaryInArray($training);
+		//on génère le bon formulaire selon le type de modification
+		$form = $this->getFormByTypeOfModification($commits, $article, $training);
 
-		if (end($commits)->getTypeOfModification()->getType() == 'Création page') {
-			$form = $this->container->get('wkt_platform.generate_form')->generateFormArticleValidation($article, $training);
-		}else{
-			$form = $this->container->get('wkt_platform.generate_form')->generateFormArticleValidationWithoutPart($article, $training);
-		}
-		
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 			
 			//fonction factorisée qui set les attributs d'article avec les valeur de articleModified, 
@@ -95,6 +91,16 @@ class ArticleModifiedController extends Controller
 			'summary' => $summary,
 			'training' => $training,
 			));
+	}
+
+	//factorisation de la fonction qui génère le bon formulaire selon le type de modification
+	private function getFormByTypeOfModification($commits, Article $article, Training $training)
+	{
+		if (end($commits)->getTypeOfModification()->getType() == 'Création page') {
+			return $this->container->get('wkt_platform.generate_form')->generateFormArticleValidation($article, $training);
+		}else{
+			return $this->container->get('wkt_platform.generate_form')->generateFormArticleValidationWithoutPart($article, $training);
+		}
 	}
 
 	public function rejectionAction(Request $request, ArticleModified $id, $strike)
