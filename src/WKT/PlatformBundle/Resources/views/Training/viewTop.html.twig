@@ -1,0 +1,14 @@
+{% if top is empty %}
+    <p class="text-center"><small><em>Aucune contribution effectuée sur cette formation</em></small></p>
+{% else %}
+    {% for commit in top %}
+        <p>
+            {% if commit.user.image is not empty %}
+                <img class="imgTop img-circle" src="{{ asset(commit.user.image.webPath) }}" alt="{{ commit.user.image.alt }}">
+            {% else %}
+                <img class="imgTop img-circle" src="{{ asset('images/icones/emptyPicture.svg') }}" alt="User sans photo de profil">
+            {% endif %}
+            <a class="linkProfile" href="{{path('wkt_user_view_profile', {'id': commit.user.id})}}">{{commit.user.firstname}} {{commit.user.lastname}}</a>  - {{commit.score}} points
+        </p>
+    {% endfor %}
+{% endif %}
