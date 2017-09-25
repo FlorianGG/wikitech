@@ -36,7 +36,7 @@ class ContactController extends Controller
 			 
 			if (! $this->get('mailer')->send($message)) {
 			    // Il y a eu un problème donc on traite l'erreur
-			    throw new Exception('Le mail n\'a pas pu être envoyé');
+			    throw new \Exception('Le mail n\'a pas pu être envoyé');
 			}
 
 			$request->getSession()->getFlashBag()->add('notice', 'Email bien envoyé 👍 !');
