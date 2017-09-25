@@ -1,0 +1,7 @@
+{% if articleNotRead %}
+    <a href="{{path('wkt_platform_article_view', {'slugTraining': training.slug, 'slugArticle': articleNotRead.slug })}}" class="btn btn-primary {% if is_granted('ROLE_USER') %}{{classAdmin}}{% else %}{{class}}{% endif %}">Commencer la formation</a>
+
+{% endif %}
+{% if is_granted('ROLE_USER') %}
+    <a class="btn btn-success col-sm-3 col-sm-offset-2 col-xs-6 col-xs-offset-3 secondButton" href="{{ path('wkt_platform_article_modified_add_new_article', {'id': training.id}) }}">Créer un nouvel article</a>
+{% endif %}
