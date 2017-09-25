@@ -1,0 +1,20 @@
+  <!-- Modal -->
+<div class="modal fade" id="isModifying" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-center" id="myModalLabel">Attention {% if app.user %}{{app.user.firstname}}{% endif %}</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">Cette article fait déjà l'objet d'une ou plusieurs modifications en attentes de validation.</p>
+                <p class="text-center">Vous allez pouvoir choisir la version à partir de laquelle vous ferez votre modification.</p>
+                <p class="text-center">Vous pourrez également choisir d'en créer une nouvelle.</p>
+                <p class="text-center">Nous vous conseillons de jeter un oeil aux différentes versions, quelqu'un a peut-être déjà fait ce que vous voulez</p>
+            </div>
+            <div class="modal-footer">
+                    <p class="text-center"><a class="btn btn-primary" href="{{ path('wkt_platform_article_modified_edit', {'id': idArticleModified}) }}">J'ai compris</a></p>
+
+            </div>
+        </div>
+    </div>
+</div>
