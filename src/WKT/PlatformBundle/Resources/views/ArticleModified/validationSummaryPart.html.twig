@@ -1,5 +1,5 @@
 <div>
-  {% if part.Part.entity.isEnabled %}
+  {% if part.Part.entity.enabled %}
     <h4>{{ part.Part.entity.title }}</h4>
     {% if part.Article is defined %}
         {{ include("WKTPlatformBundle:ArticleModified:validationSummaryPartArticle.html.twig") }}

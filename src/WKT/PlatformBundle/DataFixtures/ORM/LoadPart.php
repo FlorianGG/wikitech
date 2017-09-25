@@ -113,7 +113,7 @@ class LoadPart extends AbstractFixture implements OrderedFixtureInterface
       // On crée la catégorie
       $part = new Part();
       $part->setTitle($newPart['title']);
-      $part->setIsEnabled($newPart['isEnabled']);
+      $part->setEnabled($newPart['isEnabled']);
       $part->setTraining($this->getReference($newPart['training']));
       $part->setOrderInTraining($newPart['orderInTraining']);
       // On la persiste

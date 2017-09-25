@@ -20,15 +20,14 @@ class ArticleController extends Controller
 		$article = $articleRepository->findOneBy(array('slug' => $slugArticle));
 
 
-		$idArticleModified = $em->getRepository('WKTPlatformBundle:ArticleModified')->findOneBy(array(
-			'article' => $article));
-		if (!is_null($idArticleModified)) {
-			$idArticleModified = $idArticleModified->getId();
+		$idArticleModified = $em->getRepository('WKTPlatformBundle:ArticleModified')->getArticlesModifiedNotRejectedByArticle($article);
+		if (!empty($idArticleModified)) {
+			$idArticleModified = $idArticleModified[0]->getId();
 		}else{
 			$idArticleModified = 0;
 			//on change la valeur de l'attribut à false
 			// Pour couvrir le cas ou il y a eu une modification et qu'elle a été supprimé par l'admin
-			$article->setIsModifying(false);
+			$article->setModified(false);
 		}
 		//on récupère l'article précédent et l'article suivant
 		$articlePreviousAndFollowing = $this->container->get('wkt_platform.summary')->getFollowingAndPreviousArticle($article);

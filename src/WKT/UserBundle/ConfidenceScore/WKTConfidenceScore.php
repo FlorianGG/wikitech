@@ -31,9 +31,9 @@ class WKTConfidenceScore
 			return 'first';
 		}
 		foreach ($commits as $commit) {
-			if (is_null($commit->getIsValidate())) {
+			if (is_null($commit->getValidate())) {
 				$nbCommitNull++;
-			}elseif (!$commit->getIsValidate()) {
+			}elseif (!$commit->getValidate()) {
 				$nbCommitNotValid++;
 			}else{
 				$nbCommitValid++;

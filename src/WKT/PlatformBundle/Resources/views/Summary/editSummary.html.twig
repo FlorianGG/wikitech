@@ -4,7 +4,7 @@
   {% else %}
     <div id="articleOrderInPart">
       {% for part in summary %}
-          {% if part.Part.entity.isEnabled %}
+          {% if part.Part.entity.enabled %}
             <h2>{{ part.Part.entity.title }}</h2>
             {% include 'WKTPlatformBundle:Summary:editSummaryArticle.html.twig' %}
           {% endif %}

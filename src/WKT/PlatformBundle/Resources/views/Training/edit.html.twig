@@ -22,7 +22,7 @@
                     </thead>
                     <tbody>
                         {% for part in training.parts %}
-                            <tr class="{% if not part.isEnabled %}danger{% endif %}">
+                            <tr class="{% if not part.enabled %}danger{% endif %}">
                                 <td>{{part.title}}</td>
                                 <td><p class="text-center"><a href="{{path('wkt_platform_part_edit', {'id': part.id})}}" class="btn btn-warning">Modifier</a></p></td>
                             </tr>

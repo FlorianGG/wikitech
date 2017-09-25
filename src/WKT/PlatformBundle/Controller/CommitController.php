@@ -14,7 +14,7 @@ class CommitController extends Controller
 	public function indexAction(Request $request)
 	{
 		$em = $this->getDoctrine()->getManager();
-		$commits = $em->getRepository('WKTPlatformBundle:Commit')->findBy(array('isValidate' => null), array('id' => 'DESC'));
+		$commits = $em->getRepository('WKTPlatformBundle:Commit')->findBy(array('validate' => null), array('id' => 'DESC'));
 
 		// on crée un tableau contenant tous les users dont un commit est à valider
 		// puis on calcul le confidence Score pour chacun

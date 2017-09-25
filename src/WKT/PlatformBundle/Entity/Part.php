@@ -50,9 +50,9 @@ class Part
     /**
      * @var bool
      *
-     * @ORM\Column(name="isEnabled", type="boolean", nullable=true)
+     * @ORM\Column(name="enabled", type="boolean", nullable=true)
      */
-    private $isEnabled;
+    private $enabled;
 
     /**
      * @var \DateTime
@@ -189,27 +189,27 @@ class Part
     }
 
     /**
-     * Set isEnabled
+     * Set enabled
      *
-     * @param boolean $isEnabled
+     * @param boolean $enabled
      *
      * @return Part
      */
-    public function setIsEnabled($isEnabled)
+    public function setEnabled($enabled)
     {
-        $this->isEnabled = $isEnabled;
+        $this->enabled = $enabled;
 
         return $this;
     }
 
     /**
-     * Get isEnabled
+     * Get enabled
      *
      * @return boolean
      */
-    public function getIsEnabled()
+    public function getEnabled()
     {
-        return $this->isEnabled;
+        return $this->enabled;
     }
 
     /**

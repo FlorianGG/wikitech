@@ -26,7 +26,7 @@
                     <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/bref.svg') }}"> En bref</h2>
                 </div>
                 <div class=" col-xs-4 ">
-                    {% if article.isModifying %}
+                    {% if article.modified %}
                         <button type="button" class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyBref" data-toggle="modal" data-target="#isModifying">
                           Modifier</button>
                     {% else %}
@@ -48,7 +48,7 @@
                     <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/video.svg') }}"> En video</h2>
                 </div>
                 <div class=" col-xs-4 ">
-                    {% if article.isModifying %}
+                    {% if article.modified %}
                         <button type="button" class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyVideo" data-toggle="modal" data-target="#isModifying">
                           Modifier</button>
                     {% else %}
@@ -78,7 +78,7 @@
                     <h2 class="withoutMargin"><img class="imgLink" src="{{ asset('images/icones/detail.svg') }}"> En detail</h2>
                 </div>
                 <div class=" col-xs-4 ">
-                    {% if article.isModifying %}
+                    {% if article.modified %}
                         <button type="button" class="btn btn-default col-xs-3 buttonHome buttonHomeTop buttonArticleModifyDetail" data-toggle="modal" data-target="#isModifying">
                           Modifier</button>
                     {% else %}

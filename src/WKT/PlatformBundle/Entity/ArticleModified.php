@@ -65,9 +65,9 @@ class ArticleModified
     /**
      * @var bool
      *
-     * @ORM\Column(name="isRejected", type="boolean", nullable=true)
+     * @ORM\Column(name="rejected", type="boolean", nullable=true)
      */
-    private $isRejected;
+    private $rejected;
 
     /**
      * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Video", cascade={"persist", "remove"})
@@ -111,7 +111,7 @@ class ArticleModified
     public function __construct()
     {
         $this->createdAt = new \DateTime;
-        $this->isRejected = null;
+        $this->rejected = null;
     }
 
 
@@ -247,15 +247,15 @@ class ArticleModified
     }
 
     /**
-     * Set isRejected
+     * Set rejected
      *
-     * @param boolean $isRejected
+     * @param boolean $rejected
      *
      * @return ArticleModified
      */
-    public function setIsRejected($isRejected)
+    public function setRejected($rejected)
     {
-        $this->isRejected = $isRejected;
+        $this->rejected = $rejected;
 
         return $this;
     }
@@ -265,9 +265,9 @@ class ArticleModified
      *
      * @return boolean
      */
-    public function getIsRejected()
+    public function getRejected()
     {
-        return $this->isRejected;
+        return $this->rejected;
     }
 
     /**

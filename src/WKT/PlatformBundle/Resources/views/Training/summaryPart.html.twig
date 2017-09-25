@@ -1,5 +1,5 @@
 {% for part in summary %}
-    {% if part.Part.entity.isEnabled %}
+    {% if part.Part.entity.enabled %}
         {% if app.user %}
             {% set loopArticle = part.Article|length %}
             {% set loopArticleRead = 0 %}

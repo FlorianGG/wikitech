@@ -69,9 +69,9 @@ class Article
     /**
      * @var bool
      *
-     * @ORM\Column(name="isModifying", type="boolean", nullable=false)
+     * @ORM\Column(name="modified", type="boolean", nullable=false)
      */
-    private $isModifying;
+    private $modified;
 
     /**
      * @var int
@@ -96,6 +96,7 @@ class Article
     /**
      * @ORM\ManyToOne(targetEntity="WKT\PlatformBundle\Entity\Part", inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
      */
     private $part;
 
@@ -114,10 +115,8 @@ class Article
     public function __construct()
     {
         $this->createdAt = new \DateTime;
-        $this->isModifying = false;
+        $this->modified = false;
     }
-
-
 
     /**
      * Get id
@@ -250,27 +249,27 @@ class Article
     }
 
     /**
-     * Set isModifying
+     * Set modified
      *
-     * @param boolean $isModifying
+     * @param boolean $modified
      *
      * @return Article
      */
-    public function setIsModifying($isModifying)
+    public function setModified($modified)
     {
-        $this->isModifying = $isModifying;
+        $this->modified = $modified;
 
         return $this;
     }
 
     /**
-     * Get isModifying
+     * Get modified
      *
      * @return boolean
      */
-    public function getIsModifying()
+    public function getModified()
     {
-        return $this->isModifying;
+        return $this->modified;
     }
 
     /**
@@ -393,4 +392,40 @@ class Article
         return $this->part;
     }
 
+
+    /**
+     * Add userArticlesRead
+     *
+     * @param \WKT\UserBundle\Entity\UserArticleRead $userArticlesRead
+     *
+     * @return Article
+     */
+    public function addUserArticlesRead(\WKT\UserBundle\Entity\UserArticleRead $userArticlesRead)
+    {
+        $this->userArticlesRead[] = $userArticlesRead;
+
+        $userArticlesRead->setArticle($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove userArticlesRead
+     *
+     * @param \WKT\UserBundle\Entity\UserArticleRead $userArticlesRead
+     */
+    public function removeUserArticlesRead(\WKT\UserBundle\Entity\UserArticleRead $userArticlesRead)
+    {
+        $this->userArticlesRead->removeElement($userArticlesRead);
+    }
+
+    /**
+     * Get userArticlesRead
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUserArticlesRead()
+    {
+        return $this->userArticlesRead;
+    }
 }

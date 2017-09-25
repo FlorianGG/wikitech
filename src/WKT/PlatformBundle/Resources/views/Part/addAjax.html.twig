@@ -19,7 +19,7 @@
       {% else %}
       <optgroup label="Parties existantes">
        {% for part in summary %}
-          {% if part.Part.entity.isEnabled %}
+          {% if part.Part.entity.enabled %}
             <option value="{{ part.Part.order }}">{{ part.Part.entity.title }}</option>
           {% endif %}  
        {% endfor %}

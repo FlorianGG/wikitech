@@ -69,9 +69,9 @@ class Article
     /**
      * @var bool
      *
-     * @ORM\Column(name="isModifying", type="boolean", nullable=false)
+     * @ORM\Column(name="modified", type="boolean", nullable=false)
      */
-    private $isModifying;
+    private $modified;
 
     /**
      * @var int
@@ -115,7 +115,7 @@ class Article
     public function __construct()
     {
         $this->createdAt = new \DateTime;
-        $this->isModifying = false;
+        $this->modified = false;
     }
 
     /**
@@ -249,27 +249,27 @@ class Article
     }
 
     /**
-     * Set isModifying
+     * Set modified
      *
-     * @param boolean $isModifying
+     * @param boolean $modified
      *
      * @return Article
      */
-    public function setIsModifying($isModifying)
+    public function setModified($modified)
     {
-        $this->isModifying = $isModifying;
+        $this->modified = $modified;
 
         return $this;
     }
 
     /**
-     * Get isModifying
+     * Get modified
      *
      * @return boolean
      */
-    public function getIsModifying()
+    public function getModified()
     {
-        return $this->isModifying;
+        return $this->modified;
     }
 
     /**

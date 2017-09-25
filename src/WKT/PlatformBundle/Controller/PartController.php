@@ -20,7 +20,7 @@ class PartController extends Controller
 		$part->setTraining($id);
 
 		if ($request->isMethod('POST')) {
-			$part->setTitle($request->request->get('title'))->setOrderInTraining($request->request->get('orderInTraining'))->setIsEnabled(false);
+			$part->setTitle($request->request->get('title'))->setOrderInTraining($request->request->get('orderInTraining'))->setEnabled(false);
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($part);
 			$em->flush();

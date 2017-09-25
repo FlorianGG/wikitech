@@ -18,9 +18,9 @@ function tinymce_button_titre2(ed) {
 function tinymce_button_titreX(ed) {
     ed.focus();
     if (ed.selection.getContent()) {
-        ed.selection.setContent("<p>" + ed.selection.getContent() + "</p>");
+        ed.selection.setContent("<p class=''>" + ed.selection.getContent() + "</p>");
     }else{
-        ed.selection.setContent("<p>&nbsp");
+        ed.selection.setContent("<p class=''>&nbsp");
     }
 }
 function tinymce_button_accolade(ed) {

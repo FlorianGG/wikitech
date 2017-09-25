@@ -29,8 +29,8 @@ class CommitRepository extends \Doctrine\ORM\EntityRepository
 		return $this->createQueryBuilder('c')
 			->where('c.user = :user')
 				->setParameter('user', $user->getId())
-			->andWhere('c.isValidate = :isValidate')
-				->setParameter('isValidate', true)
+			->andWhere('c.validate = :validate')
+				->setParameter('validate', true)
 			->getQuery()
 			->getResult();
 	}
@@ -39,8 +39,8 @@ class CommitRepository extends \Doctrine\ORM\EntityRepository
 	{
 		return $this->createQueryBuilder('c')
 			->where('c.user IS NOT null')
-			->andWhere('c.isValidate = :isValidate')
-				->setParameter('isValidate', true)
+			->andWhere('c.validate = :validate')
+				->setParameter('validate', true)
 			->getQuery()
 			->getResult();
 	}

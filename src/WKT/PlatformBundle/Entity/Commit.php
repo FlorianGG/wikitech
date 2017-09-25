@@ -65,15 +65,15 @@ class Commit
     /**
      * @var bool
      *
-     * @ORM\Column(name="isValidate", type="boolean", nullable=true)
+     * @ORM\Column(name="validate", type="boolean", nullable=true)
      */
-    private $isValidate;
+    private $validate;
 
 
     public function __construct()
     {
         $this->createdAt = new \DateTime;
-        $this->isValidate = null;
+        $this->validate = null;
     }
 
     /**
@@ -232,15 +232,15 @@ class Commit
     }
 
     /**
-     * Set isValidate
+     * Set validate
      *
-     * @param boolean $isValidate
+     * @param boolean $validate
      *
      * @return Commit
      */
-    public function setIsValidate($isValidate)
+    public function setValidate($validate)
     {
-        $this->isValidate = $isValidate;
+        $this->validate = $validate;
 
         return $this;
     }
@@ -250,8 +250,8 @@ class Commit
      *
      * @return boolean
      */
-    public function getIsValidate()
+    public function getValidate()
     {
-        return $this->isValidate;
+        return $this->validate;
     }
 }

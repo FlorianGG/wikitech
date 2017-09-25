@@ -71,8 +71,8 @@ class ArticleModifiedController extends Controller
 			
 			//fonction factorisée qui set les attributs d'article avec les valeur de articleModified, 
 			// vérifie si la partie de l'article est activée sinon on l'active, 
-			// change dans l'article le statut IsModifying à false si il n'y a pas d'autre articleModified pour cet article,
-			// change le statut isValidate à true du dernier commit de cette articleModified,
+			// change dans l'article le statut Modified à false si il n'y a pas d'autre articleModified pour cet article,
+			// change le statut validate à true du dernier commit de cette articleModified,
 			// change l'attribut modified de tous les UserArticleRead de cet article à true
 			// change l'attribut finished de tous les UserTraining de cet article à false
 			// on change l'attribut updated de tous les UserTraining liés à cet article
@@ -110,14 +110,14 @@ class ArticleModifiedController extends Controller
 		$articleModified = $em->getRepository('WKTPlatformBundle:ArticleModified')->find($id);
 
 		// on verifie s'il y a d'autres articleModified pour cette l'article
-		// sinon on change le status IsModifying à false
+		// sinon on change le status Modified à false
 		$this->checkIfOtherArticleModifiedByArticleExist($em, $articleModified);
 
 		//on récupère la liste des commits pour cet articleModified
 		$commits = $this->returnCommits($articleModified);
 
-		// on change le status isValidate du dernier commit à false
-		$commits[0]->setIsValidate(false);
+		// on change le status validate du dernier commit à false
+		$commits[0]->setValidate(false);
 
 		//si le paramètre url strike est renseigné on ajoute 1 au champ nbStrike du user
 		if ($strike) {
@@ -128,8 +128,8 @@ class ArticleModifiedController extends Controller
 			}
 		}
 
-		// on change le status isRejected de l'articleModified à true
-		$articleModified->setIsRejected(true);
+		// on change le status rejected de l'articleModified à true
+		$articleModified->setRejected(true);
 
 		$em->persist($articleModified);
 		$em->persist($commits[0]);
@@ -141,7 +141,7 @@ class ArticleModifiedController extends Controller
 	}
 
 	//factorisation de la fonction qui verifie si'il y a d'autre articlesModified pour cette article
-	//sinon on change le status isModifying à false
+	//sinon on change le status modified à false
 	private function checkIfOtherArticleModifiedByArticleExist($em, ArticleModified $articleModified)
 	{
 		$repoArticleModified = $em->getRepository('WKTPlatformBundle:ArticleModified');
@@ -150,7 +150,7 @@ class ArticleModifiedController extends Controller
 			$articlesModified = $repoArticleModified->getArticlesModifiedNotRejectedByArticle($articleModified->getArticle());
 			if (sizeof($articlesModified) === 1 && $articlesModified[0]->getId() === $articleModified->getId()) {
 				$article = $articleModified->getArticle();
-				$article->setIsModifying(false);
+				$article->setModified(false);
 				$em->persist($article);
 			}
 		}
@@ -197,8 +197,8 @@ class ArticleModifiedController extends Controller
 			// On crée le commit relatif à cette création de modification
 			$commit = $this->createCommit($articleModified, $form);
 
-			// on change dans l'article le statut IsModifying à true
-			$article->setIsModifying(true);
+			// on change dans l'article le statut Modified à true
+			$article->setModified(true);
 
 			$em->persist($articleModified);
 			$em->persist($commit);
@@ -277,7 +277,7 @@ class ArticleModifiedController extends Controller
 		//On valide le précédent commit
 		// car on part du principe qu'une modification modifiée 
 		// est considérée comme présentant de l'intérêt
-		$commits[0]->setIsValidate(true);
+		$commits[0]->setValidate(true);
 
 		if ($commit->getTypeOfModification()->getType() !== 'Création page' && !is_null($commits[0]->getUser())) {
 			$user = $commits[0]->getUser();
@@ -364,8 +364,8 @@ class ArticleModifiedController extends Controller
 
 	//factorisation de la fonction qui récupère tous les articlesModified d'un article
 	private function returnArticlesModifiedArray(ArticleModified $articleModified)
-	{	//On récupère la liste des articlesModified pour cet article seulement si l'article a un statut isModifying
-		if (!is_null($articleModified->getArticle()) && $articleModified->getArticle()->getIsModifying()) {
+	{	//On récupère la liste des articlesModified pour cet article seulement si l'article a un statut modified
+		if (!is_null($articleModified->getArticle()) && $articleModified->getArticle()->getModified()) {
 			return $this->getDoctrine()->getManager()->getRepository('WKTPlatformBundle:ArticleModified')->getArticlesModifiedNotRejectedByArticle($articleModified->getArticle());
 		}
 		
@@ -441,8 +441,8 @@ class ArticleModifiedController extends Controller
 		if ($this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
 			//fonction factorisée qui set les attributs d'article avec les valeur de articleModified, 
 			// vérifie si la partie de l'article est activée sinon on l'active, 
-			// change dans l'article le statut IsModifying à false si il n'y a pas d'autre articleModified pour cet article,
-			// change le statut isValidate à true du dernier commit de cette articleModified,
+			// change dans l'article le statut Modified à false si il n'y a pas d'autre articleModified pour cet article,
+			// change le statut validate à true du dernier commit de cette articleModified,
 			// change l'attribut modified de tous les UserArticleRead de cet article à true
 			// change l'attribut finished de tous les UserTraining de cet article à false
 			// on change l'attribut updated de tous les UserTraining liés à cet article
@@ -485,25 +485,25 @@ class ArticleModifiedController extends Controller
 		}
 
 		if ($this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-			//si c'est l'admin qui valide on change l'attribut isRejected à false de l'articleModified
-			$articleModified->setIsRejected(false);
+			//si c'est l'admin qui valide on change l'attribut rejected à false de l'articleModified
+			$articleModified->setRejected(false);
 		}
 
-		//on vérifie si la partie de l'article a un status IsEnabled true sinon on l'active
-		if (!$article->getPart()->getIsEnabled()) {
-			$article->getPart()->setIsEnabled(true);
+		//on vérifie si la partie de l'article a un status Enabled true sinon on l'active
+		if (!$article->getPart()->getEnabled()) {
+			$article->getPart()->setEnabled(true);
 		}
 
 		// on verifie si cet articleModified est le seul pour cet article
 		$articleModifieds = $em->getRepository('WKTPlatformBundle:ArticleModified')->getArticlesModifiedNotRejectedByArticle($article);
 		if (sizeof($articleModifieds) === 1) {
-			// on change dans l'article le statut IsModifying à false
+			// on change dans l'article le statut Modified à false
 			// si il n'y a pas d'autre articleModified pour cet article
-			$article->setIsModifying(false);
+			$article->setModified(false);
 		}
 
-		// on change le statut IsValidate pour le commit
-		$commits[0]->setIsValidate(true);
+		// on change le statut Validate pour le commit
+		$commits[0]->setValidate(true);
 
 		// on change l'attribut modified de tous les UserArticleRead de cet article à true
 		// on change finished de tous les UserTraining de cet article à false

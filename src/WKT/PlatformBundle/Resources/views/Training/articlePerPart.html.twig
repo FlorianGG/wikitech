@@ -2,18 +2,7 @@
 {% set edit = '' %}
 {% set finish = '' %}
 <li class="liArticle" ><a href=" {{ path('wkt_platform_article_view', {'slugTraining': part.Part.entity.training.slug, 'slugArticle': article.entityArticle.slug})}}">
-    {% if app.user and app.user.userArticlesRead is not empty %}
-		{% for articleRead in app.user.userArticlesRead %}
-		    {% if articleRead.article == article.entityArticle %}
-		    	{% if articleRead.updated %}
-		    		{% set edit = 'images/icones/edit.svg' %}
-		    	{% else %}
-		    		{% set finish = 'images/icones/finish.svg' %}
-		    	{% endif %}
-		    {% endif %}
-		{% endfor %}
-    {% endif %}
-	{% include 'WKTPlatformBundle:Training:articlePerPartImg.html.twig' %}
+	{% include 'WKTPlatformBundle:Training:articlePerPartLogic.html.twig' %}
     {{ article.entityArticle.title }}
     </a>
 </li>

@@ -1,4 +1,4 @@
-{% if part.Part.entity.isEnabled %}
+{% if part.Part.entity.enabled %}
 	<a class="titleSummary" data-toggle="collapse" href="#collapse{{loop.index}}" aria-expanded="false" aria-controls="#collapse{{loop.index}}">
 		<img class="imgSummary" src="{{ asset('images/icones/arrow.svg') }}"> {{ part.Part.entity.title }} {% if app.user %}<span style="float: right; text-align: right">{{loopArticleRead}}/{{loopArticle}}</span>{% endif %}</a>
 	<ul class="collapse in" id="collapse{{loop.index}}">
