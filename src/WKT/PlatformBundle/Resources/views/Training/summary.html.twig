@@ -5,19 +5,7 @@
 	<p class="lead text-center">Aucun article n'est enregistré sur cette formation</p>
 	{% else %}
 	<ul>
-		{% for part in summary %}
-		    {% if part.Part.entity.isEnabled %}
-		    	{% if app.user %}
-		    		{% set loopArticle = part.Article|length %}
-		    		{% set loopArticleRead = 0 %}
-					{% include 'WKTPlatformBundle:Training:summaryLogicArticle.html.twig'%}
-		    		
-		    	{% endif %}
-		    {% endif %}
-		    <li class="summaryList">
-		    	{% include 'WKTPlatformBundle:Training:summaryList.html.twig'%}
-		    </li>
-		{% endfor %}
+		{% include 'WKTPlatformBundle:Training:summaryPart.html.twig'%}
 	</ul>
 	{% endif %}
 </div>

@@ -1,12 +1,5 @@
 {% if part.Article is defined %}
 	{% for article in part.Article %}
-    	{% if app.user.userArticlesRead is empty %}
-		{% else %}
-		   {% for articleRead in app.user.userArticlesRead %}
-		    	{% if articleRead.article == article.entityArticle and articleRead.updated == false %}
-					{% set loopArticleRead = loopArticleRead + 1 %}
-		        {% endif %}
-		   {% endfor %}
-    	{% endif %}
+    	{% include 'WKTPlatformBundle:Training:summaryLogicArticleLoop.html.twig'%}
 	{% endfor %}
 {% endif %}
