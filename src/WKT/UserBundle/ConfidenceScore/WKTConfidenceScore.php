@@ -19,7 +19,6 @@ class WKTConfidenceScore
 	public function getConfidenceScore(User $user = null)
 	{
 		$commitRepository = $this->em->getRepository('WKTPlatformBundle:Commit');
-		$userRepository = $this->em->getRepository('WKTUserBundle:User');
 		$nbCommitNull = 0;
 		$nbCommitValid = 0;
 		$nbCommitNotValid = 0;

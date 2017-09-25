@@ -3,7 +3,6 @@
 
 namespace WKT\PlatformBundle\GenerateForm;
 
-use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -19,11 +18,9 @@ use WKT\PlatformBundle\Repository\PartRepository;
 
 class WKTGenerateForm
 {
-  private $em;
 
-  public function __construct(EntityManager $entityManager, FormFactory $fromFactory )
+  public function __construct(FormFactory $fromFactory )
   {
-      $this->em = $entityManager;
       $this->formBuilder = $fromFactory;
   }
 

@@ -8,7 +8,6 @@ services:
     wkt_platform.generate_form:
         class: WKT\PlatformBundle\GenerateForm\WKTGenerateForm
         arguments: 
-          - "@doctrine.orm.entity_manager"
           - "@form.factory"
     wkt_platform.score:
         class: WKT\PlatformBundle\Score\WKTScore

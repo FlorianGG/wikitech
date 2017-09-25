@@ -22,7 +22,7 @@ class PartRepository extends EntityRepository
 
 	public function qbPartsByTraining($id)
 	{
-		return $qb = $this->createQueryBuilder('p')
+		return $this->createQueryBuilder('p')
 			->where('p.training = :id')
 			->setParameter('id', $id)
 			->orderBy('p.orderInTraining', 'ASC');

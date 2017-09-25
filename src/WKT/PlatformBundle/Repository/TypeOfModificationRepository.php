@@ -12,7 +12,7 @@ class TypeOfModificationRepository extends \Doctrine\ORM\EntityRepository
 {
 	public function qbTypeOfModificationWithoutCreatePage()
 	{
-		return $qb = $this->createQueryBuilder('tom')
+		return $this->createQueryBuilder('tom')
 			->where('tom.type != :type')
 			->setParameter('type', 'Création page')
 			->orderBy('tom.id', 'ASC');

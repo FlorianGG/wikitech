@@ -3,7 +3,6 @@
 
 namespace WKT\UserBundle\TrainingIsFinished;
 
-use Doctrine\ORM\EntityManager;
 use WKT\PlatformBundle\Entity\Article;
 use WKT\PlatformBundle\Entity\Training;
 use WKT\PlatformBundle\Summary\WKTSummary;
@@ -12,12 +11,10 @@ use WKT\UserBundle\Entity\UserTraining;
 
 class WKTTrainingIsFinished
 {
-	private $em;
 	private $sum;
 
-	public function __construct(EntityManager $em, WKTSummary $sum)
+	public function __construct(WKTSummary $sum)
 	{ //Son constructeur avec l'entity manager en paramètre
-	        $this->em = $em;
 	        $this->sum = $sum;
 	}
 

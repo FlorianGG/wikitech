@@ -3,21 +3,14 @@
 
 namespace WKT\PlatformBundle\Score;
 
-use Doctrine\ORM\EntityManager;
 use WKT\PlatformBundle\Entity\ArticleModified;
 
 class WKTScore
 {
-	private $em;
 	private $text = 1;
 	private $mots = 20;
 	private $video = 5;
 	private $image = 2;
-
-	public function __construct(EntityManager $em)
-	{ //Son constructeur avec l'entity manager en paramètre
-	        $this->em = $em;
-	}
 
 	public function getScore(ArticleModified $articleModified)
 	{

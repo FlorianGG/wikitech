@@ -9,7 +9,6 @@ services:
     wkt_user.training_is_finished:
         class: WKT\UserBundle\TrainingIsFinished\WKTTrainingIsFinished
         arguments: 
-          - "@doctrine.orm.entity_manager"
           - "@wkt_platform.summary"
 
     wkt_user.user_training_article_updated:

@@ -236,7 +236,6 @@ class Image
                 break;
         }
 
-        $ratio = imagesx($source)/imagesy($source);
         $destination = imagecreatetruecolor(140, 140); // On crée la photo redimensionnée
 
         // Les fonctions imagesx et imagesy renvoient la largeur et la hauteur d'une image
