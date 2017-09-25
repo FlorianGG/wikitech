@@ -1,0 +1,12 @@
+{% if app.user.image is not empty %}
+	<p class="text-center"><img class="img-circle imgProfile" src="{{ asset(app.user.image.webPath) }}" alt="{{ app.user.image.alt }}"></p>  
+{% else %}
+	<p class="text-center"><img class="imgProfile img-circle" src="{{ asset('images/icones/emptyPicture.svg') }}" alt="User sans photo de profil"></p>
+{% endif %}
+<h3 class="text-center">{{ user.firstname }} {{ user.lastname }} {% if user.additionalName is not empty %} {{ user.additionalName }} {% endif %}</h3>
+<p class="text-center">{{ user.nbPoint }} points</p>
+{% if user.biography is empty %}
+	<p class="text-center"><small><em>Votre biographie est vide...</em></small></p>
+{% else %}
+	<p class="text-left"><small><em>{{ user.biography}}</em></small> </p>
+{% endif %}

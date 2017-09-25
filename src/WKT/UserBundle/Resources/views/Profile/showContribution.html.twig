@@ -1,0 +1,14 @@
+{% if score is empty %}
+    <p class="text-center"><small><em>Aucune contribution réalisée</em></small></p>
+{% else %}
+    {% for training in score %}
+        <p>
+            {% if training.training.image is not empty %}
+                <img class="imgTop img-circle" src="{{ asset(training.training.image.webPath) }}" alt="{{ training.training.image.alt }}">
+            {% else %}
+                <img class="imgTop img-circle" src="{{ asset('images/training.jpeg') }}" alt="Formation sans miniature">
+            {% endif %}
+           	{{training.training.title}} - {{training.score}} points
+        </p>
+    {% endfor %}                 
+{% endif %}

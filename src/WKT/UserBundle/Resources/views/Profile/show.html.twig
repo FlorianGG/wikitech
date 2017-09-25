@@ -3,21 +3,9 @@
 {% block fos_user_content %}
 	    <div class="bodyLeft bodyLeftProfile">
 	    	<div class="col-xs-12">
-	    		 <h2 class="text-center"><img class="imgLink" src="{{ asset('images/icones/profilPink.svg') }}"> Mon Profil</h2>
-	    		{% if app.user.image is not empty %}
-	    			<p class="text-center"><img class="img-circle imgProfile" src="{{ asset(app.user.image.webPath) }}" alt="{{ app.user.image.alt }}"></p>  
-	    		{% else %}
-	    			<p class="text-center"><img class="imgProfile img-circle" src="{{ asset('images/icones/emptyPicture.svg') }}" alt="User sans photo de profil"></p>
-	    		{% endif %}
-	    		<h3 class="text-center">{{ user.firstname }} {{ user.lastname }} {% if user.additionalName is not empty %} {{ user.additionalName }} {% endif %}</h3>
-	    		<p class="text-center">{{ user.nbPoint }} points</p>
-    		    {% if user.biography is empty %}
-    				<p class="text-center"><small><em>Votre biographie est vide...</em></small></p>
-    			{% else %}
-    				<p class="text-left"><small><em>{{ user.biography}}</em></small> </p>
-    		    {% endif %}
+	    		<h2 class="text-center"><img class="imgLink" src="{{ asset('images/icones/profilPink.svg') }}"> Mon Profil</h2>
+				{% include 'WKTUserBundle:Profile:showMyProfile.html.twig'%}
     		    <a class="buttonProfileModifierBodyLeft" href="{{path('fos_user_profile_edit')}}">Modifier</a>
-
 	    	</div>
 	    </div>
 	    <div class="bodyRight">
@@ -32,20 +20,7 @@
 	    	            </div>
 	    	        </div>
 	    	        <div class="col-xs-12 ">
-	    	            {% if score is empty %}
-	    	                <p class="text-center"><small><em>Aucune contribution réalisée</em></small></p>
-	    	            {% else %}
-	    	                {% for training in score %}
-	    	                    <p>
-	    	                        {% if training.training.image is not empty %}
-	    	                            <img class="imgTop img-circle" src="{{ asset(training.training.image.webPath) }}" alt="{{ training.training.image.alt }}">
-	    	                        {% else %}
-	    	                            <img class="imgTop img-circle" src="{{ asset('images/training.jpeg') }}" alt="Formation sans miniature">
-	    	                        {% endif %}
-	    	                       	{{training.training.title}} - {{training.score}} points
-	    	                    </p>
-	    	                {% endfor %}                 
-	    	            {% endif %}
+	    	            {% include 'WKTUserBundle:Profile:showContribution.html.twig'%}
 	    	        </div>
 	    	    </section>
 	    	</div>
@@ -61,15 +36,9 @@
 	    	            </div>
 	    	        </div>
 	    	        <div class="col-xs-12 ">
-	    	        	<p><img class="imgLinkProfile" src="{{ asset('images/icones/localisation.svg') }}"> Localisation : 
-	    	        		{% if user.country is empty and user.country is empty %}
-	    	        			<small><em>Quelque part dans la galaxie</em></small>
-	    	        		{% endif %}
-	    	        		{{ user.locality }}
-	    	        		{% if user.country is empty or user.country is empty %}
-	    	        		{% else %}
-	    	        		 - 
-	    	        		{% endif %}
+	    	        	<p>
+	    	        		<img class="imgLinkProfile" src="{{ asset('images/icones/localisation.svg') }}"> Localisation : 
+							{% include 'WKTUserBundle:Profile:showLocalisation.html.twig'%}
 	    	        		{{ user.country }}
 	    	        	</p>
 	    	            <p><img class="imgLinkProfile" src="{{ asset('images/icones/email.svg') }}"> Adresse email : {{ user.email }}</p>
