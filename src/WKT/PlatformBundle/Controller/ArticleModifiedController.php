@@ -101,20 +101,11 @@ class ArticleModifiedController extends Controller
 	{
 		$em = $this->getDoctrine()->getManager();
 
-		$repoArticleModified = $em->getRepository('WKTPlatformBundle:ArticleModified');
-
-		$articleModified = $repoArticleModified->find($id);
+		$articleModified = $em->getRepository('WKTPlatformBundle:ArticleModified')->find($id);
 
 		// on verifie s'il y a d'autres articleModified pour cette l'article
 		// sinon on change le status IsModifying à false
-		if (!is_null($articleModified->getArticle())) {
-			$articlesModified = $repoArticleModified->getArticlesModifiedNotRejectedByArticle($articleModified->getArticle());
-			if (sizeof($articlesModified) === 1 && $articlesModified[0]->getId() === $articleModified->getId()) {
-				$article = $articleModified->getArticle();
-				$article->setIsModifying(false);
-				$em->persist($article);
-			}
-		}
+		$this->checkIfOtherArticleModifiedByArticleExist($em, $articleModified);
 
 		//on récupère la liste des commits pour cet articleModified
 		$commits = $this->returnCommits($articleModified);
@@ -141,6 +132,22 @@ class ArticleModifiedController extends Controller
 		$request->getSession()->getFlashBag()->add('notice', 'La contribution a bien été refusée 🤔');
 
 		return $this->redirectToRoute('wkt_platform_commit_index');
+	}
+
+	//factorisation de la fonction qui verifie si'il y a d'autre articlesModified pour cette article
+	//sinon on change le status isModifying à false
+	private function checkIfOtherArticleModifiedByArticleExist($em, ArticleModified $articleModified)
+	{
+		$repoArticleModified = $em->getRepository('WKTPlatformBundle:ArticleModified');
+
+		if (!is_null($articleModified->getArticle())) {
+			$articlesModified = $repoArticleModified->getArticlesModifiedNotRejectedByArticle($articleModified->getArticle());
+			if (sizeof($articlesModified) === 1 && $articlesModified[0]->getId() === $articleModified->getId()) {
+				$article = $articleModified->getArticle();
+				$article->setIsModifying(false);
+				$em->persist($article);
+			}
+		}
 	}
 
 	public function addAction(Request $request, Article $id)
@@ -235,22 +242,9 @@ class ArticleModifiedController extends Controller
 			// On crée le commit relatif à cette modification
 			$commit = $this->createCommit($articleModified, $form);
 
-			//On valide le précédent commit
-			// car on part du principe qu'une modification modifiée 
-			// est considérée comme présentant de l'intérêt
-			$commits[0]->setIsValidate(true);
-
 			//on attribut la moitié des points au user qui a créer la modification qui n'est pas une création de page
 			// si ce n'est pas celui qui crée la nouvelle
-			if ($commit->getTypeOfModification()->getType() !== 'Création page' && !is_null($commits[0]->getUser())) {
-				$user = $commits[0]->getUser();
-				if ($user != $this->getUser()) {
-					$score = $user->getNbPoint() + ceil(($commits[0]->getScore())/2);
-					$user->setNbPoint($score);
-				}
-
-				$em->persist($user);
-			}
+			$this->getHalfScore($em, $commit, $commits);
 			
 			$articleModified->setModifiedAt(new \Datetime);
 			$em->persist($articleModified);
@@ -269,6 +263,25 @@ class ArticleModifiedController extends Controller
 		));
 
 
+	}
+
+	//factorisation fonction qui valide le précédent commit et attribut la moitiée des points au user qui a créer la modification
+	public function getHalfScore($em, $commit, $commits)
+	{
+		//On valide le précédent commit
+		// car on part du principe qu'une modification modifiée 
+		// est considérée comme présentant de l'intérêt
+		$commits[0]->setIsValidate(true);
+
+		if ($commit->getTypeOfModification()->getType() !== 'Création page' && !is_null($commits[0]->getUser())) {
+			$user = $commits[0]->getUser();
+			if ($user != $this->getUser()) {
+				$score = $user->getNbPoint() + ceil(($commits[0]->getScore())/2);
+				$user->setNbPoint($score);
+			}
+
+			$em->persist($user);
+		}
 	}
 
 	//function qui permet à l'utilisateur de créer une nouvelle page
