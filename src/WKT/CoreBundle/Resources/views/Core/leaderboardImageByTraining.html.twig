@@ -1,0 +1,8 @@
+<p>
+    {% if user.user.image is not empty %}
+        <img class="imgTop img-circle" src="{{ asset(user.user.image.webPath) }}" alt="{{ user.user.image.alt }}">
+    {% else %}
+        <img class="imgTop img-circle" src="{{ asset('images/icones/emptyPicture.svg') }}" alt="User sans photo de profil">
+    {% endif %}
+    <a class="linkProfile" href="{{path('wkt_user_view_profile', {'id': user.user.id})}}">{{user.user.firstname}} {{user.user.lastname}}</a>  - {{user.score}} points
+</p>

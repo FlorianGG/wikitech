@@ -38,44 +38,30 @@
 	                <p class="text-center"><small><em>Aucun utilisateur enregistré</em></small></p>
 	            {% else %}
 	                {% for user in users %}
-	                    <p>
-	                        {% if user.image is not empty %}
-	                            <img class="imgTop img-circle" src="{{ asset(user.image.webPath) }}" alt="{{ user.image.alt }}">
-	                        {% else %}
-	                            <img class="imgTop img-circle" src="{{ asset('images/icones/emptyPicture.svg') }}" alt="User sans photo de profil">
-	                        {% endif %}
-	                        <a class="linkProfile" href="{{path('wkt_user_view_profile', {'id': user.id})}}">{{user.firstname}} {{user.lastname}}</a>  - {{user.nbPoint}} points
-	                    </p>
+						{% include 'WKTCoreBundle:Core:leaderboardImageGeneral.html.twig'%}
 	                {% endfor %}                 
 	            {% endif %}
 	        </div>
 	    </section>
 	</div>
 	{% for training in topTrainings %}
-	    <div class="row">
-	        <section id="id{{training.training.title}}" class="sectionLeaderboard">
-	            <div class="col-xs-12">
-	                <hr class="hrLeaderboard">
-	                <h2>Leaderboard {{training.training.title}}</h2>
-	            </div>
-	            <div class="col-xs-12 ">
-	                {% if training.top is empty %}
-	                    <p class="text-center"><small><em>Aucun utilisateur n'a encore contribué</em></small></p>
-	                {% else %}
-	                    {% for user in training.top %}
-	                        <p>
-	                            {% if user.user.image is not empty %}
-	                                <img class="imgTop img-circle" src="{{ asset(user.user.image.webPath) }}" alt="{{ user.user.image.alt }}">
-	                            {% else %}
-	                                <img class="imgTop img-circle" src="{{ asset('images/icones/emptyPicture.svg') }}" alt="User sans photo de profil">
-	                            {% endif %}
-	                            <a class="linkProfile" href="{{path('wkt_user_view_profile', {'id': user.user.id})}}">{{user.user.firstname}} {{user.user.lastname}}</a>  - {{user.score}} points
-	                        </p>
-	                    {% endfor %}                 
-	                {% endif %}
-	            </div>
-	        </section>
-	    </div> 
+    <div class="row">
+        <section id="id{{training.training.title}}" class="sectionLeaderboard">
+            <div class="col-xs-12">
+                <hr class="hrLeaderboard">
+                <h2>Leaderboard {{training.training.title}}</h2>
+            </div>
+            <div class="col-xs-12 ">
+                {% if training.top is empty %}
+                    <p class="text-center"><small><em>Aucun utilisateur n'a encore contribué</em></small></p>
+                {% else %}
+                    {% for user in training.top %}
+						{% include 'WKTCoreBundle:Core:leaderboardImageByTraining.html.twig'%}
+                    {% endfor %}                 
+                {% endif %}
+            </div>
+        </section>
+    </div> 
 	{% endfor %}
 	 
 {% endblock %}
