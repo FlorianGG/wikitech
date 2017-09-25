@@ -4,50 +4,7 @@
     {% else %}
       <div id="articleOrderInPart" class="container-fluid">
         {% for part in summary %}
-            <div>
-              {% if part.Part.entity.isEnabled %}
-                <h4>{{ part.Part.entity.title }}</h4>
-                {% if part.Article is defined %}
-                  {% set testInLoop = 1 %}
-                  {% for article in part.Article %}
-                    {% if testInLoop == 1 and articleModified.orderInPart < article.entityArticle.orderInPart 
-                    and articleModified.part.id == article.entityArticle.part.id %}
-                      {% set testInLoop = 0 %}
-                      <div class=" alert alert-warning">
-                        {{ articleModified.title }} <small>Emplacement par défaut</small>
-                      </div>
-                    {% endif %}
-                      <div class="radio">
-                        <label>
-                          <input type="radio" name="optionsRadios" value=" {{ article.orderArticle }}">
-                          {{ article.entityArticle.title }}
-                          <input type="hidden" name="partId" value="{{part.Part.entity.id}}">
-                        </label>    
-                      </div>
-                      
-                  {% endfor %}
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="optionsRadios" id="option{{loop.index}}" value="{{ part.Article|last.orderArticle + 1 }}">
-                        <small><em>Changer la position du nouvel article à la fin de cette partie</em></small>
-                        <input type="hidden" name="partId" value="{{part.Part.entity.id}}">
-                      </label>
-                    </div>
-                {% endif %}
-              {% elseif part.Part.entity.id == articleModified.part.id %}
-                <div class=" row alert alert-warning">
-                  <h4>{{ articleModified.part.title }}</h4>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="optionsRadios" value="1" checked="checked">
-                      {{ articleModified.title }}
-                      <input type="hidden" name="partId" value="{{part.Part.entity.id}}">
-                    </label>    
-                  </div>
-                </div>
-              {% else %}
-              {% endif %}
-            </div>
+           {{ include("WKTPlatformBundle:ArticleModified:validationSummaryPart.html.twig") }}
         {% endfor %}
       </div>
     {% endif %}

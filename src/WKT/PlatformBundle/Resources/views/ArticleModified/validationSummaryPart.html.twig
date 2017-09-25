@@ -1,0 +1,27 @@
+<div>
+  {% if part.Part.entity.isEnabled %}
+    <h4>{{ part.Part.entity.title }}</h4>
+    {% if part.Article is defined %}
+        {{ include("WKTPlatformBundle:ArticleModified:validationSummaryPartArticle.html.twig") }}
+        <div class="radio">
+          <label>
+            <input type="radio" name="optionsRadios" id="option{{loop.index}}" value="{{ part.Article|last.orderArticle + 1 }}">
+            <small><em>Changer la position du nouvel article à la fin de cette partie</em></small>
+            <input type="hidden" name="partId" value="{{part.Part.entity.id}}">
+          </label>
+        </div>
+    {% endif %}
+  {% elseif part.Part.entity.id == articleModified.part.id %}
+    <div class=" row alert alert-warning">
+      <h4>{{ articleModified.part.title }}</h4>
+      <div class="radio">
+        <label>
+          <input type="radio" name="optionsRadios" value="1" checked="checked">
+          {{ articleModified.title }}
+          <input type="hidden" name="partId" value="{{part.Part.entity.id}}">
+        </label>    
+      </div>
+    </div>
+  {% else %}
+  {% endif %}
+</div>

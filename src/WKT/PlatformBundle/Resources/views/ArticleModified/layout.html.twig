@@ -22,9 +22,7 @@
 {% endblock %}
 {% block bodyRight %}
     {% block articleModified %}
-        {% if commits is defined %}
-            {{ include("WKTPlatformBundle:Commit:listCommits.html.twig") }}
-        {% endif %}
+      {{ include("WKTPlatformBundle:ArticleModified:layoutBodyRight.html.twig") }}
     {% endblock %}
 {% endblock %}
 {% block javascripts %}
