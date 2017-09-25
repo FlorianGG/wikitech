@@ -1,0 +1,9 @@
+{% if user.country is empty and user.country is empty %}
+	<small><em>Quelque part dans la galaxie</em></small>
+{% endif %}
+{{ user.locality }}
+{% if user.country is empty or user.country is empty %}
+{% else %}
+ - 
+{% endif %}
+{{ user.country }}
