@@ -10,36 +10,12 @@
 		    	{% if app.user %}
 		    		{% set loopArticle = part.Article|length %}
 		    		{% set loopArticleRead = 0 %}
-
-		    		{% if part.Article is defined %}
-		    			{% for article in part.Article %}
-		    		    	{% if app.user.userArticlesRead is empty %}
-		    				{% else %}
-		    				   {% for articleRead in app.user.userArticlesRead %}
-		    				    	{% if articleRead.article == article.entityArticle and articleRead.updated == false %}
-		    							{% set loopArticleRead = loopArticleRead + 1 %}
-		    				        {% endif %}
-		    				   {% endfor %}
-		    		    	{% endif %}
-		    			{% endfor %}
-		    		{% endif %}
+					{% include 'WKTPlatformBundle:Training:summaryLogicArticle.html.twig'%}
+		    		
 		    	{% endif %}
 		    {% endif %}
 		    <li class="summaryList">
-		    	{% if part.Part.entity.isEnabled %}
-					<a class="titleSummary" data-toggle="collapse" href="#collapse{{loop.index}}" aria-expanded="false" aria-controls="#collapse{{loop.index}}">
-						<img class="imgSummary" src="{{ asset('images/icones/arrow.svg') }}"> {{ part.Part.entity.title }} {% if app.user %}<span style="float: right; text-align: right">{{loopArticleRead}}/{{loopArticle}}</span>{% endif %}</a>
-					<ul class="collapse in" id="collapse{{loop.index}}">
-						{% if part.Article is defined %}
-							{% for article in part.Article %}
-								{% include('WKTPlatformBundle:Training:articlePerPart.html.twig')%}
-							{% endfor %}
-						{% endif %}
-					</ul>
-					{% if not loop.last %}
-						<hr>
-					{% endif %}
-		    	{% endif %}
+		    	{% include 'WKTPlatformBundle:Training:summaryList.html.twig'%}
 		    </li>
 		{% endfor %}
 	</ul>
