@@ -13,14 +13,7 @@
 		    {% endif %}
 		{% endfor %}
     {% endif %}
-
-    {% if edit is not empty %}
-		<img class="imgSummary" src="{{ asset(edit) }}">
-	{% elseif finish is not empty %}
-	    <img class="imgSummary" src="{{ asset(finish) }}">
-	{% else %}
-	    <img class="imgSummary" src="{{ asset('images/icones/begin.svg') }}">
-    {% endif %}
+	{% include 'WKTPlatformBundle:Training:articlePerPartImg.html.twig' %}
     {{ article.entityArticle.title }}
     </a>
 </li>
