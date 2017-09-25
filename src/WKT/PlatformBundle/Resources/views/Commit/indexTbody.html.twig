@@ -1,0 +1,34 @@
+{% for commit in commits %}
+    <tr>
+        <td>{{commit.articleModified.part.training.title}}</td>
+        <td>{{commit.articleModified.title}}</td>
+        <td>{{commit.articleModified.createdAt|date('d/m/Y')}}</td>
+        <td>
+          {% if commit.user is empty %}
+            Un utilisateur anonyme 
+          {% else %}
+            {{commit.user.firstname}} {{commit.user.lastname}}
+          {% endif %}
+        </td>
+        <td class="text-center">
+          {% if commit.user is empty %}
+          -
+          {% else %}
+            {% if confidenceScores[commit.user.username] == 'first' %}
+              <small>Première contribution</small>
+            {% elseif confidenceScores[commit.user.username] == 'waiting' %} 
+              <small>Toutes les contributions sont en attentes</small>
+            {% else %}
+              {{confidenceScores[commit.user.username]|number_format(2)}}% 
+            {% endif %}
+          {% endif %}
+          
+        </td>
+        <td>{{commit.typeOfModification.type}}</td>
+        <td>{{nbCommits[commit.id]}}</td>
+        <td>
+          <a class="btn btn-success btn-xs" href="{{path('wkt_platform_article_modified_validation', {'id': commit.articleModified.id})}}" >Voir</a>
+         <a class="btn btn-danger btn-xs" href="{{path('wkt_platform_article_modified_rejection', {'id': commit.articleModified.id, 'strike': 0})}}">Rejeter la contribution</a>
+        </td>
+    </tr> 
+{% endfor %}
